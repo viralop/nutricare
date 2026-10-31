@@ -3,12 +3,20 @@
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import { ExternalLink, Clock3 } from 'lucide-react';
-import { Card, ErrorBlock, LoadingBlock } from '@/components/ui';
+import { ExternalLink, Clock3, BookOpen } from 'lucide-react';
+import { Card, ErrorBlock, LoadingBlock, PageHeader } from '@/components/ui';
 import { apiData } from '@/lib/api';
 import type { Article } from '@/lib/types';
 
 const CATEGORIES = ['all', 'diabetes', 'hypertension', 'cholesterol', 'heart', 'obesity', 'labels', 'cooking', 'myths'] as const;
+
+function categoryEmoji(category: string): string {
+  const map: Record<string, string> = {
+    diabetes: '🩸', hypertension: '🧂', cholesterol: '🥑', heart: '❤️',
+    obesity: '⚖️', labels: '🏷️', cooking: '🍳', myths: '💡', general: '🌿',
+  };
+  return map[category] ?? '🌿';
+}
 
 function ArticleBody({ body }: { body: string }) {
   // Minimal, safe markdown rendering for our seeded content: **bold**, lists, paragraphs.
@@ -71,10 +79,11 @@ export default function EducationPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<BookOpen className="h-6 w-6" aria-hidden />}
+      />
 
       <div className="flex flex-wrap gap-2" role="tablist">
         {CATEGORIES.map((c) => (
@@ -94,16 +103,21 @@ export default function EducationPage() {
       </div>
 
       <ul className="space-y-4">
-        {shown.map((a) => (
-          <li key={a.slug}>
-            <Card>
+        {shown.map((a, idx) => (
+          <li key={a.slug} className="anim-fade-up" style={{ animationDelay: `${idx * 60}ms` }}>
+            <Card hover>
               <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="text-lg font-extrabold leading-snug">{a.title}</h3>
-                  <p className="mt-1 flex items-center gap-1 text-xs text-muted">
-                    <Clock3 className="h-3.5 w-3.5" aria-hidden />
-                    {t('readTime', { n: a.read_minutes })} · {t(`categories.${a.category}`)}
-                  </p>
+                <div className="flex items-start gap-3">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-50 to-mint-50 ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800" aria-hidden>
+                    {categoryEmoji(a.category)}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-extrabold leading-snug">{a.title}</h3>
+                    <p className="mt-1 flex items-center gap-1 text-xs text-muted">
+                      <Clock3 className="h-3.5 w-3.5" aria-hidden />
+                      {t('readTime', { n: a.read_minutes })} · {t(`categories.${a.category}`)}
+                    </p>
+                  </div>
                 </div>
               </div>
               {a.excerpt && <p className="mt-2 text-sm leading-relaxed text-muted">{a.excerpt}</p>}

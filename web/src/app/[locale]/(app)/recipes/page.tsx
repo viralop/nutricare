@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import { Clock3, Coins } from 'lucide-react';
-import { Card, ErrorBlock, LoadingBlock } from '@/components/ui';
+import { Clock3, Coins, UtensilsCrossed, Users } from 'lucide-react';
+import { Card, Chip, ErrorBlock, LoadingBlock, PageHeader } from '@/components/ui';
 import { apiData } from '@/lib/api';
 import type { NutrientKey, Recipe } from '@/lib/types';
 
@@ -38,29 +38,30 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
   ];
 
   return (
-    <Card className="h-full">
+    <Card hover className="h-full">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-lg font-extrabold leading-snug">{recipe.title}</h3>
-        <span className="shrink-0 rounded-full bg-mint-50 px-2.5 py-0.5 text-xs font-bold text-teal-700 dark:bg-teal-900/30 dark:text-teal-200">
-          {t(recipe.meal_type)}
-        </span>
+        <Chip tone="teal">{t(recipe.meal_type)}</Chip>
       </div>
-      <p className="mt-1 flex flex-wrap items-center gap-x-3 text-xs text-muted tabular-nums">
+      <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted tabular-nums">
         <span className="flex items-center gap-1">
-          <Clock3 className="h-3.5 w-3.5" aria-hidden />
+          <Clock3 className="h-3.5 w-3.5 text-amber-500" aria-hidden />
           {recipe.minutes} min
         </span>
         <span className="flex items-center gap-1">
-          <Coins className="h-3.5 w-3.5" aria-hidden />
+          <Coins className="h-3.5 w-3.5 text-yellow-500" aria-hidden />
           {tp(`cost_${recipe.cost_level}`)}
         </span>
-        <span>{t('serves', { n: recipe.servings })}</span>
+        <span className="flex items-center gap-1">
+          <Users className="h-3.5 w-3.5 text-teal-500" aria-hidden />
+          {t('serves', { n: recipe.servings })}
+        </span>
       </p>
 
       <ul className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
         {rows.slice(0, 3).map(([key, unit]) => (
-          <li key={key} className="surface-2 rounded-lg p-2">
-            <span className="block font-bold tabular-nums">
+          <li key={key} className="surface-2 rounded-xl p-2 ring-1 ring-[var(--border)]">
+            <span className="block font-extrabold tabular-nums">
               {Math.round(n[key] ?? 0)} {unit}
             </span>
           </li>
@@ -135,10 +136,11 @@ export default function RecipesPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<UtensilsCrossed className="h-6 w-6" aria-hidden />}
+      />
 
       <div className="flex flex-wrap gap-2" role="tablist">
         {FILTERS.map((f) => (

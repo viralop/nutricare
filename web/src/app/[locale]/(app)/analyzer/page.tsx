@@ -5,10 +5,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
 import {
   Search, ArrowRightLeft, BadgeCheck, TriangleAlert, CircleAlert,
-  Plus, Check, Camera,
+  Plus, Check, Camera, ScanSearch,
 } from 'lucide-react';
 import {
-  Button, Card, ErrorBlock, LoadingBlock, SectionTitle, Select, VerdictBadge, VerdictDot,
+  Button, Card, Chip, ErrorBlock, LoadingBlock, PageHeader, SectionTitle, Select,
+  VerdictBanner, VerdictDot,
 } from '@/components/ui';
 import { api, apiData, ApiError } from '@/lib/api';
 import type { Analysis, Food, NutrientKey, Verdict } from '@/lib/types';
@@ -126,20 +127,21 @@ export default function AnalyzerPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<ScanSearch className="h-6 w-6" aria-hidden />}
+      />
 
       {!user && (
-        <p className="rounded-xl bg-mint-50 p-3 text-sm text-teal-700 dark:bg-teal-900/30 dark:text-teal-200">
-          <CircleAlert className="inline h-4 w-4 me-1" aria-hidden />
+        <p className="flex items-start gap-2 rounded-2xl gradient-brand-soft p-4 text-sm font-medium ring-1 ring-teal-200 dark:ring-teal-900/50">
+          <CircleAlert className="mt-0.5 h-5 w-5 shrink-0 text-teal-600" aria-hidden />
           {t('guestNote')}
         </p>
       )}
 
       {/* Search */}
-      <Card>
+      <Card className="anim-fade-up">
         <form
           className="flex flex-col gap-3 sm:flex-row"
           onSubmit={(e) => {
@@ -148,18 +150,17 @@ export default function AnalyzerPage() {
           }}
         >
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-muted ltr:left-3 rtl:right-3" aria-hidden />
+            <Search className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-teal-600 ltr:left-4 rtl:right-4" aria-hidden />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('searchPlaceholder')}
               aria-label={tc('search')}
-              className="surface-2 w-full rounded-xl py-2.5 ps-10 pe-3 focus-visible:outline-none"
-              style={{ borderColor: 'var(--border)' }}
+              className="surface-2 w-full rounded-2xl border border-[var(--border)] py-3 text-base font-medium ltr:pl-12 rtl:pr-12 focus-visible:outline-none"
             />
           </div>
-          <Button type="submit" disabled={searching}>
-            <Search className="h-4 w-4" aria-hidden />
+          <Button type="submit" size="lg" disabled={searching}>
+            <Search className="h-5 w-5" aria-hidden />
             {tc('search')}
           </Button>
         </form>
@@ -167,29 +168,34 @@ export default function AnalyzerPage() {
 
       {/* Analysis result */}
       {(analysis || analyzing) && (
-        <Card>
+        <Card className="anim-fade-up">
           {analyzing || !analysis ? (
             <LoadingBlock />
           ) : (
             <div className="space-y-5">
-              {/* Food header + verdict */}
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-14 w-14 place-items-center rounded-2xl bg-mint-50 text-3xl dark:bg-teal-900/30" aria-hidden>
-                    {analysis.food.emoji}
-                  </span>
-                  <div>
-                    <h2 className="text-xl font-extrabold">{analysis.food.name}</h2>
-                    <p className="text-sm text-muted">
-                      {tc('serving')}: {analysis.food.serving_label} ({fmt(analysis.food.serving_size_g)} g)
-                    </p>
-                  </div>
+              {/* Food header */}
+              <div className="flex flex-wrap items-center gap-4">
+                <span
+                  className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-50 to-mint-100 text-4xl shadow-md ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800"
+                  aria-hidden
+                >
+                  {analysis.food.emoji}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h2 className="truncate text-2xl font-extrabold">{analysis.food.name}</h2>
+                  <p className="text-sm text-muted">
+                    {tc('serving')}: {analysis.food.serving_label} ({fmt(analysis.food.serving_size_g)} g) ·{' '}
+                    {fmt(analysis.food.per_serving.energy_kcal)} {tu('kcal')}
+                  </p>
                 </div>
-                <div>
-                  <p className="mb-1 text-xs font-semibold text-muted">{tv('label')}</p>
-                  <VerdictBadge verdict={analysis.assessment.verdict} large />
-                </div>
+                <Chip tone="neutral">
+                  {analysis.food.source.is_estimated ? '≈' : '✓'}
+                  {t(`source_${analysis.food.source.type}`)}
+                </Chip>
               </div>
+
+              {/* Verdict banner */}
+              <VerdictBanner verdict={analysis.assessment.verdict} label={tv('label')} />
 
               {/* Data confidence */}
               <p
@@ -220,14 +226,17 @@ export default function AnalyzerPage() {
               <div>
                 <SectionTitle
                   action={
-                    <div className="flex rounded-xl surface-2 p-1 text-sm">
+                    <div className="flex rounded-xl surface-2 p-1 text-sm ring-1 ring-[var(--border)]">
                       {(['serving', '100g'] as const).map((b) => (
                         <button
                           key={b}
                           type="button"
                           onClick={() => setBasis(b)}
                           aria-pressed={basis === b}
-                          className={clsx('rounded-lg px-3 py-1 font-semibold', basis === b ? 'bg-primary-800 text-white' : 'text-muted')}
+                          className={clsx(
+                            'rounded-lg px-3 py-1 font-bold transition-all',
+                            basis === b ? 'gradient-brand text-white shadow' : 'text-muted',
+                          )}
                         >
                           {b === 'serving' ? tc('perServing') : tc('per100g')}
                         </button>
@@ -237,16 +246,26 @@ export default function AnalyzerPage() {
                 >
                   {t('nutritionFacts')}
                 </SectionTitle>
-                <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-4">
-                  {NUTRIENT_ROWS.map((key) => (
-                    <li key={key} className="border-b py-2.5 border-app" style={{ borderColor: 'var(--border)' }}>
-                      <p className="text-xs text-muted">{tn(key)}</p>
-                      <p className="text-lg font-bold tabular-nums">
+                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {NUTRIENT_ROWS.map((key, idx) => (
+                    <li
+                      key={key}
+                      className="surface-2 relative overflow-hidden rounded-2xl p-3 ring-1 ring-[var(--border)]"
+                    >
+                      <span
+                        aria-hidden
+                        className={clsx(
+                          'absolute -top-6 -end-6 h-14 w-14 rounded-full bg-gradient-to-br opacity-20 blur-lg',
+                          ['from-amber-400 to-orange-300', 'from-primary-400 to-teal-300', 'from-rose-400 to-pink-300', 'from-sky-400 to-cyan-300'][idx % 4],
+                        )}
+                      />
+                      <p className="relative text-xs font-semibold text-muted">{tn(key)}</p>
+                      <p className="relative mt-0.5 text-xl font-extrabold tabular-nums">
                         {nutrientBasis?.[key] === null || nutrientBasis?.[key] === undefined ? (
-                          <span title={t('noDataNote')} className="text-muted">— {t('noDataNote')}</span>
+                          <span title={t('noDataNote')} className="text-muted">—</span>
                         ) : (
                           <>
-                            {fmt(nutrientBasis?.[key])} <span className="text-xs font-normal text-muted">{tu(nutrientUnit(key))}</span>
+                            {fmt(nutrientBasis?.[key])} <span className="text-xs font-medium text-muted">{tu(nutrientUnit(key))}</span>
                           </>
                         )}
                       </p>
@@ -259,11 +278,20 @@ export default function AnalyzerPage() {
               <div>
                 <SectionTitle>{t('whyVerdict')}</SectionTitle>
                 <div className="grid gap-3 md:grid-cols-2">
-                  {analysis.assessment.assessments.map((a) => (
-                    <div key={a.condition} className="surface-2 rounded-xl p-4">
+                  {analysis.assessment.assessments.map((a) => {
+                    const accent =
+                      a.verdict === 'good' ? 'border-s-green-500'
+                      : a.verdict === 'acceptable' ? 'border-s-yellow-500'
+                      : a.verdict === 'moderation' ? 'border-s-orange-500'
+                      : 'border-s-red-500';
+                    return (
+                    <div
+                      key={a.condition}
+                      className={clsx('surface-2 rounded-2xl border-s-4 p-4 ring-1 ring-[var(--border)]', accent)}
+                    >
                       <div className="mb-2 flex items-center justify-between gap-2">
-                        <p className="font-bold">{a.condition_name}</p>
-                        <span className="flex items-center gap-1.5 text-sm font-semibold">
+                        <p className="font-extrabold">{a.condition_name}</p>
+                        <span className="flex items-center gap-1.5 rounded-full surface px-2.5 py-1 text-xs font-bold ring-1 ring-[var(--border)]">
                           <VerdictDot verdict={a.verdict} />
                           {tv(a.verdict)}
                         </span>
@@ -274,21 +302,22 @@ export default function AnalyzerPage() {
                         ))}
                       </ul>
                       {a.warnings?.map((w, i) => (
-                        <p key={i} role="alert" className="mt-2 rounded-lg bg-red-50 p-2 text-sm font-medium text-red-700 dark:bg-red-900/30 dark:text-red-300">
+                        <p key={i} role="alert" className="mt-2 rounded-xl bg-red-50 p-2.5 text-sm font-semibold text-red-700 ring-1 ring-red-200 dark:bg-red-900/30 dark:text-red-300 dark:ring-red-800">
                           <CircleAlert className="inline h-4 w-4 me-1" aria-hidden />
                           {w}
                         </p>
                       ))}
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 {analysis.assessment.warnings.length > 0 && (
-                  <div className="mt-3">
-                    <p className="mb-1 flex items-center gap-1.5 text-sm font-bold text-red-600">
+                  <div className="mt-3 rounded-2xl bg-gradient-to-r from-red-50 to-rose-50 p-4 ring-1 ring-red-200 dark:from-red-950/50 dark:to-rose-950/30 dark:ring-red-900">
+                    <p className="mb-1.5 flex items-center gap-1.5 text-sm font-extrabold text-red-600 dark:text-red-300">
                       <TriangleAlert className="h-4 w-4" aria-hidden />
                       {t('warnings')}
                     </p>
-                    <ul className="list-inside list-disc text-sm text-red-700 dark:text-red-300">
+                    <ul className="list-inside list-disc space-y-1 text-sm font-medium text-red-700 dark:text-red-300">
                       {analysis.assessment.warnings.map((w, i) => (
                         <li key={i}>{w}</li>
                       ))}
@@ -305,18 +334,20 @@ export default function AnalyzerPage() {
                 ) : (
                   <ul className="grid gap-3 md:grid-cols-2">
                     {analysis.alternatives.map((alt) => (
-                      <li key={alt.food.slug} className="surface-2 rounded-xl p-4">
-                        <div className="mb-1 flex items-center gap-2">
-                          <span className="text-2xl" aria-hidden>{alt.food.emoji}</span>
-                          <div>
-                            <p className="font-bold">{alt.food.name}</p>
-                            <p className="text-xs text-muted">
+                      <li key={alt.food.slug} className="surface-2 card-hover rounded-2xl p-4 ring-1 ring-[var(--border)]">
+                        <div className="mb-2 flex items-center gap-3">
+                          <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-50 to-mint-50 text-2xl ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800" aria-hidden>
+                            {alt.food.emoji}
+                          </span>
+                          <div className="min-w-0">
+                            <p className="truncate font-extrabold">{alt.food.name}</p>
+                            <p className="text-xs text-muted tabular-nums">
                               {fmt(alt.food.per_serving.energy_kcal)} {tu('kcal')} {tc('perServing')}
                             </p>
                           </div>
                         </div>
                         <p className="text-sm leading-relaxed">
-                          <span className="font-semibold">{t('swapWhy')}: </span>
+                          <span className="font-bold text-teal-700 dark:text-teal-300">{t('swapWhy')}: </span>
                           {alt.reason}
                         </p>
                         {alt.suggested_serving && (
@@ -352,7 +383,7 @@ export default function AnalyzerPage() {
 
               {/* Add to today */}
               {user && (
-                <div className="flex flex-wrap items-end gap-3 rounded-xl surface-2 p-4">
+                <div className="flex flex-wrap items-end gap-3 rounded-2xl surface-2 p-4 ring-1 ring-[var(--border)]">
                   <div className="min-w-40">
                     <Select label={t('chooseSlot')} value={slot} onChange={(e) => setSlot(e.target.value)}>
                       <option value="breakfast">{tp('breakfast')}</option>
@@ -361,8 +392,8 @@ export default function AnalyzerPage() {
                       <option value="snack">{tp('snack')}</option>
                     </Select>
                   </div>
-                  <Button onClick={addToToday}>
-                    {added ? <Check className="h-4 w-4" aria-hidden /> : <Plus className="h-4 w-4" aria-hidden />}
+                  <Button size="lg" onClick={addToToday}>
+                    {added ? <Check className="h-5 w-5" aria-hidden /> : <Plus className="h-5 w-5" aria-hidden />}
                     {added ? t('added') : t('addToDay')}
                   </Button>
                 </div>
@@ -376,7 +407,15 @@ export default function AnalyzerPage() {
 
       {/* Compare */}
       <Card>
-        <SectionTitle>{t('compareTitle')}</SectionTitle>
+        <SectionTitle
+          action={
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-400 text-white shadow-md">
+              <ArrowRightLeft className="h-4 w-4" aria-hidden />
+            </span>
+          }
+        >
+          {t('compareTitle')}
+        </SectionTitle>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="flex-1">
             <Select
@@ -467,16 +506,21 @@ export default function AnalyzerPage() {
                 <button
                   type="button"
                   onClick={() => analyze(food.slug)}
-                  className="surface h-full w-full rounded-xl p-3 text-start transition-transform hover:-translate-y-0.5"
+                  className="surface card-hover group h-full w-full rounded-2xl p-4 text-start"
                 >
-                  <span className="mb-1 block text-3xl" aria-hidden>{food.emoji}</span>
+                  <span
+                    className="mb-2 grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-primary-50 to-mint-50 text-3xl ring-1 ring-primary-100 transition-transform group-hover:scale-110 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800"
+                    aria-hidden
+                  >
+                    {food.emoji}
+                  </span>
                   <span className="block font-bold leading-snug">{food.name}</span>
                   <span className="mt-1 block text-xs text-muted tabular-nums">
                     {fmt(food.per_serving.energy_kcal)} {tu('kcal')} · {fmt(food.per_serving.sugar_g)} {tu('g')} {tn('sugar_g')}
                   </span>
                   {food.source.is_estimated && (
-                    <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-bold text-orange-700 dark:bg-orange-900/40 dark:text-orange-300" title={t('estimatedNote')}>
-                      ~
+                    <span className="mt-2 inline-block rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-extrabold text-amber-700 ring-1 ring-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:ring-amber-800" title={t('estimatedNote')}>
+                      ≈ est.
                     </span>
                   )}
                 </button>

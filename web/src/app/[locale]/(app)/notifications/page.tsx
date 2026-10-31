@@ -2,19 +2,28 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import clsx from 'clsx';
 import { Bell, Droplets, CalendarCheck, Lightbulb, BarChart3, UtensilsCrossed, Info } from 'lucide-react';
-import { Card, ErrorBlock, LoadingBlock, SectionTitle, Toggle } from '@/components/ui';
+import { Card, Chip, ErrorBlock, LoadingBlock, PageHeader, SectionTitle, Toggle } from '@/components/ui';
 import { apiData } from '@/lib/api';
 import type { NotificationPrefs } from '@/lib/types';
 
 const PREF_KEYS = ['water_reminders', 'meal_reminders', 'daily_tips', 'weekly_summary', 'plan_reminders'] as const;
 
 const ICONS: Record<string, React.ReactNode> = {
-  water: <Droplets className="h-5 w-5 text-teal-500" aria-hidden />,
-  meal: <UtensilsCrossed className="h-5 w-5 text-primary-600" aria-hidden />,
-  tip: <Lightbulb className="h-5 w-5 text-yellow-500" aria-hidden />,
-  summary: <BarChart3 className="h-5 w-5 text-indigo-500" aria-hidden />,
-  plan: <CalendarCheck className="h-5 w-5 text-emerald-600" aria-hidden />,
+  water: <Droplets className="h-5 w-5 text-white" aria-hidden />,
+  meal: <UtensilsCrossed className="h-5 w-5 text-white" aria-hidden />,
+  tip: <Lightbulb className="h-5 w-5 text-white" aria-hidden />,
+  summary: <BarChart3 className="h-5 w-5 text-white" aria-hidden />,
+  plan: <CalendarCheck className="h-5 w-5 text-white" aria-hidden />,
+};
+
+const ICON_BG: Record<string, string> = {
+  water: 'from-teal-500 to-mint-300',
+  meal: 'from-primary-600 to-primary-400',
+  tip: 'from-amber-400 to-yellow-300',
+  summary: 'from-violet-500 to-fuchsia-400',
+  plan: 'from-sky-500 to-cyan-400',
 };
 
 interface NotificationItem {
@@ -62,20 +71,23 @@ export default function NotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<Bell className="h-6 w-6" aria-hidden />}
+      />
 
-      <Card>
+      <Card className="anim-fade-up">
         <SectionTitle>{t('feed')}</SectionTitle>
         <ul className="space-y-2">
           {feed.map((n, i) => (
-            <li key={i} className="surface-2 flex items-start gap-3 rounded-xl p-3">
-              <span className="mt-0.5">{ICONS[n.type] ?? <Bell className="h-5 w-5" aria-hidden />}</span>
+            <li key={i} className="surface-2 flex items-start gap-3 rounded-2xl p-3.5 ring-1 ring-[var(--border)] transition-shadow hover:shadow-md">
+              <span className={clsx('grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br shadow-md', ICON_BG[n.type] ?? 'from-primary-600 to-teal-400')}>
+                {ICONS[n.type] ?? <Bell className="h-5 w-5 text-white" aria-hidden />}
+              </span>
               <div>
-                <p className="font-bold">{n.title}</p>
-                <p className="text-sm text-muted">{n.body}</p>
+                <p className="font-extrabold">{n.title}</p>
+                <p className="mt-0.5 text-sm text-muted">{n.body}</p>
               </div>
             </li>
           ))}

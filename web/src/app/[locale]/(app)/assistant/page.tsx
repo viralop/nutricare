@@ -54,10 +54,15 @@ export default function AssistantPage() {
 
   return (
     <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col lg:h-[calc(100vh-7rem)]">
-      <header className="mb-4 flex items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-          <p className="text-sm text-muted">{t('subtitle')}</p>
+      <header className="mb-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="anim-float grid h-12 w-12 place-items-center rounded-2xl gradient-brand text-white shadow-lg">
+            <Leaf className="h-6 w-6" aria-hidden />
+          </span>
+          <div>
+            <h1 className="text-xl font-extrabold">{t('title')}</h1>
+            <p className="text-xs text-muted">{t('subtitle')}</p>
+          </div>
         </div>
         <Button
           variant="ghost"
@@ -74,11 +79,11 @@ export default function AssistantPage() {
       </header>
 
       <Card className="flex min-h-0 flex-1 flex-col p-0">
-        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4" role="log" aria-live="polite">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4 scroll-slim" role="log" aria-live="polite">
           {messages.length === 0 && (
-            <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary-800 text-white">
-                <Leaf className="h-7 w-7" aria-hidden />
+            <div className="flex h-full flex-col items-center justify-center gap-4 py-8 text-center">
+              <span className="anim-float grid h-20 w-20 place-items-center rounded-3xl gradient-brand text-white shadow-xl">
+                <Leaf className="h-10 w-10" aria-hidden />
               </span>
               <p className="max-w-md text-sm leading-relaxed text-muted">{t('placeholder')}</p>
               {suggestions.length === 0 && (
@@ -104,15 +109,23 @@ export default function AssistantPage() {
           )}
 
           {messages.map((m, i) => (
-            <div key={i} className={clsx('flex', m.role === 'user' ? 'justify-end' : 'justify-start')}>
+            <div key={i} className={clsx('flex items-end gap-2 anim-fade-up', m.role === 'user' ? 'justify-end' : 'justify-start')}>
+              {m.role === 'assistant' && (
+                <span
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full gradient-brand text-white shadow-md"
+                  aria-hidden
+                >
+                  <Leaf className="h-4 w-4" />
+                </span>
+              )}
               <div
                 className={clsx(
-                  'max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line',
+                  'max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line shadow-sm',
                   m.role === 'user'
-                    ? 'bg-primary-800 text-white'
+                    ? 'gradient-brand rounded-ee-md text-white'
                     : m.blocked
-                      ? 'bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-200'
-                      : 'surface-2',
+                      ? 'bg-red-50 text-red-800 ring-1 ring-red-200 dark:bg-red-900/30 dark:text-red-200 dark:ring-red-800'
+                      : 'surface-2 rounded-es-md ring-1 ring-[var(--border)]',
                 )}
               >
                 {m.blocked && (

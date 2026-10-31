@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { Check, Languages, LoaderCircle, Moon, Sun } from 'lucide-react';
-import { Button, Card, Input, SectionTitle } from '@/components/ui';
+import { Check, Languages, LoaderCircle, Moon, Sun, Settings as SettingsIcon } from 'lucide-react';
+import { Button, Card, Input, PageHeader, SectionTitle } from '@/components/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from '@/i18n/navigation';
@@ -36,10 +36,11 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<SettingsIcon className="h-6 w-6" aria-hidden />}
+      />
 
       <Card>
         <SectionTitle>{t('languageRegion')}</SectionTitle>

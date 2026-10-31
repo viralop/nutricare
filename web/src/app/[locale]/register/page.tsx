@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import { Leaf, LoaderCircle, Plus, X } from 'lucide-react';
+import { Leaf, LoaderCircle, Plus, X, Check, Sparkles } from 'lucide-react';
 import { Button, Card, Input, Select } from '@/components/ui';
 import { useAuth, type RegisterPayload } from '@/lib/auth';
 import { apiData, ApiError } from '@/lib/api';
@@ -108,34 +108,44 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-4 py-10">
-      <div className="mb-6 flex flex-col items-center gap-2 text-center">
-        <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary-800 text-white">
-          <Leaf className="h-7 w-7" />
+      <div className="anim-fade-up mb-6 flex flex-col items-center gap-2 text-center">
+        <span className="anim-float grid h-16 w-16 place-items-center rounded-3xl gradient-brand text-white shadow-lg">
+          <Leaf className="h-8 w-8" aria-hidden />
         </span>
         <h1 className="text-2xl font-extrabold">{t('createAccount')}</h1>
         <p className="text-sm text-muted">{t('registerSubtitle')}</p>
       </div>
 
-      <Card className="p-6">
+      <Card className="anim-fade-up p-6">
         {/* Stepper */}
-        <div className="mb-6 flex items-center gap-2" aria-hidden>
+        <ol className="mb-6 flex items-center gap-2" aria-hidden>
           {Array.from({ length: STEPS }, (_, i) => i + 1).map((s) => (
-            <div key={s} className="flex flex-1 items-center gap-2">
+            <li key={s} className="flex flex-1 items-center gap-2">
               <span
                 className={clsx(
-                  'grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold',
-                  s <= step ? 'bg-primary-800 text-white' : 'surface-2 text-muted',
+                  'grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-extrabold shadow-sm transition-all',
+                  s < step
+                    ? 'bg-primary-100 text-primary-700 ring-1 ring-primary-300 dark:bg-primary-900/40 dark:text-primary-300'
+                    : s === step
+                      ? 'gradient-brand scale-110 text-white'
+                      : 'surface-2 text-muted',
                 )}
               >
-                {s}
+                {s < step ? <Check className="h-4 w-4" aria-hidden /> : s}
               </span>
               {s < STEPS && (
-                <span className={clsx('h-1 flex-1 rounded-full', s < step ? 'bg-primary-700' : 'surface-2')} />
+                <span
+                  className={clsx(
+                    'h-1.5 flex-1 rounded-full transition-colors',
+                    s < step ? 'bg-gradient-to-r from-primary-600 to-teal-500' : 'surface-2',
+                  )}
+                />
               )}
-            </div>
+            </li>
           ))}
-        </div>
-        <p className="mb-4 text-sm font-semibold text-muted">
+        </ol>
+        <p className="mb-5 flex items-center gap-2 text-sm font-bold">
+          <Sparkles className="h-4 w-4 text-teal-600" aria-hidden />
           {t('step')} {step} {t('of')} {STEPS} — {step === 1 ? t('accountInfo') : step === 2 ? t('bodyInfo') : t('healthInfo')}
         </p>
 
@@ -173,25 +183,37 @@ export default function RegisterPage() {
         {step === 3 && (
           <div className="space-y-5">
             <div>
-              <p className="mb-1 text-sm font-medium">{t('conditions')}</p>
+              <p className="mb-1 text-sm font-bold">{t('conditions')}</p>
               <p className="mb-3 text-xs text-muted">{t('conditionsHint')}</p>
-              <div className="flex flex-wrap gap-2">
-                {conditions.map((c) => (
-                  <button
-                    key={c.slug}
-                    type="button"
-                    aria-pressed={selected.includes(c.slug)}
-                    onClick={() => toggleCondition(c.slug)}
-                    className={clsx(
-                      'rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
-                      selected.includes(c.slug)
-                        ? 'border-primary-800 bg-primary-800 text-white'
-                        : 'surface-2 border-app text-[var(--text)]',
-                    )}
-                  >
-                    {c.name}
-                  </button>
-                ))}
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {conditions.map((c) => {
+                  const on = selected.includes(c.slug);
+                  return (
+                    <button
+                      key={c.slug}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => toggleCondition(c.slug)}
+                      className={clsx(
+                        'flex items-center gap-2 rounded-2xl px-3 py-2.5 text-start text-sm font-bold ring-1 transition-all active:scale-[0.97]',
+                        on
+                          ? 'gradient-brand text-white shadow-md ring-transparent'
+                          : 'surface-2 ring-[var(--border)] hover:ring-teal-400',
+                      )}
+                    >
+                      <span
+                        className={clsx(
+                          'grid h-5 w-5 shrink-0 place-items-center rounded-full ring-1 transition-colors',
+                          on ? 'bg-white/25 ring-white/60' : 'ring-[var(--border)]',
+                        )}
+                        aria-hidden
+                      >
+                        {on && <Check className="h-3.5 w-3.5" />}
+                      </span>
+                      <span className="min-w-0 leading-tight">{c.name}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 

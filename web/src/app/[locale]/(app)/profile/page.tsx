@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import { Check, LoaderCircle } from 'lucide-react';
-import { Button, Card, Input, SectionTitle, Select } from '@/components/ui';
+import { Check, LoaderCircle, HeartPulse, Flame, Droplets, Ruler } from 'lucide-react';
+import { Button, Card, Input, PageHeader, SectionTitle, Select, StatTile } from '@/components/ui';
 import { apiData } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import type { Condition, User } from '@/lib/types';
@@ -73,24 +73,24 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<HeartPulse className="h-6 w-6" aria-hidden />}
+      />
 
-      {/* Summary */}
-      <Card>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label={t('bmi')} value={user.profile.bmi ? user.profile.bmi.toFixed(1) : '—'} />
-          <Stat label={t('calorieTarget')} value={`${user.profile.daily_calorie_target ?? '—'} kcal`} />
-          <Stat label={t('waterTarget')} value={`${user.profile.daily_water_target_ml} ml`} />
-          <Stat
-            label={t('updateConditions')}
-            value={user.conditions.map((c) => c.name).join(' · ') || '—'}
-            small
-          />
-        </div>
-      </Card>
+      {/* Summary tiles */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <StatTile label={t('bmi')} value={user.profile.bmi ? user.profile.bmi.toFixed(1) : '—'} icon={<Ruler className="h-5 w-5" aria-hidden />} tone="sky" />
+        <StatTile label={t('calorieTarget')} value={user.profile.daily_calorie_target ?? '—'} icon={<Flame className="h-5 w-5" aria-hidden />} tone="amber" />
+        <StatTile label={t('waterTarget')} value={user.profile.daily_water_target_ml} icon={<Droplets className="h-5 w-5" aria-hidden />} tone="teal" />
+        <StatTile
+          label={t('updateConditions')}
+          value={user.conditions.map((c) => c.name).join(' · ') || '—'}
+          icon={<HeartPulse className="h-5 w-5" aria-hidden />}
+          tone="brand"
+        />
+      </div>
 
       <Card>
         <SectionTitle>{ta('bodyInfo')}</SectionTitle>
@@ -119,27 +119,39 @@ export default function ProfilePage() {
 
       <Card>
         <SectionTitle>{t('updateConditions')}</SectionTitle>
-        <div className="flex flex-wrap gap-2">
-          {conditions.map((c) => (
-            <button
-              key={c.slug}
-              type="button"
-              aria-pressed={selected.includes(c.slug)}
-              onClick={() =>
-                setSelected((prev) =>
-                  prev.includes(c.slug) ? prev.filter((s) => s !== c.slug) : [...prev, c.slug],
-                )
-              }
-              className={clsx(
-                'rounded-full border px-4 py-2 text-sm font-semibold',
-                selected.includes(c.slug)
-                  ? 'border-primary-800 bg-primary-800 text-white'
-                  : 'surface-2 border-app text-[var(--text)]',
-              )}
-            >
-              {c.name}
-            </button>
-          ))}
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {conditions.map((c) => {
+            const on = selected.includes(c.slug);
+            return (
+              <button
+                key={c.slug}
+                type="button"
+                aria-pressed={on}
+                onClick={() =>
+                  setSelected((prev) =>
+                    prev.includes(c.slug) ? prev.filter((s) => s !== c.slug) : [...prev, c.slug],
+                  )
+                }
+                className={clsx(
+                  'flex items-center gap-2 rounded-2xl px-3 py-2.5 text-start text-sm font-bold ring-1 transition-all active:scale-[0.97]',
+                  on
+                    ? 'gradient-brand text-white shadow-md ring-transparent'
+                    : 'surface-2 ring-[var(--border)] hover:ring-teal-400',
+                )}
+              >
+                <span
+                  className={clsx(
+                    'grid h-5 w-5 shrink-0 place-items-center rounded-full ring-1 transition-colors',
+                    on ? 'bg-white/25 ring-white/60' : 'ring-[var(--border)]',
+                  )}
+                  aria-hidden
+                >
+                  {on && <Check className="h-3.5 w-3.5" />}
+                </span>
+                <span className="min-w-0 leading-tight">{c.name}</span>
+              </button>
+            );
+          })}
         </div>
       </Card>
 
@@ -149,15 +161,6 @@ export default function ProfilePage() {
           {saved ? t('updated') : busy ? tc('saving') : tc('save')}
         </Button>
       </div>
-    </div>
-  );
-}
-
-function Stat({ label, value, small = false }: { label: string; value: string; small?: boolean }) {
-  return (
-    <div className="surface-2 rounded-xl p-3">
-      <p className="text-xs text-muted">{label}</p>
-      <p className={clsx('mt-0.5 font-extrabold tabular-nums', small ? 'text-sm leading-snug' : 'text-xl')}>{value}</p>
     </div>
   );
 }

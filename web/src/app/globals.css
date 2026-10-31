@@ -40,21 +40,27 @@
 }
 
 :root {
-  --bg: #f8fafc;
+  --bg: #f3f7f4;
   --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
-  --text: #0f172a;
-  --text-muted: #64748b;
+  --surface-2: #f1f5f4;
+  --border: #e2e8e5;
+  --text: #0f1a14;
+  --text-muted: #5f6f66;
+  --shadow-card: 0 1px 2px rgb(5 46 22 / 0.05), 0 8px 24px -12px rgb(5 46 22 / 0.18);
+  --shadow-pop: 0 4px 12px -4px rgb(5 46 22 / 0.15), 0 24px 48px -24px rgb(5 46 22 / 0.35);
+  --ring-glow: 0 0 0 5px rgb(20 184 166 / 0.15);
 }
 
 .dark {
-  --bg: #0b1220;
-  --surface: #101a2c;
-  --surface-2: #17233a;
-  --border: #24324d;
-  --text: #e2e8f0;
-  --text-muted: #94a3b8;
+  --bg: #0a1410;
+  --surface: #101c16;
+  --surface-2: #16241d;
+  --border: #22362c;
+  --text: #e4efe8;
+  --text-muted: #8fa79b;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  --shadow-pop: 0 4px 16px -4px rgb(0 0 0 / 0.5), 0 32px 56px -24px rgb(0 0 0 / 0.8);
+  --ring-glow: 0 0 0 5px rgb(45 212 191 / 0.12);
 }
 
 html {
@@ -66,10 +72,19 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
+  background-image:
+    radial-gradient(60rem 40rem at 110% -10%, rgb(45 212 191 / 0.08), transparent 60%),
+    radial-gradient(50rem 35rem at -20% 110%, rgb(22 163 74 / 0.07), transparent 55%);
+  background-attachment: fixed;
 }
 
-/* Utility classes mapping to CSS variables so components stay readable */
+/* ---------- Surfaces ---------- */
 .surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+.surface-flat {
   background: var(--surface);
   border: 1px solid var(--border);
 }
@@ -86,15 +101,113 @@ body {
   background: var(--bg);
 }
 
+/* ---------- Gradients & decoration ---------- */
+.gradient-brand {
+  background-image: linear-gradient(135deg, #14532d 0%, #166534 45%, #0d9488 100%);
+}
+.gradient-brand-soft {
+  background-image: linear-gradient(135deg, rgb(20 83 45 / 0.10) 0%, rgb(13 148 136 / 0.12) 100%);
+}
+.dark .gradient-brand-soft {
+  background-image: linear-gradient(135deg, rgb(45 212 191 / 0.10) 0%, rgb(22 163 74 / 0.08) 100%);
+}
+.gradient-text {
+  background-image: linear-gradient(120deg, #15803d, #0d9488);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .gradient-text {
+  background-image: linear-gradient(120deg, #4ade80, #2dd4bf);
+}
+
+/* Subtle dot pattern for hero panels */
+.pattern-dots {
+  background-image: radial-gradient(rgb(255 255 255 / 0.16) 1px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+.pattern-grid-soft {
+  background-image:
+    linear-gradient(rgb(22 101 52 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(22 101 52 / 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.dark .pattern-grid-soft {
+  background-image:
+    linear-gradient(rgb(45 212 191 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(45 212 191 / 0.05) 1px, transparent 1px);
+}
+
+/* ---------- Interactions ---------- */
+.card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-pop);
+}
+
 *:focus-visible {
   outline: 2px solid var(--color-teal-500);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
+  box-shadow: var(--ring-glow);
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes floaty {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+.anim-fade-up {
+  animation: fadeUp 0.35s ease both;
+}
+.anim-float {
+  animation: floaty 4s ease-in-out infinite;
+}
+.anim-pulse-soft {
+  animation: pulseSoft 2s ease-in-out infinite;
 }
 
 /* Smooth theme transition */
 body,
 .surface,
+.surface-flat,
 .surface-2 {
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Nicer scrollbars for chat/feeds */
+.scroll-slim::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+.scroll-slim::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }

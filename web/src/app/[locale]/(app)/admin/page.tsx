@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/auth';
-import { Button, Card, ErrorBlock, Input, LoadingBlock, SectionTitle } from '@/components/ui';
+import { Button, Card, ErrorBlock, Input, LoadingBlock, PageHeader, SectionTitle, StatTile } from '@/components/ui';
+import { Users, Apple, BadgeCheck, TriangleAlert, CookingPot, BookOpen, ScanSearch, ShieldCheck, Flame } from 'lucide-react';
 import { api, apiData } from '@/lib/api';
 import type { Food, NutrientKey } from '@/lib/types';
 
@@ -147,33 +148,44 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-        <p className="text-sm text-muted">{t('subtitle')}</p>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<ShieldCheck className="h-6 w-6" aria-hidden />}
+      />
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <StatTile label={t('usersCount')} value={stats.users} icon={<Users className="h-5 w-5" aria-hidden />} tone="sky" />
+        <StatTile label={t('foodsCount')} value={stats.foods} icon={<Apple className="h-5 w-5" aria-hidden />} tone="brand" />
+        <StatTile label={t('verifiedCount')} value={stats.verified_foods} icon={<BadgeCheck className="h-5 w-5" aria-hidden />} tone="teal" />
+        <StatTile label={t('estimatedCount')} value={stats.estimated_foods} icon={<TriangleAlert className="h-5 w-5" aria-hidden />} tone="amber" />
+        <StatTile label={t('recipesCount')} value={stats.recipes} icon={<CookingPot className="h-5 w-5" aria-hidden />} tone="rose" />
+        <StatTile label={t('articlesCount')} value={stats.articles} icon={<BookOpen className="h-5 w-5" aria-hidden />} tone="violet" />
+        <StatTile label={t('analysesCount')} value={stats.analyses} icon={<ScanSearch className="h-5 w-5" aria-hidden />} tone="brand" />
+      </div>
 
       <Card>
-        <SectionTitle>{t('stats')}</SectionTitle>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label={t('usersCount')} value={stats.users} />
-          <Stat label={t('foodsCount')} value={stats.foods} />
-          <Stat label={t('verifiedCount')} value={stats.verified_foods} />
-          <Stat label={t('estimatedCount')} value={stats.estimated_foods} />
-          <Stat label={t('recipesCount')} value={stats.recipes} />
-          <Stat label={t('articlesCount')} value={stats.articles} />
-          <Stat label={t('analysesCount')} value={stats.analyses} />
-        </div>
-        {stats.top_foods.length > 0 && (
-          <div className="mt-4">
-            <p className="mb-2 text-sm font-bold">{t('topFoods')}</p>
-            <ul className="flex flex-wrap gap-2">
-              {stats.top_foods.map((f) => (
-                <li key={f.food.slug} className="surface-2 rounded-full px-3 py-1 text-sm tabular-nums">
-                  {f.food.emoji} {f.food.name} · {f.total}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <SectionTitle>{t('topFoods')}</SectionTitle>
+        {stats.top_foods.length > 0 ? (
+          <ul className="flex flex-wrap gap-2">
+            {stats.top_foods.map((f, i) => (
+              <li
+                key={f.food.slug}
+                className="surface-2 flex items-center gap-2 rounded-full py-1.5 pe-3 ps-1.5 text-sm font-bold ring-1 ring-[var(--border)]"
+              >
+                <span className="grid h-7 w-7 place-items-center rounded-full gradient-brand text-[11px] font-extrabold text-white" aria-hidden>
+                  #{i + 1}
+                </span>
+                <span aria-hidden>{f.food.emoji}</span>
+                {f.food.name}
+                <span className="rounded-full bg-primary-50 px-2 py-0.5 text-xs text-primary-700 tabular-nums dark:bg-primary-900/40 dark:text-primary-300">
+                  {f.total}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted">—</p>
         )}
       </Card>
 
@@ -184,7 +196,7 @@ export default function AdminPage() {
             role="tab"
             aria-selected={tab === key}
             onClick={() => setTab(key)}
-            className={`rounded-full px-4 py-1.5 text-sm font-bold ${tab === key ? 'bg-primary-800 text-white' : 'surface-2'}`}
+            className={`rounded-full px-4 py-1.5 text-sm font-bold transition-all ${tab === key ? 'gradient-brand text-white shadow-md' : 'surface-2 ring-1 ring-[var(--border)]'}`}
           >
             {t(key)}
           </button>
@@ -282,13 +294,4 @@ export default function AdminPage() {
       {editing && <EditFoodModal food={editing} onClose={() => setEditing(null)} onSaved={loadStats} />}
     </div>
   );
-
-  function Stat({ label, value }: { label: string; value: number | string }) {
-    return (
-      <div className="surface-2 rounded-xl p-3">
-        <p className="text-xs text-muted">{label}</p>
-        <p className="mt-0.5 text-2xl font-extrabold tabular-nums">{value}</p>
-      </div>
-    );
-  }
 }

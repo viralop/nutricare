@@ -4,12 +4,19 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import { RefreshCcw, Clock3, Coins } from 'lucide-react';
-import { Button, Card, ErrorBlock, LoadingBlock, SectionTitle } from '@/components/ui';
+import { RefreshCcw, Clock3, Coins, CalendarDays, ArrowRightLeft, Sunrise, Sun, MoonStar, Apple, Info } from 'lucide-react';
+import { Button, Card, Chip, ErrorBlock, LoadingBlock, PageHeader, SectionTitle } from '@/components/ui';
 import { apiData } from '@/lib/api';
 import type { MealPlanDay, Recipe } from '@/lib/types';
 
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snack'] as const;
+
+const SLOT_ICONS: Record<string, React.ReactNode> = {
+  breakfast: <Sunrise className="h-4 w-4" aria-hidden />,
+  lunch: <Sun className="h-4 w-4" aria-hidden />,
+  dinner: <MoonStar className="h-4 w-4" aria-hidden />,
+  snack: <Apple className="h-4 w-4" aria-hidden />,
+};
 
 export default function MealPlannerPage() {
   const t = useTranslations('planner');
@@ -79,16 +86,23 @@ export default function MealPlannerPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-extrabold">{t('title')}</h1>
-          <p className="text-sm text-muted">{t('subtitle')}</p>
-        </div>
-        <Button variant="secondary" onClick={regenerate} disabled={busy}>
-          <RefreshCcw className="h-4 w-4" aria-hidden />
-          {t('regenerate')}
-        </Button>
-      </header>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        icon={<CalendarDays className="h-6 w-6" aria-hidden />}
+        action={
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={regenerate}
+            disabled={busy}
+            className="!bg-white/15 !text-white ring-0 hover:!bg-white/25"
+          >
+            <RefreshCcw className={clsx('h-4 w-4', busy && 'animate-spin')} aria-hidden />
+            {t('regenerate')}
+          </Button>
+        }
+      />
 
       {/* Day tabs */}
       <div className="flex gap-2 overflow-x-auto pb-1" role="tablist">
@@ -114,26 +128,32 @@ export default function MealPlannerPage() {
           const entry = (days[selectedDay] ?? []).find((e) => e.meal_slot === slot);
           if (!entry) return null;
           return (
-            <Card key={slot}>
-              <p className="mb-2 text-sm font-bold text-teal-700 dark:text-teal-300">{t(slot)}</p>
+            <Card key={slot} hover className="anim-fade-up">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-primary-600 to-teal-400 text-white shadow" aria-hidden>
+                  {SLOT_ICONS[slot]}
+                </span>
+                <p className="text-sm font-extrabold text-teal-700 dark:text-teal-300">{t(slot)}</p>
+              </div>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="text-lg font-extrabold leading-snug">{entry.recipe.title}</h3>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted tabular-nums">
+                  <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted tabular-nums">
                     <span className="flex items-center gap-1">
-                      <Clock3 className="h-3.5 w-3.5" aria-hidden />
+                      <Clock3 className="h-3.5 w-3.5 text-amber-500" aria-hidden />
                       {entry.recipe.minutes} {t('minutes')}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Coins className="h-3.5 w-3.5" aria-hidden />
+                      <Coins className="h-3.5 w-3.5 text-yellow-500" aria-hidden />
                       {t(`cost_${entry.recipe.cost_level}`)}
                     </span>
-                    <span>
+                    <span className="rounded-full bg-primary-50 px-2 py-0.5 font-bold text-primary-700 dark:bg-primary-900/40 dark:text-primary-300">
                       {Math.round(entry.recipe.nutrition_per_serving.energy_kcal ?? 0)} {tu('kcal')}
                     </span>
                   </p>
                 </div>
-                <Button size="sm" variant="ghost" onClick={() => setSwapFor(swapFor === entry.id ? null : entry.id)}>
+                <Button size="sm" variant="secondary" onClick={() => setSwapFor(swapFor === entry.id ? null : entry.id)}>
+                  <ArrowRightLeft className="h-4 w-4" aria-hidden />
                   {t('swap')}
                 </Button>
               </div>
@@ -163,7 +183,8 @@ export default function MealPlannerPage() {
         })}
       </div>
 
-      <p className="text-xs text-muted">
+      <p className="flex items-center gap-2 rounded-2xl gradient-brand-soft p-3 text-xs font-medium ring-1 ring-teal-100 dark:ring-teal-900/40">
+        <Info className="h-4 w-4 shrink-0 text-teal-600" aria-hidden />
         {t('estimateNote')} · {tc('serving')}: {weekStart}
       </p>
 
