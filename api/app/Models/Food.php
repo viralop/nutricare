@@ -20,7 +20,7 @@ class Food extends Model
         'total_fat_g', 'sat_fat_g', 'sodium_mg', 'fiber_g',
         'serving_size_g', 'serving_label_en', 'serving_label_ar',
         'source_type', 'source_reference', 'source_url',
-        'is_verified', 'status', 'image_emoji',
+        'is_verified', 'status', 'image_emoji', 'image_url',
     ];
 
     protected function casts(): array

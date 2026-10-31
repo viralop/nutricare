@@ -21,6 +21,7 @@ export interface Food {
   category: string;
   cuisine: string;
   emoji: string;
+  image_url: string | null;
   serving_size_g: number;
   serving_label: string;
   per_100g: Nutrients;

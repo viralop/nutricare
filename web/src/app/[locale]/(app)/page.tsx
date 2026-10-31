@@ -7,7 +7,7 @@ import {
   Droplets, Plus, Trash2, Sparkles, Clock3, Flame, Candy, Leaf, ScanSearch, HeartPulse, Beef, FlaskConical,
 } from 'lucide-react';
 import {
-  Button, Card, Chip, EmptyState, ErrorBlock, LoadingBlock, PageHeader,
+  Button, Card, Chip, EmptyState, ErrorBlock, FoodImage, LoadingBlock, PageHeader,
   ProgressBar, ProgressRing, SectionTitle, StatTile, VerdictDot,
 } from '@/components/ui';
 import { api, apiData } from '@/lib/api';
@@ -151,9 +151,7 @@ export default function DashboardPage() {
             <ul className="space-y-2">
               {summary.meals.map((m) => (
                 <li key={m.id} className="surface-2 group flex items-center gap-3 rounded-2xl p-3 ring-1 ring-[var(--border)] transition-shadow hover:shadow-md">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary-50 to-mint-50 text-2xl ring-1 ring-primary-100 dark:from-primary-900/30 dark:to-teal-900/20 dark:ring-primary-800" aria-hidden>
-                    {m.food.emoji}
-                  </span>
+                  <FoodImage food={m.food} className="h-11 w-11" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-bold">
                       {m.food.name}
@@ -237,9 +235,7 @@ export default function DashboardPage() {
                   href={`/${locale}/analyzer?food=${a.food.slug}`}
                   className="surface-2 flex items-center gap-2 rounded-full py-1.5 pe-3 ps-1.5 text-sm font-bold ring-1 ring-[var(--border)] transition-all hover:shadow-md"
                 >
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-primary-50 to-mint-50 text-lg ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800" aria-hidden>
-                    {a.food.emoji}
-                  </span>
+                  <FoodImage food={a.food} className="h-8 w-8 rounded-full" emojiClass="text-base" />
                   {a.food.name}
                   <VerdictDot verdict={a.verdict} />
                   <span className="text-xs font-medium text-muted">{tv(a.verdict)}</span>

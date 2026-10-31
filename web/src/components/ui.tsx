@@ -1,9 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
+import { useState } from 'react';
 import { CheckCircle2, AlertTriangle, CircleAlert, OctagonX, Info, Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import type { Verdict } from '@/lib/types';
+import type { Food, Verdict } from '@/lib/types';
 
 // ---------- Layout primitives ----------
 
@@ -429,6 +430,44 @@ export function EmptyState({ emoji, text }: { emoji: string; text: string }) {
       </span>
       <p className="max-w-xs text-sm text-muted">{text}</p>
     </div>
+  );
+}
+
+/**
+ * Food photo tile: real Commons image with graceful emoji fallback.
+ * Sizing comes from the caller via className (h-11 w-11, h-16 w-16, …).
+ */
+export function FoodImage({
+  food,
+  className,
+  emojiClass = 'text-2xl',
+}: {
+  food: Pick<Food, 'emoji' | 'image_url' | 'name'>;
+  className?: string;
+  emojiClass?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  const tile =
+    'grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-primary-50 to-mint-50 ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800';
+  if (!food.image_url || failed) {
+    return (
+      <span className={clsx(tile, className)} aria-hidden>
+        <span className={emojiClass}>{food.emoji}</span>
+      </span>
+    );
+  }
+  return (
+    <span className={clsx(tile, className)}>
+      {/* Remote Commons thumbnails: plain img keeps the emoji fallback simple. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={food.image_url}
+        alt=""
+        loading="lazy"
+        className="h-full w-full object-cover"
+        onError={() => setFailed(true)}
+      />
+    </span>
   );
 }
 

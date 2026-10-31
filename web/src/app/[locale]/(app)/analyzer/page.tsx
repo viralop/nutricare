@@ -8,7 +8,7 @@ import {
   Plus, Check, Camera, ScanSearch,
 } from 'lucide-react';
 import {
-  Button, Card, Chip, ErrorBlock, LoadingBlock, PageHeader, SectionTitle, Select,
+  Button, Card, Chip, ErrorBlock, FoodImage, LoadingBlock, PageHeader, SectionTitle, Select,
   VerdictBanner, VerdictDot,
 } from '@/components/ui';
 import { api, apiData, ApiError } from '@/lib/api';
@@ -175,12 +175,7 @@ export default function AnalyzerPage() {
             <div className="space-y-5">
               {/* Food header */}
               <div className="flex flex-wrap items-center gap-4">
-                <span
-                  className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary-50 to-mint-100 text-4xl shadow-md ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800"
-                  aria-hidden
-                >
-                  {analysis.food.emoji}
-                </span>
+                <FoodImage food={analysis.food} className="h-16 w-16" emojiClass="text-4xl" />
                 <div className="min-w-0 flex-1">
                   <h2 className="truncate text-2xl font-extrabold">{analysis.food.name}</h2>
                   <p className="text-sm text-muted">
@@ -336,9 +331,7 @@ export default function AnalyzerPage() {
                     {analysis.alternatives.map((alt) => (
                       <li key={alt.food.slug} className="surface-2 card-hover rounded-2xl p-4 ring-1 ring-[var(--border)]">
                         <div className="mb-2 flex items-center gap-3">
-                          <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary-50 to-mint-50 text-2xl ring-1 ring-primary-100 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800" aria-hidden>
-                            {alt.food.emoji}
-                          </span>
+                          <FoodImage food={alt.food} className="h-11 w-11" />
                           <div className="min-w-0">
                             <p className="truncate font-extrabold">{alt.food.name}</p>
                             <p className="text-xs text-muted tabular-nums">
@@ -508,12 +501,11 @@ export default function AnalyzerPage() {
                   onClick={() => analyze(food.slug)}
                   className="surface card-hover group h-full w-full rounded-2xl p-4 text-start"
                 >
-                  <span
-                    className="mb-2 grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-primary-50 to-mint-50 text-3xl ring-1 ring-primary-100 transition-transform group-hover:scale-110 dark:from-primary-900/40 dark:to-teal-900/30 dark:ring-primary-800"
-                    aria-hidden
-                  >
-                    {food.emoji}
-                  </span>
+                  <FoodImage
+                    food={food}
+                    className="mb-2 h-28 w-full transition-transform group-hover:scale-[1.02]"
+                    emojiClass="text-4xl"
+                  />
                   <span className="block font-bold leading-snug">{food.name}</span>
                   <span className="mt-1 block text-xs text-muted tabular-nums">
                     {fmt(food.per_serving.energy_kcal)} {tu('kcal')} · {fmt(food.per_serving.sugar_g)} {tu('g')} {tn('sugar_g')}

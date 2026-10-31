@@ -30,6 +30,7 @@ class FoodResource extends JsonResource
             'category' => $this->category,
             'cuisine' => $this->cuisine,
             'emoji' => $this->image_emoji,
+            'image_url' => $this->image_url,
             'serving_size_g' => (float) $this->serving_size_g,
             'serving_label' => $this->localizedServingLabel($locale),
             'per_100g' => $per100,

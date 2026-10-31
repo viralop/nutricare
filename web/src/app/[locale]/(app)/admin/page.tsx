@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/auth';
-import { Button, Card, ErrorBlock, Input, LoadingBlock, PageHeader, SectionTitle, StatTile } from '@/components/ui';
+import { Button, Card, ErrorBlock, FoodImage, Input, LoadingBlock, PageHeader, SectionTitle, StatTile } from '@/components/ui';
 import { Users, Apple, BadgeCheck, TriangleAlert, CookingPot, BookOpen, ScanSearch, ShieldCheck, Flame } from 'lucide-react';
 import { api, apiData } from '@/lib/api';
 import type { Food, NutrientKey } from '@/lib/types';
@@ -176,7 +176,7 @@ export default function AdminPage() {
                 <span className="grid h-7 w-7 place-items-center rounded-full gradient-brand text-[11px] font-extrabold text-white" aria-hidden>
                   #{i + 1}
                 </span>
-                <span aria-hidden>{f.food.emoji}</span>
+                <FoodImage food={f.food} className="h-7 w-7 rounded-full" emojiClass="text-sm" />
                 {f.food.name}
                 <span className="rounded-full bg-primary-50 px-2 py-0.5 text-xs text-primary-700 tabular-nums dark:bg-primary-900/40 dark:text-primary-300">
                   {f.total}
@@ -226,7 +226,8 @@ export default function AdminPage() {
                 {foods.map((f) => (
                   <tr key={f.slug} className="border-t" style={{ borderColor: 'var(--border)' }}>
                     <td className="p-2">
-                      {f.emoji} {f.name} {f.source.is_estimated && <span title="~">≈</span>}
+                      <FoodImage food={f} className="h-8 w-8" emojiClass="text-base" />{' '}
+                      <span className="align-middle">{f.name}</span> {f.source.is_estimated && <span title="~">≈</span>}
                     </td>
                     <td className="p-2 tabular-nums">{f.per_100g.energy_kcal ?? '—'}</td>
                     <td className="p-2 tabular-nums">{f.per_100g.sodium_mg ?? '—'}</td>

@@ -11,6 +11,7 @@ class FoodSeeder extends Seeder
     public function run(): void
     {
         $foods = require __DIR__.'/data/foods.php';
+        $images = is_file(__DIR__.'/data/food-images.php') ? require __DIR__.'/data/food-images.php' : [];
 
         foreach ($foods as $f) {
             $usdaQuery = trim(explode('—', $f['ref'])[1] ?? '');
@@ -40,6 +41,7 @@ class FoodSeeder extends Seeder
                     'is_verified' => $f['src'] === 'usda',
                     'status' => 'published',
                     'image_emoji' => $f['emoji'],
+                    'image_url' => $images[$f['slug']] ?? null,
                 ]
             );
 
