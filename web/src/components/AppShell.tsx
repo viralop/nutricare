@@ -62,7 +62,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <span className="anim-float grid h-16 w-16 place-items-center rounded-3xl gradient-brand text-white shadow-lg">
+          <span className="anim-float grid h-16 w-16 place-items-center rounded-3xl gradient-gold text-primary-950 shadow-lg">
             <Leaf className="h-8 w-8" aria-hidden />
           </span>
           <span className="text-sm font-semibold text-muted">{tc('loading')}</span>
@@ -76,15 +76,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     : [...NAV];
 
   const sidebar = (
-    <nav className="flex h-full flex-col gap-1 overflow-y-auto p-4 scroll-slim" aria-label={tApp('name')}>
+    <nav className="rail-petrol flex h-full flex-col gap-1 overflow-y-auto p-4 scroll-slim" aria-label={tApp('name')}>
       {/* Brand */}
       <Link href="/" className="group mb-5 flex items-center gap-3 rounded-2xl p-2">
-        <span className="grid h-11 w-11 place-items-center rounded-2xl gradient-brand text-white shadow-lg transition-transform group-hover:scale-105">
+        <span className="grid h-11 w-11 place-items-center rounded-2xl gradient-gold text-primary-950 shadow-lg ring-1 ring-gold-300/50 transition-transform group-hover:scale-105">
           <Leaf className="h-6 w-6" aria-hidden />
         </span>
         <span className="min-w-0">
-          <span className="block text-xl font-extrabold leading-tight">{tApp('name')}</span>
-          <span className="block truncate text-[11px] font-medium text-muted">{tApp('tagline')}</span>
+          <span className="font-display block text-xl font-extrabold leading-tight text-white">{tApp('name')}</span>
+          <span className="block truncate text-[11px] font-medium text-white/55">{tApp('tagline')}</span>
         </span>
       </Link>
 
@@ -97,8 +97,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             className={clsx(
               'relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all',
               active
-                ? 'gradient-brand text-white shadow-md'
-                : 'text-[var(--text)] hover:bg-primary-50 hover:ps-4 dark:hover:bg-primary-900/25',
+                ? 'gradient-gold text-primary-950 shadow-md'
+                : 'text-white/80 hover:bg-white/10 hover:text-white hover:ps-4',
             )}
             aria-current={active ? 'page' : undefined}
           >
@@ -106,12 +106,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <span
                 aria-hidden
                 className={clsx(
-                  'absolute start-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-full bg-teal-500 transition-opacity',
+                  'absolute start-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-full bg-gold-400/70 transition-opacity',
                   pathname.startsWith(href) ? 'opacity-100' : 'opacity-0',
                 )}
               />
             )}
-            <Icon className={clsx('h-5 w-5 shrink-0', !active && 'text-teal-600 dark:text-teal-400')} aria-hidden />
+            <Icon className={clsx('h-5 w-5 shrink-0', !active && 'text-gold-300/90')} aria-hidden />
             {t(key)}
           </Link>
         );
@@ -119,11 +119,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* User card */}
       <div className="mt-auto pt-4">
-        <div className="surface-2 mb-2 flex items-center gap-3 rounded-2xl p-3 ring-1 ring-[var(--border)]">
+        <div className="mb-2 flex items-center gap-3 rounded-2xl bg-white/8 p-3 ring-1 ring-white/10">
           <Avatar name={user.name} />
           <div className="min-w-0">
-            <p className="truncate text-sm font-extrabold">{user.name}</p>
-            <p className="truncate text-[11px] text-muted">
+            <p className="truncate text-sm font-extrabold text-white">{user.name}</p>
+            <p className="truncate text-[11px] text-white/55">
               {user.conditions.map((c) => c.name).join(' · ')}
             </p>
           </div>
@@ -131,7 +131,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <button
           type="button"
           onClick={() => logout().then(() => router.replace('/login'))}
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-red-300 transition-colors hover:bg-red-500/15 hover:text-red-200"
         >
           <LogOut className="h-5 w-5 shrink-0" aria-hidden />
           {t('logout')}
@@ -148,8 +148,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="absolute bottom-0 -start-32 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl dark:bg-primary-500/5" />
       </div>
 
-      {/* Desktop sidebar */}
-      <aside className="surface-flat fixed inset-y-0 start-0 z-30 hidden w-64 border-y-0 border-s-0 shadow-lg lg:block">
+      {/* Desktop sidebar — petrol rail */}
+      <aside className="fixed inset-y-0 start-0 z-30 hidden w-64 shadow-lg lg:block">
         {sidebar}
       </aside>
 
@@ -189,14 +189,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               href={href === '' ? '/' : href}
               className={clsx(
                 'flex min-w-14 flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-[11px] font-bold transition-all',
-                active ? 'text-primary-700 dark:text-primary-300' : 'text-muted',
+                active ? 'text-primary-900 dark:text-primary-200' : 'text-muted',
               )}
               aria-current={active ? 'page' : undefined}
             >
               <span
                 className={clsx(
                   'grid h-8 w-8 place-items-center rounded-xl transition-all',
-                  active && 'gradient-brand text-white shadow-md',
+                  active && 'gradient-gold text-primary-950 shadow-md',
                 )}
               >
                 <Icon className="h-[18px] w-[18px]" aria-hidden />
@@ -209,13 +209,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           href="/profile"
           className={clsx(
             'flex min-w-14 flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-[11px] font-bold transition-all',
-            isActive('/profile') ? 'text-primary-700 dark:text-primary-300' : 'text-muted',
+            isActive('/profile') ? 'text-primary-900 dark:text-primary-200' : 'text-muted',
           )}
         >
           <span
             className={clsx(
               'grid h-8 w-8 place-items-center rounded-xl transition-all',
-              isActive('/profile') && 'gradient-brand text-white shadow-md',
+              isActive('/profile') && 'gradient-gold text-primary-950 shadow-md',
             )}
           >
             <HeartPulse className="h-[18px] w-[18px]" aria-hidden />

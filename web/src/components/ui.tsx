@@ -26,8 +26,8 @@ export function Card({
 export function SectionTitle({ children, action }: { children: React.ReactNode; action?: React.ReactNode }) {
   return (
     <div className="mb-3 flex items-center justify-between gap-2">
-      <h2 className="flex items-center gap-2 text-lg font-extrabold">
-        <span className="h-5 w-1.5 rounded-full gradient-brand" aria-hidden />
+      <h2 className="font-display flex items-center gap-2.5 text-lg font-extrabold">
+        <span className="h-5 w-1.5 rounded-full gradient-gold" aria-hidden />
         {children}
       </h2>
       {action}
@@ -35,7 +35,7 @@ export function SectionTitle({ children, action }: { children: React.ReactNode; 
   );
 }
 
-/** Decorative page header with gradient brand strip. */
+/** Decorative page header: petrol gradient, gold hairline, display serif. */
 export function PageHeader({
   title,
   subtitle,
@@ -48,16 +48,17 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <header className="anim-fade-up relative overflow-hidden rounded-2xl gradient-brand p-5 text-white shadow-lg">
-      <div className="pattern-dots absolute inset-0 opacity-60" aria-hidden />
+    <header className="anim-fade-up relative overflow-hidden rounded-2xl gradient-brand border-b-[3px] border-gold-400 p-5 text-white shadow-lg">
+      <div className="pattern-dots absolute inset-0 opacity-50" aria-hidden />
+      <div aria-hidden className="absolute -bottom-10 -end-10 h-36 w-36 rounded-full bg-gold-400/15 blur-2xl" />
       <div className="relative flex items-center gap-4">
         {icon && (
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/15 backdrop-blur-sm">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/12 ring-1 ring-gold-300/40 backdrop-blur-sm">
             {icon}
           </span>
         )}
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-2xl font-extrabold tracking-tight">{title}</h1>
+          <h1 className="font-display truncate text-2xl font-extrabold tracking-tight">{title}</h1>
           {subtitle && <p className="mt-0.5 text-sm text-white/80">{subtitle}</p>}
         </div>
         {action}
@@ -82,7 +83,7 @@ export function Button({ variant = 'primary', size = 'md', className, ...rest }:
         size === 'md' && 'px-4 py-2.5',
         size === 'lg' && 'px-6 py-3 text-base',
         variant === 'primary' &&
-          'gradient-brand text-white shadow-md hover:shadow-lg hover:brightness-110',
+          'gradient-brand text-white shadow-md hover:shadow-lg hover:shadow-gold-500/25 hover:brightness-110',
         variant === 'secondary' &&
           'bg-primary-50 text-primary-900 ring-1 ring-primary-200 hover:bg-primary-100 dark:bg-primary-900/25 dark:text-primary-200 dark:ring-primary-800',
         variant === 'ghost' && 'surface-2 text-[var(--text)] ring-1 ring-[var(--border)] hover:brightness-95 dark:hover:brightness-110',
@@ -358,7 +359,7 @@ export function ProgressRing({
       <div
         className="relative grid h-28 w-28 place-items-center rounded-full shadow-inner"
         style={{
-          background: `conic-gradient(#0d9488 0deg, #22c55e ${clamped * 3.6}deg, var(--surface-2) ${clamped * 3.6}deg)`,
+          background: `conic-gradient(#c98f2e 0deg, #0e5045 ${clamped * 3.6}deg, var(--surface-2) ${clamped * 3.6}deg)`,
         }}
         role="progressbar"
         aria-valuenow={Math.round(clamped)}
@@ -369,7 +370,7 @@ export function ProgressRing({
           className="grid h-[88px] w-[88px] place-items-center rounded-full shadow"
           style={{ background: 'var(--surface)' }}
         >
-          <span className="bg-gradient-to-br from-primary-700 to-teal-600 bg-clip-text text-xl font-extrabold tabular-nums text-transparent">
+          <span className="font-display bg-gradient-to-br from-primary-800 to-gold-500 bg-clip-text text-xl font-extrabold tabular-nums text-transparent">
             {Math.round(clamped)}%
           </span>
         </div>
@@ -390,11 +391,12 @@ export function StatTile({
   label: string;
   value: string | number;
   icon?: React.ReactNode;
-  tone?: 'brand' | 'teal' | 'amber' | 'rose' | 'violet' | 'sky';
+  tone?: 'brand' | 'gold' | 'teal' | 'amber' | 'rose' | 'violet' | 'sky';
 }) {
   const tones = {
-    brand: 'from-primary-600 to-primary-400',
-    teal: 'from-teal-600 to-mint-400',
+    brand: 'from-primary-800 to-teal-500',
+    gold: 'from-gold-400 to-gold-600',
+    teal: 'from-teal-600 to-primary-400',
     amber: 'from-amber-500 to-yellow-400',
     rose: 'from-rose-500 to-pink-400',
     violet: 'from-violet-500 to-fuchsia-400',
@@ -406,7 +408,7 @@ export function StatTile({
       <div className="relative flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-xs font-semibold text-muted">{label}</p>
-          <p className="mt-0.5 truncate text-2xl font-extrabold tabular-nums">{value}</p>
+          <p className="font-display mt-0.5 truncate text-2xl font-extrabold tabular-nums">{value}</p>
         </div>
         {icon && (
           <span className={clsx('grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md', tones[tone])}>

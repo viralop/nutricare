@@ -50,23 +50,23 @@ export default function LoginPage() {
       <AuthControls />
 
       {/* Hero panel (desktop) */}
-      <div className="gradient-brand relative hidden overflow-hidden p-12 text-white lg:flex lg:flex-col lg:justify-between">
+      <div className="gradient-brand relative hidden overflow-hidden border-e-[3px] border-gold-400 p-12 text-white lg:flex lg:flex-col lg:justify-between">
         <div className="pattern-dots absolute inset-0 opacity-50" aria-hidden />
-        <div aria-hidden className="absolute -bottom-24 -end-24 h-80 w-80 rounded-full bg-white/10 blur-2xl" />
-        <div aria-hidden className="absolute -top-16 -start-16 h-64 w-64 rounded-full bg-mint-300/20 blur-2xl" />
+        <div aria-hidden className="absolute -bottom-24 -end-24 h-80 w-80 rounded-full bg-gold-400/15 blur-2xl" />
+        <div aria-hidden className="absolute -top-16 -start-16 h-64 w-64 rounded-full bg-teal-500/15 blur-2xl" />
 
         <div className="relative flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/15 backdrop-blur">
+          <span className="grid h-12 w-12 place-items-center rounded-2xl gradient-gold text-primary-950 shadow-lg">
             <Leaf className="h-7 w-7" aria-hidden />
           </span>
           <div>
-            <p className="text-2xl font-extrabold">{tApp('name')}</p>
-            <p className="text-sm text-white/75">{tApp('tagline')}</p>
+            <p className="font-display text-2xl font-extrabold">{tApp('name')}</p>
+            <p className="text-sm text-white/70">{tApp('tagline')}</p>
           </div>
         </div>
 
         <div className="relative space-y-5">
-          <h2 className="max-w-md text-3xl font-extrabold leading-snug">
+          <h2 className="font-display max-w-md text-3xl font-extrabold leading-snug">
             {t('welcomeBack')} 🌿
           </h2>
           <ul className="space-y-3">
