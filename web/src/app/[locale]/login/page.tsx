@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Leaf, LoaderCircle, ShieldCheck, Apple, ScanSearch, HeartPulse } from 'lucide-react';
 import { Button, Card, Input } from '@/components/ui';
+import { AuthControls } from '@/components/ThemeControls';
 import { useAuth } from '@/lib/auth';
 import { ApiError } from '@/lib/api';
 
@@ -45,6 +46,9 @@ export default function LoginPage() {
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
+      {/* Theme & language controls (visible on both panels) */}
+      <AuthControls />
+
       {/* Hero panel (desktop) */}
       <div className="gradient-brand relative hidden overflow-hidden p-12 text-white lg:flex lg:flex-col lg:justify-between">
         <div className="pattern-dots absolute inset-0 opacity-50" aria-hidden />

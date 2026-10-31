@@ -1,15 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
-import { useLocale, useTranslations } from 'next-intl';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 import {
   LayoutDashboard, ScanSearch, MessageCircleHeart, CalendarDays, UtensilsCrossed,
-  BookOpenCheck, HeartPulse, Bell, Settings, ShieldCheck, LogOut, Moon, Sun, Languages, Leaf,
+  BookOpenCheck, HeartPulse, Bell, Settings, ShieldCheck, LogOut, Leaf,
 } from 'lucide-react';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/lib/auth';
+import { LangToggle, ThemeSwitcher } from '@/components/ThemeControls';
 
 const NAV = [
   { href: '', key: 'dashboard', Icon: LayoutDashboard },
@@ -22,41 +22,6 @@ const NAV = [
   { href: '/notifications', key: 'notifications', Icon: Bell },
   { href: '/settings', key: 'settings', Icon: Settings },
 ] as const;
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const t = useTranslations('common');
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return (
-    <button
-      type="button"
-      aria-label={t('theme')}
-      className="surface-2 grid h-9 w-9 place-items-center rounded-full ring-1 ring-[var(--border)] transition-transform hover:scale-105"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-    >
-      {mounted && theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-500" />}
-    </button>
-  );
-}
-
-function LangToggle() {
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
-  const t = useTranslations('common');
-  return (
-    <button
-      type="button"
-      aria-label={t('language')}
-      className="surface-2 flex h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-extrabold ring-1 ring-[var(--border)] transition-transform hover:scale-105"
-      onClick={() => router.replace(pathname, { locale: locale === 'ar' ? 'en' : 'ar' })}
-    >
-      <Languages className="h-4 w-4 text-teal-600" />
-      {locale === 'ar' ? 'EN' : 'ع'}
-    </button>
-  );
-}
 
 /** Gradient avatar circle with user initials. */
 function Avatar({ name }: { name: string }) {
@@ -204,7 +169,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="hidden min-w-0 lg:block" />
           <div className="flex items-center gap-2">
             <LangToggle />
-            <ThemeToggle />
+            <ThemeSwitcher />
           </div>
         </header>
         <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-6 lg:pb-12">{children}</main>

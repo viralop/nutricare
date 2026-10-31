@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
 import { Leaf, LoaderCircle, Plus, X, Check, Sparkles } from 'lucide-react';
 import { Button, Card, Input, Select } from '@/components/ui';
+import { AuthControls } from '@/components/ThemeControls';
 import { useAuth, type RegisterPayload } from '@/lib/auth';
 import { apiData, ApiError } from '@/lib/api';
 import type { Condition } from '@/lib/types';
@@ -108,6 +109,7 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-4 py-10">
+      <AuthControls />
       <div className="anim-fade-up mb-6 flex flex-col items-center gap-2 text-center">
         <span className="anim-float grid h-16 w-16 place-items-center rounded-3xl gradient-brand text-white shadow-lg">
           <Leaf className="h-8 w-8" aria-hidden />

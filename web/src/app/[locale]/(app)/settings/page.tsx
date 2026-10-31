@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { Check, Languages, LoaderCircle, Moon, Sun, Settings as SettingsIcon } from 'lucide-react';
+import { Check, Languages, LoaderCircle, Monitor, Moon, Sun, Settings as SettingsIcon } from 'lucide-react';
+import clsx from 'clsx';
 import { Button, Card, Input, PageHeader, SectionTitle } from '@/components/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
@@ -60,16 +61,35 @@ export default function SettingsPage() {
 
       <Card>
         <SectionTitle>{t('appearance')}</SectionTitle>
-        <div className="flex flex-wrap gap-2">
-          <Button variant={theme === 'light' ? 'primary' : 'ghost'} onClick={() => setTheme('light')}>
-            <Sun className="h-4 w-4" aria-hidden />
-            {tc('light')}
-          </Button>
-          <Button variant={theme === 'dark' ? 'primary' : 'ghost'} onClick={() => setTheme('dark')}>
-            <Moon className="h-4 w-4" aria-hidden />
-            {tc('dark')}
-          </Button>
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label={t('appearance')}>
+          {(
+            [
+              { value: 'light', label: tc('light'), Icon: Sun, hint: '☀️' },
+              { value: 'dark', label: tc('dark'), Icon: Moon, hint: '🌙' },
+              { value: 'system', label: tc('system'), Icon: Monitor, hint: '💻' },
+            ] as const
+          ).map(({ value, label, Icon }) => {
+            const active = (theme ?? 'system') === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => setTheme(value)}
+                className={
+                  active
+                    ? 'gradient-brand card-hover rounded-2xl p-4 text-center text-white shadow-md'
+                    : 'surface-2 card-hover rounded-2xl p-4 text-center ring-1 ring-[var(--border)]'
+                }
+              >
+                <Icon className={clsx('mx-auto mb-1.5 h-6 w-6', active ? 'text-white' : 'text-teal-600')} aria-hidden />
+                <span className="block text-sm font-extrabold">{label}</span>
+              </button>
+            );
+          })}
         </div>
+        <p className="mt-3 text-xs text-muted">{tc('system')} → {tc('theme')}</p>
       </Card>
 
       <Card>

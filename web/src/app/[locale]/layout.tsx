@@ -22,7 +22,7 @@ export default async function LocaleLayout({
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body className="antialiased">
         <NextIntlClientProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <AuthProvider>{children}</AuthProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
