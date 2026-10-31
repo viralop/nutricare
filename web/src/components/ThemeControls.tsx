@@ -5,8 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { Languages, Monitor, Moon, Sun } from 'lucide-react';
-import { useRouter } from '@/i18n/navigation';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 
 /** Compact language pill (EN / ع). */
 export function LangToggle({ className }: { className?: string }) {
