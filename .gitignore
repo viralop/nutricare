@@ -1,0 +1,33 @@
+# Root
+.env
+.env.backup
+*.log
+.DS_Store
+Thumbs.db
+
+# Tools
+tools/
+
+# PHP / Laravel
+api/vendor/
+api/node_modules/
+api/storage/*.key
+api/storage/framework/cache/data/*
+api/storage/framework/sessions/*
+api/storage/framework/views/*
+api/storage/logs/*
+api/database/database.sqlite
+api/database/database.sqlite-journal
+api/.phpunit.cache/
+api/.phpunit.result.cache
+
+# Node / Next.js
+web/node_modules/
+web/.next/
+web/out/
+web/next-env.d.ts
+web/*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/

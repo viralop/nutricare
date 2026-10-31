@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* NutriCare palette: deep green primary, soft mint secondary, teal accent */
+  --color-primary-50: #f0fdf4;
+  --color-primary-100: #dcfce7;
+  --color-primary-200: #bbf7d0;
+  --color-primary-300: #86efac;
+  --color-primary-400: #4ade80;
+  --color-primary-500: #22c55e;
+  --color-primary-600: #16a34a;
+  --color-primary-700: #15803d;
+  --color-primary-800: #166534;
+  --color-primary-900: #14532d;
+  --color-primary-950: #052e16;
+
+  --color-mint-50: #f0fdfa;
+  --color-mint-100: #ccfbf1;
+  --color-mint-200: #99f6e4;
+  --color-mint-300: #5eead4;
+  --color-mint-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
+
+  /* Semantic verdict colors (always paired with icons + labels, never color alone) */
+  --color-good: #16a34a;
+  --color-good-soft: #dcfce7;
+  --color-ok: #ca8a04;
+  --color-ok-soft: #fef9c3;
+  --color-moderate: #d97706;
+  --color-moderate-soft: #ffedd5;
+  --color-bad: #dc2626;
+  --color-bad-soft: #fee2e2;
+
+  --radius-card: 1rem;
+  --font-sans: "Segoe UI", "Tahoma", "Noto Sans Arabic", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+}
+
+.dark {
+  --bg: #0b1220;
+  --surface: #101a2c;
+  --surface-2: #17233a;
+  --border: #24324d;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* Utility classes mapping to CSS variables so components stay readable */
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.surface-2 {
+  background: var(--surface-2);
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.border-app {
+  border-color: var(--border);
+}
+.bg-app {
+  background: var(--bg);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-teal-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth theme transition */
+body,
+.surface,
+.surface-2 {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
