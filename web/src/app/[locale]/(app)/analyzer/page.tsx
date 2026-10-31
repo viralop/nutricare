@@ -11,6 +11,7 @@ import {
   Button, Card, Chip, ErrorBlock, FoodImage, LoadingBlock, PageHeader, SectionTitle, Select,
   VerdictBanner, VerdictDot,
 } from '@/components/ui';
+import { Sparkles } from 'lucide-react';
 import { api, apiData, ApiError } from '@/lib/api';
 import type { Analysis, Food, NutrientKey, Verdict } from '@/lib/types';
 import { useAuth } from '@/lib/auth';
@@ -332,12 +333,18 @@ export default function AnalyzerPage() {
                       <li key={alt.food.slug} className="surface-2 card-hover rounded-2xl p-4 ring-1 ring-[var(--border)]">
                         <div className="mb-2 flex items-center gap-3">
                           <FoodImage food={alt.food} className="h-11 w-11" />
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <p className="truncate font-extrabold">{alt.food.name}</p>
                             <p className="text-xs text-muted tabular-nums">
                               {fmt(alt.food.per_serving.energy_kcal)} {tu('kcal')} {tc('perServing')}
                             </p>
                           </div>
+                          {alt.auto && (
+                            <Chip tone="brand">
+                              <Sparkles className="h-3 w-3" aria-hidden />
+                              {t('autoSuggested')}
+                            </Chip>
+                          )}
                         </div>
                         <p className="text-sm leading-relaxed">
                           <span className="font-bold text-teal-700 dark:text-teal-300">{t('swapWhy')}: </span>

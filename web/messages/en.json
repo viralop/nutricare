@@ -149,6 +149,7 @@
     "reasonsFor": "Reasons — {condition}",
     "warnings": "Warnings",
     "alternatives": "Healthier alternatives",
+    "autoSuggested": "Suggested for you",
     "noAlternatives": "No curated alternative for this food yet.",
     "swapWhy": "Why it's better",
     "suggestedServing": "Suggested serving",

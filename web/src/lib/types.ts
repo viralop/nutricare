@@ -56,6 +56,7 @@ export interface Alternative {
   food: Food;
   reason: string;
   suggested_serving: string | null;
+  auto?: boolean;
   delta: Partial<Record<NutrientKey, number>>;
 }
 
