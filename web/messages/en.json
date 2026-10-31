@@ -196,6 +196,8 @@
     "steps": "Preparation",
     "serves": "Serves {n}",
     "nutritionPerServing": "Nutrition per serving",
+    "servingAbout": "serving ≈ {g} g",
+    "totalWeight": "total {g} g",
     "filterAll": "All meals",
     "breakfast": "Breakfast",
     "lunch": "Lunch",

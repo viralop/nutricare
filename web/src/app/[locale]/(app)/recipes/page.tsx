@@ -15,6 +15,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
   const tp = useTranslations('planner');
   const tc = useTranslations('common');
   const tu = useTranslations('units');
+  const tn = useTranslations('nutrients');
   const locale = useLocale();
 
   const [open, setOpen] = useState(false);
@@ -36,6 +37,10 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
     ['sodium_mg', tu('mg')],
     ['fiber_g', tu('g')],
   ];
+
+  // Total ingredient weight → what one serving actually weighs.
+  const totalG = detail?.ingredients?.reduce((sum, ing) => sum + ing.quantity_g, 0) ?? null;
+  const servingG = totalG !== null ? Math.round(totalG / Math.max(1, recipe.servings)) : null;
 
   return (
     <Card hover className="h-full">
@@ -64,6 +69,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
             <span className="block font-extrabold tabular-nums">
               {Math.round(n[key] ?? 0)} {unit}
             </span>
+            <span className="mt-0.5 block text-[10px] font-semibold text-muted">{tn(key)}</span>
           </li>
         ))}
       </ul>
@@ -81,11 +87,19 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
         <div className="mt-3 space-y-3 border-t pt-3" style={{ borderColor: 'var(--border)' }}>
           {detail?.ingredients && (
             <div>
-              <p className="mb-1 text-sm font-bold">{t('ingredients')}</p>
+              <p className="mb-1 flex items-center justify-between text-sm font-bold">
+                <span>{t('ingredients')}</span>
+                {totalG !== null && (
+                  <span className="text-xs font-semibold text-muted tabular-nums">
+                    {t('totalWeight', { g: Math.round(totalG) })}
+                  </span>
+                )}
+              </p>
               <ul className="list-inside list-disc text-sm">
                 {detail.ingredients.map((ing, i) => (
                   <li key={i}>
-                    {ing.name} — {ing.quantity_g} g{ing.note ? ` (${ing.note})` : ''}
+                    <span className="font-semibold">{ing.name}</span> — {ing.quantity_g} {tu('g')}
+                    {ing.note ? ` (${ing.note})` : ''}
                   </li>
                 ))}
               </ul>
@@ -100,11 +114,21 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
             </ol>
           </div>
           <div>
-            <p className="mb-1 text-sm font-bold">{t('nutritionPerServing')}</p>
+            <p className="mb-2 text-sm font-bold">
+              {t('nutritionPerServing')}
+              {servingG !== null && (
+                <span className="ms-1 font-semibold text-muted">
+                  ({t('servingAbout', { g: servingG })})
+                </span>
+              )}
+            </p>
             <ul className="grid grid-cols-3 gap-2 text-center text-xs">
               {rows.map(([key, unit]) => (
-                <li key={key} className="surface-2 rounded-lg p-2 tabular-nums">
-                  {Math.round(n[key] ?? 0)} {unit}
+                <li key={key} className="surface-2 rounded-lg p-2 ring-1 ring-[var(--border)]">
+                  <span className="block font-extrabold tabular-nums">
+                    {Math.round(n[key] ?? 0)} {unit}
+                  </span>
+                  <span className="mt-0.5 block text-[10px] font-semibold text-muted">{tn(key)}</span>
                 </li>
               ))}
             </ul>

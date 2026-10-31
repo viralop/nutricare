@@ -196,6 +196,8 @@
     "steps": "التحضير",
     "serves": "يكفي {n}",
     "nutritionPerServing": "القيم لكل حصة",
+    "servingAbout": "الحصة ≈ {g} جم",
+    "totalWeight": "الإجمالي {g} جم",
     "filterAll": "كل الوجبات",
     "breakfast": "فطور",
     "lunch": "غداء",
