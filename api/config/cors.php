@@ -10,7 +10,11 @@ return [
         'http://127.0.0.1:3000',
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        // Public demo: any trycloudflare tunnel origin + the deployed worker
+        '#^https://[a-z0-9-]+\.trycloudflare\.com$#',
+        '#^https://nutricare-web\.[a-z0-9-]+\.workers\.dev$#',
+    ],
 
     'allowed_headers' => ['*'],
 
