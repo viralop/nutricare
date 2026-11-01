@@ -35,8 +35,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * In-app notification feed. Real push delivery arrives with the mobile phase;
-     * these are the same reminder payloads a push service would deliver.
+     * In-site notification feed (tips, reminders) shown on the website.
      */
     public function index(Request $request): JsonResponse
     {

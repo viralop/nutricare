@@ -3,29 +3,29 @@
 ## System overview
 
 ```
-┌─────────────────────┐      ┌─────────────────────┐      ┌──────────────────────┐
-│  Web (Next.js)      │      │  Mobile (Expo,      │      │  Admin (same Next    │
-│  EN/AR, LTR/RTL     │      │  Phase 9)           │      │  app, role=admin)    │
-└─────────┬───────────┘      └─────────┬───────────┘      └─────────┬────────────┘
-          │  HTTPS  Bearer token (Sanctum)                        │
-          ▼───────────────────────┬───────────────────────────────▼
-                                   │
-                      ┌────────────▼─────────────┐
-                      │  Laravel REST API /api/v1│
-                      │  ┌────────────────────┐  │
-                      │  │ Assessment Engine  │  │  rule-per-condition,
-                      │  │ (deterministic)    │  │  thresholds + sources
-                      │  └────────────────────┘  │
-                      │  ┌────────────────────┐  │
-                      │  │ Assistant Engine   │  │  offline templates now,
-                      │  │ (AiProvider iface) │  │  pluggable LLM later
-                      │  └────────────────────┘  │
-                      └────────────┬─────────────┘
-                                   │ Eloquent
-                      ┌────────────▼─────────────┐
-                      │ SQLite (dev)            │
-                      │ PostgreSQL (prod)       │
-                      └─────────────────────────┘
+┌─────────────────────┐      ┌──────────────────────────┐
+│  Web (Next.js)      │      │  Admin (same Next        │
+│  EN/AR, LTR/RTL     │      │  app, role=admin)        │
+└─────────┬───────────┘      └─────────┬────────────────┘
+          │  HTTPS  Bearer token (Sanctum)│
+          ▼───────────────────────┬───────▼
+                                │
+                    ┌────────────▼─────────────┐
+                    │  Laravel REST API /api/v1│
+                    │  ┌────────────────────┐  │
+                    │  │ Assessment Engine  │  │  rule-per-condition,
+                    │  │ (deterministic)    │  │  thresholds + sources
+                    │  └────────────────────┘  │
+                    │  ┌────────────────────┐  │
+                    │  │ Assistant Engine   │  │  offline templates now,
+                    │  │ (AiProvider iface) │  │  pluggable LLM later
+                    │  └────────────────────┘  │
+                    └────────────┬─────────────┘
+                                 │ Eloquent
+                    ┌────────────▼─────────────┐
+                    │ SQLite (dev)            │
+                    │ PostgreSQL (prod)       │
+                    └─────────────────────────┘
 ```
 
 ## Key design decisions
@@ -96,7 +96,7 @@ bilingual/free-form payloads (allergies, recipe steps, article sources).
 | 4 Food database & analyzer | ✅ this build |
 | 5 AI assistant | ✅ offline engine; LLM adapter pending key |
 | 6 Meal planner & recipes | ✅ generation + swap |
-| 7 Notifications | ✅ preferences + in-app list; push pending mobile |
+| 7 Notifications | ✅ preferences + in-site feed |
 | 8 Admin dashboard | ✅ foods/users/articles/stats |
-| 9 Mobile app | ⏳ deferred (Expo) |
+| 9 Mobile app | ✖ removed from scope — NutriCare is a website |
 | 10 Testing/security/deploy | ✅ feature tests; deploy config pending |

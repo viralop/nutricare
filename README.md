@@ -15,7 +15,6 @@ an offline **AI nutrition assistant**, meal plans, recipes, and medically-review
 | `api/` | Laravel REST API (`/api/v1`) — auth, health profiles, food database, assessment engine, assistant, meal plans, admin |
 | `web/` | Next.js website — bilingual (LTR/RTL), light/dark, responsive, mobile-first |
 | `docs/` | Architecture, database schema, API reference, medical-safety policy |
-| `mobile/` | *(planned, Phase 9)* React Native + Expo app reusing the same API |
 
 ## Quick start (Windows dev machine)
 
@@ -74,7 +73,7 @@ cd C:\ai\app\api
 - ✅ Education articles (sourced from ADA/AHA/WHO/CDC)
 - ✅ Notification preferences, settings (language, theme)
 - ✅ Admin dashboard — foods CRUD & verification, users, articles, stats
-- 🔜 Real AI provider (adapter slot in `api/config/ai.php`), image analysis, Expo mobile app, push notifications
+- 🔜 Real AI provider (adapter slot in `api/config/ai.php`) and image analysis
 
 ## Documentation
 

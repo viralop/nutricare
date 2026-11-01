@@ -78,7 +78,7 @@ Error shape (validation, 422):
 |---|---|---|
 | GET | `/notifications/preferences` | Caller's toggles (auto-created defaults). |
 | PUT | `/notifications/preferences` | Update toggles. |
-| GET | `/notifications` | In-app notification feed (tips, reminders) — push arrives with the mobile phase. |
+| GET | `/notifications` | In-site notification feed (tips, reminders). |
 | POST | `/feedback` | `{message, category?}` |
 
 ## Admin (`role:admin`)
