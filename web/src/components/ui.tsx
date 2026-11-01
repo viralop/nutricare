@@ -54,7 +54,7 @@ export function PageHeader({
       )}
       <div className="min-w-0 flex-1">
         <h1 className="font-display truncate text-2xl font-extrabold tracking-tight">{title}</h1>
-        {subtitle && <p className="mt-0.5 truncate text-sm text-muted">{subtitle}</p>}
+        {subtitle && <p className="mt-0.5 text-sm leading-snug text-muted">{subtitle}</p>}
       </div>
       {action}
     </header>
@@ -373,11 +373,13 @@ export function ProgressRing({
 export function StatTile({
   label,
   value,
+  target,
   icon,
   tone = 'brand',
 }: {
   label: string;
   value: string | number;
+  target?: string | number;
   icon?: React.ReactNode;
   tone?: 'brand' | 'gold' | 'teal' | 'amber' | 'rose' | 'violet' | 'sky';
 }) {
@@ -395,7 +397,12 @@ export function StatTile({
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-xs font-semibold text-muted">{label}</p>
-          <p className="font-display mt-0.5 truncate text-2xl font-extrabold tabular-nums">{value}</p>
+          <p className="font-display mt-0.5 text-lg font-extrabold leading-snug tabular-nums sm:text-xl">
+            {value}
+            {target !== undefined && (
+              <span className="ms-1 text-xs font-semibold text-muted">/ {target}</span>
+            )}
+          </p>
         </div>
         {icon && (
           <span className={clsx('grid h-9 w-9 shrink-0 place-items-center rounded-lg', tones[tone])}>

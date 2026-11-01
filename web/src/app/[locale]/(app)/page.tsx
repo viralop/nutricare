@@ -72,25 +72,29 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatTile
           label={t('calories')}
-          value={`${Math.round(summary.totals.energy_kcal ?? 0)} / ${summary.targets.energy_kcal}`}
+          value={Math.round(summary.totals.energy_kcal ?? 0)}
+          target={summary.targets.energy_kcal}
           icon={<Flame className="h-5 w-5" aria-hidden />}
           tone="amber"
         />
         <StatTile
           label={t('water')}
-          value={`${summary.water_ml} / ${summary.targets.water_ml}`}
+          value={summary.water_ml}
+          target={summary.targets.water_ml}
           icon={<Droplets className="h-5 w-5" aria-hidden />}
           tone="teal"
         />
         <StatTile
           label={t('sugar')}
-          value={`${Math.round(summary.totals.sugar_g ?? 0)} / ${summary.targets.sugar_g}`}
+          value={Math.round(summary.totals.sugar_g ?? 0)}
+          target={summary.targets.sugar_g}
           icon={<Candy className="h-5 w-5" aria-hidden />}
           tone="rose"
         />
         <StatTile
           label={t('sodium')}
-          value={`${Math.round(summary.totals.sodium_mg ?? 0)} / ${summary.targets.sodium_mg}`}
+          value={Math.round(summary.totals.sodium_mg ?? 0)}
+          target={summary.targets.sodium_mg}
           icon={<FlaskConical className="h-5 w-5" aria-hidden />}
           tone="violet"
         />
@@ -194,7 +198,7 @@ export default function DashboardPage() {
               </li>
             ))}
           </ul>
-          <div className="mt-4 grid grid-cols-2 gap-2">
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
             <Link
               href={`/${locale}/analyzer`}
               className="surface-2 flex items-center gap-2 rounded-2xl p-3 text-sm font-bold ring-1 ring-[var(--border)] transition-all hover:shadow-md"
