@@ -49,11 +49,9 @@ export default function LoginPage() {
       {/* Theme & language controls (visible on both panels) */}
       <AuthControls />
 
-      {/* Hero panel (desktop) */}
-      <div className="gradient-brand relative hidden overflow-hidden border-e-[3px] border-gold-400 p-12 text-white lg:flex lg:flex-col lg:justify-between">
-        <div className="pattern-dots absolute inset-0 opacity-50" aria-hidden />
-        <div aria-hidden className="absolute -bottom-24 -end-24 h-80 w-80 rounded-full bg-gold-400/15 blur-2xl" />
-        <div aria-hidden className="absolute -top-16 -start-16 h-64 w-64 rounded-full bg-teal-500/15 blur-2xl" />
+      {/* Hero panel (desktop) — solid petrol, quiet */}
+      <div className="relative hidden flex-col justify-between bg-primary-900 p-12 text-white lg:flex">
+        <div aria-hidden className="absolute inset-y-0 start-0 w-1 bg-gold-400/80" />
 
         <div className="relative flex items-center gap-3">
           <span className="grid h-12 w-12 place-items-center rounded-2xl gradient-gold text-primary-950 shadow-lg">
@@ -93,7 +91,7 @@ export default function LoginPage() {
       <div className="flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-md anim-fade-up">
           <div className="mb-6 flex flex-col items-center gap-2 text-center lg:hidden">
-            <span className="anim-float grid h-16 w-16 place-items-center rounded-3xl gradient-brand text-white shadow-lg">
+            <span className="grid h-16 w-16 place-items-center rounded-2xl bg-primary-800 text-white">
               <Leaf className="h-8 w-8" aria-hidden />
             </span>
             <h1 className="text-2xl font-extrabold">{t('welcomeBack')}</h1>

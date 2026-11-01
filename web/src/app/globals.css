@@ -3,12 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  /* ============ Nile Botanical theme ============
-   * Deep petrol green + warm cream paper + gold accents.
-   * Token names kept stable (primary/mint/teal) so every
-   * component re-themes automatically; mint-* now carries
-   * warm sand tints, primary-* the petrol scale.
-   */
+  /* NutriCare palette: deep petrol green + warm cream (light), midnight blue
+   * (dark), gold used sparingly as the single accent. */
   --color-primary-50: #effaf6;
   --color-primary-100: #d7f2e8;
   --color-primary-200: #b2e4d3;
@@ -21,7 +17,7 @@
   --color-primary-900: #0c423a;
   --color-primary-950: #052722;
 
-  /* gold — the signature accent */
+  /* gold — the single accent, used sparingly */
   --color-gold-50: #fbf6ea;
   --color-gold-100: #f5e9c8;
   --color-gold-200: #ecd48f;
@@ -51,34 +47,34 @@
   --color-bad: #dc2626;
   --color-bad-soft: #fee2e2;
 
-  --radius-card: 1rem;
+  --radius-card: 0.75rem;
   --font-sans: "Segoe UI", "Tahoma", var(--font-almarai), system-ui, -apple-system, sans-serif;
 }
 
 :root {
   /* warm cream paper */
-  --bg: #faf7ef;
-  --surface: #fffdf8;
-  --surface-2: #f4efe1;
-  --border: #e6ddc8;
-  --text: #1c2521;
-  --text-muted: #6d7568;
-  --shadow-card: 0 1px 2px rgb(12 66 58 / 0.06), 0 10px 28px -14px rgb(12 66 58 / 0.22);
-  --shadow-pop: 0 4px 14px -4px rgb(12 66 58 / 0.18), 0 26px 52px -26px rgb(12 66 58 / 0.38);
-  --ring-glow: 0 0 0 5px rgb(212 162 78 / 0.22);
+  --bg: #faf8f3;
+  --surface: #fffefb;
+  --surface-2: #f3f0e8;
+  --border: #e4dfd2;
+  --text: #1f2522;
+  --text-muted: #6b7370;
+  --shadow-card: 0 1px 2px rgb(31 37 34 / 0.05);
+  --shadow-pop: 0 6px 20px -8px rgb(31 37 34 / 0.18);
+  --ring-glow: 0 0 0 4px rgb(201 143 46 / 0.18);
 }
 
 .dark {
-  /* petrol-black night */
-  --bg: #0a1411;
-  --surface: #101d18;
-  --surface-2: #16261f;
-  --border: #243a2f;
-  --text: #e9f0e9;
-  --text-muted: #94a798;
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -16px rgb(0 0 0 / 0.6);
-  --shadow-pop: 0 4px 16px -4px rgb(0 0 0 / 0.5), 0 32px 56px -24px rgb(0 0 0 / 0.8);
-  --ring-glow: 0 0 0 5px rgb(224 187 92 / 0.15);
+  /* midnight blue night */
+  --bg: #070b15;
+  --surface: #0d1526;
+  --surface-2: #151f38;
+  --border: #233055;
+  --text: #e7edf8;
+  --text-muted: #8ea0c2;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.45);
+  --shadow-pop: 0 8px 24px -10px rgb(0 0 0 / 0.6);
+  --ring-glow: 0 0 0 4px rgb(212 162 78 / 0.14);
 }
 
 html {
@@ -94,17 +90,6 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  background-image:
-    radial-gradient(60rem 40rem at 110% -10%, rgb(212 162 78 / 0.10), transparent 60%),
-    radial-gradient(50rem 35rem at -20% 110%, rgb(14 80 69 / 0.08), transparent 55%);
-  background-attachment: fixed;
-}
-
-/* Font variables are attached here (wrapper div) so <html> className stays
-   free for next-themes' light/dark classes. */
-.app-fonts {
-  font-family: "Segoe UI", "Tahoma", var(--font-almarai), system-ui, -apple-system, sans-serif;
-  min-height: inherit;
 }
 
 /* ---------- Typography ---------- */
@@ -115,6 +100,13 @@ body {
 [dir='rtl'] .font-display {
   font-family: var(--font-almarai), var(--font-fraunces), serif;
   letter-spacing: 0;
+}
+
+/* Font variables are attached here (wrapper div) so <html> className stays
+   free for next-themes' light/dark classes. */
+.app-fonts {
+  font-family: "Segoe UI", "Tahoma", var(--font-almarai), system-ui, -apple-system, sans-serif;
+  min-height: inherit;
 }
 
 /* ---------- Surfaces ---------- */
@@ -140,58 +132,41 @@ body {
   background: var(--bg);
 }
 
-/* ---------- Gradients & decoration ---------- */
+/* ---------- Brand colors (flat, restrained) ---------- */
 .gradient-brand {
-  background-image: linear-gradient(135deg, #0c423a 0%, #115e59 55%, #177e68 100%);
+  background-color: #0e5045;
 }
 .gradient-gold {
-  background-image: linear-gradient(135deg, #e0bb5c 0%, #c98f2e 100%);
+  background-color: #d4a24e;
 }
 .gradient-brand-soft {
-  background-image: linear-gradient(135deg, rgb(14 80 69 / 0.08) 0%, rgb(201 143 46 / 0.10) 100%);
+  background-color: rgb(14 80 69 / 0.06);
 }
 .dark .gradient-brand-soft {
-  background-image: linear-gradient(135deg, rgb(42 157 143 / 0.10) 0%, rgb(224 187 92 / 0.07) 100%);
+  background-color: rgb(42 157 143 / 0.08);
 }
 .gradient-text {
-  background-image: linear-gradient(120deg, #0e5045, #279a7d 45%, #c98f2e);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #0e5045;
 }
 .dark .gradient-text {
-  background-image: linear-gradient(120deg, #7fcfb6, #e0bb5c);
+  color: #7fcfb6;
 }
 
-/* Deep petrol rail for the sidebar — stays dark in both themes */
+/* Sidebar rail: petrol in light mode, midnight navy in dark */
 .rail-petrol {
-  background-image: linear-gradient(180deg, #0c342e 0%, #082622 100%);
+  background-color: #0b2f2a;
   color: #e9f0e9;
 }
-
-/* Subtle dot pattern for hero panels */
-.pattern-dots {
-  background-image: radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1.5px);
-  background-size: 14px 14px;
-}
-.pattern-grid-soft {
-  background-image:
-    linear-gradient(rgb(14 80 69 / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(14 80 69 / 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-.dark .pattern-grid-soft {
-  background-image:
-    linear-gradient(rgb(42 157 143 / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(42 157 143 / 0.05) 1px, transparent 1px);
+.dark .rail-petrol {
+  background-color: #0a1122;
 }
 
 /* ---------- Interactions ---------- */
 .card-hover {
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .card-hover:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-pop);
 }
 
@@ -202,41 +177,19 @@ body {
   box-shadow: var(--ring-glow);
 }
 
-/* ---------- Animations ---------- */
+/* ---------- Animations (used sparingly) ---------- */
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-@keyframes floaty {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
-@keyframes pulseSoft {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
 .anim-fade-up {
-  animation: fadeUp 0.35s ease both;
-}
-.anim-float {
-  animation: floaty 4s ease-in-out infinite;
-}
-.anim-pulse-soft {
-  animation: pulseSoft 2s ease-in-out infinite;
+  animation: fadeUp 0.25s ease both;
 }
 
 /* Smooth theme transition */
@@ -247,7 +200,7 @@ body,
   transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Nicer scrollbars for chat/feeds */
+/* Slim scrollbars for chat/feeds */
 .scroll-slim::-webkit-scrollbar {
   width: 8px;
   height: 8px;

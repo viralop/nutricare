@@ -27,16 +27,13 @@ export function Card({
 export function SectionTitle({ children, action }: { children: React.ReactNode; action?: React.ReactNode }) {
   return (
     <div className="mb-3 flex items-center justify-between gap-2">
-      <h2 className="font-display flex items-center gap-2.5 text-lg font-extrabold">
-        <span className="h-5 w-1.5 rounded-full gradient-gold" aria-hidden />
-        {children}
-      </h2>
+      <h2 className="text-base font-extrabold tracking-tight">{children}</h2>
       {action}
     </div>
   );
 }
 
-/** Decorative page header: petrol gradient, gold hairline, display serif. */
+/** Typographic page header: icon chip, serif title, hairline. No banner. */
 export function PageHeader({
   title,
   subtitle,
@@ -49,21 +46,17 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <header className="anim-fade-up relative overflow-hidden rounded-2xl gradient-brand border-b-[3px] border-gold-400 p-5 text-white shadow-lg">
-      <div className="pattern-dots absolute inset-0 opacity-50" aria-hidden />
-      <div aria-hidden className="absolute -bottom-10 -end-10 h-36 w-36 rounded-full bg-gold-400/15 blur-2xl" />
-      <div className="relative flex items-center gap-4">
-        {icon && (
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/12 ring-1 ring-gold-300/40 backdrop-blur-sm">
-            {icon}
-          </span>
-        )}
-        <div className="min-w-0 flex-1">
-          <h1 className="font-display truncate text-2xl font-extrabold tracking-tight">{title}</h1>
-          {subtitle && <p className="mt-0.5 text-sm text-white/80">{subtitle}</p>}
-        </div>
-        {action}
+    <header className="anim-fade-up flex items-center gap-3.5 border-b border-[var(--border)] pb-4">
+      {icon && (
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-800 text-white">
+          {icon}
+        </span>
+      )}
+      <div className="min-w-0 flex-1">
+        <h1 className="font-display truncate text-2xl font-extrabold tracking-tight">{title}</h1>
+        {subtitle && <p className="mt-0.5 truncate text-sm text-muted">{subtitle}</p>}
       </div>
+      {action}
     </header>
   );
 }
@@ -84,11 +77,11 @@ export function Button({ variant = 'primary', size = 'md', className, ...rest }:
         size === 'md' && 'px-4 py-2.5',
         size === 'lg' && 'px-6 py-3 text-base',
         variant === 'primary' &&
-          'gradient-brand text-white shadow-md hover:shadow-lg hover:shadow-gold-500/25 hover:brightness-110',
+          'bg-primary-800 text-white shadow-sm hover:bg-primary-700',
         variant === 'secondary' &&
           'bg-primary-50 text-primary-900 ring-1 ring-primary-200 hover:bg-primary-100 dark:bg-primary-900/25 dark:text-primary-200 dark:ring-primary-800',
         variant === 'ghost' && 'surface-2 text-[var(--text)] ring-1 ring-[var(--border)] hover:brightness-95 dark:hover:brightness-110',
-        variant === 'danger' && 'bg-gradient-to-br from-red-600 to-red-500 text-white shadow-md hover:brightness-110',
+        variant === 'danger' && 'bg-red-600 text-white shadow-sm hover:bg-red-500',
         className,
       )}
       {...rest}
@@ -223,21 +216,18 @@ export function VerdictBadge({ verdict, large = false }: { verdict: Verdict; lar
   );
 }
 
-/** Big gradient hero banner for the analyzer verdict. */
+/** Verdict banner: functional color block with icon — no decoration. */
 export function VerdictBanner({ verdict, label }: { verdict: Verdict; label: string }) {
   const t = useTranslations('verdicts');
   const s = VERDICT_STYLE[verdict];
   return (
-    <div className={clsx('relative overflow-hidden rounded-2xl p-5 shadow-md', s.cls)}>
-      <div className="pattern-dots absolute inset-0 opacity-40" aria-hidden />
-      <div className="relative flex items-center gap-4">
-        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/40 dark:bg-black/20">
-          {s.icon}
-        </span>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-wide opacity-80">{label}</p>
-          <p className="text-xl font-extrabold">{t(verdict)}</p>
-        </div>
+    <div className={clsx('flex items-center gap-4 rounded-xl p-4', s.cls)}>
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-white/50 dark:bg-black/20">
+        {s.icon}
+      </span>
+      <div>
+        <p className="text-[11px] font-bold uppercase tracking-wide opacity-70">{label}</p>
+        <p className="text-lg font-extrabold">{t(verdict)}</p>
       </div>
     </div>
   );
@@ -311,11 +301,11 @@ export function ProgressBar({
   const pct = target > 0 ? Math.min(100, Math.round((value / target) * 100)) : 0;
   const over = target > 0 && value / target > danger / 100;
   const tones = {
-    brand: 'from-primary-600 to-primary-400',
-    teal: 'from-teal-600 to-mint-300',
-    rose: 'from-rose-500 to-pink-400',
-    amber: 'from-amber-500 to-yellow-400',
-    violet: 'from-violet-500 to-fuchsia-400',
+    brand: 'bg-primary-700',
+    teal: 'bg-teal-600',
+    rose: 'bg-rose-500',
+    amber: 'bg-amber-500',
+    violet: 'bg-violet-500',
   } as const;
   return (
     <div>
@@ -326,17 +316,14 @@ export function ProgressBar({
         </span>
       </div>
       <div
-        className="h-3 w-full overflow-hidden rounded-full surface-2 ring-1 ring-inset ring-[var(--border)]"
+        className="h-2 w-full overflow-hidden rounded-full surface-2 ring-1 ring-inset ring-[var(--border)]"
         role="progressbar"
         aria-valuenow={Math.round(value)}
         aria-valuemax={Math.round(target)}
         aria-label={label}
       >
         <div
-          className={clsx(
-            'h-full rounded-full bg-gradient-to-r transition-all duration-500',
-            over ? 'from-red-500 to-rose-400' : tones[tone],
-          )}
+          className={clsx('h-full rounded-full transition-all duration-500', over ? 'bg-red-500' : tones[tone])}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -358,9 +345,9 @@ export function ProgressRing({
   return (
     <div className="flex flex-col items-center gap-1.5">
       <div
-        className="relative grid h-28 w-28 place-items-center rounded-full shadow-inner"
+        className="relative grid h-28 w-28 place-items-center rounded-full"
         style={{
-          background: `conic-gradient(#c98f2e 0deg, #0e5045 ${clamped * 3.6}deg, var(--surface-2) ${clamped * 3.6}deg)`,
+          background: `conic-gradient(var(--color-gold-500) ${clamped * 3.6}deg, var(--surface-2) ${clamped * 3.6}deg)`,
         }}
         role="progressbar"
         aria-valuenow={Math.round(clamped)}
@@ -368,10 +355,10 @@ export function ProgressRing({
         aria-label={label}
       >
         <div
-          className="grid h-[88px] w-[88px] place-items-center rounded-full shadow"
-          style={{ background: 'var(--surface)' }}
+          className="grid h-[88px] w-[88px] place-items-center rounded-full ring-4"
+          style={{ background: 'var(--surface)', ['--tw-ring-color' as string]: 'var(--bg)' }}
         >
-          <span className="font-display bg-gradient-to-br from-primary-800 to-gold-500 bg-clip-text text-xl font-extrabold tabular-nums text-transparent">
+          <span className="font-display text-xl font-extrabold tabular-nums text-primary-800 dark:text-primary-300">
             {Math.round(clamped)}%
           </span>
         </div>
@@ -382,7 +369,7 @@ export function ProgressRing({
   );
 }
 
-/** Compact gradient stat tile with icon — dashboard/admin grids. */
+/** Compact stat tile: label, serif value, tinted icon chip. */
 export function StatTile({
   label,
   value,
@@ -395,24 +382,23 @@ export function StatTile({
   tone?: 'brand' | 'gold' | 'teal' | 'amber' | 'rose' | 'violet' | 'sky';
 }) {
   const tones = {
-    brand: 'from-primary-800 to-teal-500',
-    gold: 'from-gold-400 to-gold-600',
-    teal: 'from-teal-600 to-primary-400',
-    amber: 'from-amber-500 to-yellow-400',
-    rose: 'from-rose-500 to-pink-400',
-    violet: 'from-violet-500 to-fuchsia-400',
-    sky: 'from-sky-500 to-cyan-400',
+    brand: 'bg-primary-50 text-primary-700 dark:bg-primary-500/15 dark:text-primary-300',
+    gold: 'bg-gold-100 text-gold-700 dark:bg-gold-500/15 dark:text-gold-300',
+    teal: 'bg-teal-500/10 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300',
+    amber: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
+    rose: 'bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300',
+    violet: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300',
+    sky: 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300',
   } as const;
   return (
-    <div className="surface-2 relative overflow-hidden rounded-2xl p-4 ring-1 ring-[var(--border)]">
-      <div className={clsx('absolute -top-8 -end-8 h-20 w-20 rounded-full bg-gradient-to-br opacity-15 blur-xl', tones[tone])} aria-hidden />
-      <div className="relative flex items-start justify-between gap-2">
+    <div className="surface-2 rounded-xl p-4 ring-1 ring-[var(--border)]">
+      <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-xs font-semibold text-muted">{label}</p>
           <p className="font-display mt-0.5 truncate text-2xl font-extrabold tabular-nums">{value}</p>
         </div>
         {icon && (
-          <span className={clsx('grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md', tones[tone])}>
+          <span className={clsx('grid h-9 w-9 shrink-0 place-items-center rounded-lg', tones[tone])}>
             {icon}
           </span>
         )}
@@ -425,7 +411,7 @@ export function StatTile({
 export function EmptyState({ emoji, text }: { emoji: string; text: string }) {
   return (
     <div className="flex flex-col items-center gap-2 py-8 text-center">
-      <span className="anim-float text-4xl" aria-hidden>
+      <span className="text-3xl opacity-70" aria-hidden>
         {emoji}
       </span>
       <p className="max-w-xs text-sm text-muted">{text}</p>

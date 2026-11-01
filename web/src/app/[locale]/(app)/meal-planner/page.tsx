@@ -92,11 +92,10 @@ export default function MealPlannerPage() {
         icon={<CalendarDays className="h-6 w-6" aria-hidden />}
         action={
           <Button
-            variant="ghost"
+            variant="secondary"
             size="sm"
             onClick={regenerate}
             disabled={busy}
-            className="!bg-white/15 !text-white ring-0 hover:!bg-white/25"
           >
             <RefreshCcw className={clsx('h-4 w-4', busy && 'animate-spin')} aria-hidden />
             {t('regenerate')}

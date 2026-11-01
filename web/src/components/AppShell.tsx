@@ -62,7 +62,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <span className="anim-float grid h-16 w-16 place-items-center rounded-3xl gradient-gold text-primary-950 shadow-lg">
+          <span className="grid h-16 w-16 place-items-center rounded-2xl bg-gold-400 text-primary-950">
             <Leaf className="h-8 w-8" aria-hidden />
           </span>
           <span className="text-sm font-semibold text-muted">{tc('loading')}</span>
@@ -79,7 +79,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <nav className="rail-petrol flex h-full flex-col gap-1 overflow-y-auto p-4 scroll-slim" aria-label={tApp('name')}>
       {/* Brand */}
       <Link href="/" className="group mb-5 flex items-center gap-3 rounded-2xl p-2">
-        <span className="grid h-11 w-11 place-items-center rounded-2xl gradient-gold text-primary-950 shadow-lg ring-1 ring-gold-300/50 transition-transform group-hover:scale-105">
+        <span className="grid h-11 w-11 place-items-center rounded-xl bg-gold-400 text-primary-950">
           <Leaf className="h-6 w-6" aria-hidden />
         </span>
         <span className="min-w-0">
@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             className={clsx(
               'relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all',
               active
-                ? 'gradient-gold text-primary-950 shadow-md'
+                ? 'bg-gold-400 text-primary-950'
                 : 'text-white/80 hover:bg-white/10 hover:text-white hover:ps-4',
             )}
             aria-current={active ? 'page' : undefined}
@@ -142,20 +142,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen">
-      {/* Decorative ambient blobs */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-32 end-0 h-96 w-96 rounded-full bg-teal-400/10 blur-3xl dark:bg-teal-500/5" />
-        <div className="absolute bottom-0 -start-32 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl dark:bg-primary-500/5" />
-      </div>
-
-      {/* Desktop sidebar — petrol rail */}
-      <aside className="fixed inset-y-0 start-0 z-30 hidden w-64 shadow-lg lg:block">
+      {/* Desktop sidebar — petrol rail (midnight navy in dark mode) */}
+      <aside className="rail-petrol fixed inset-y-0 start-0 z-30 hidden w-64 border-e border-black/20 lg:block">
         {sidebar}
       </aside>
 
       {/* Main column */}
       <div className="lg:ms-64">
-        <header className="surface-flat sticky top-0 z-20 flex items-center justify-between gap-3 border-x-0 border-t-0 px-4 py-3 backdrop-blur">
+        <header className="surface-flat sticky top-0 z-20 flex items-center justify-between gap-3 border-x-0 border-t-0 px-4 py-3">
           <div className="flex min-w-0 items-center gap-3 lg:hidden">
             <Avatar name={user.name} />
             <div className="min-w-0">
@@ -198,7 +192,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <span
                 className={clsx(
                   'grid h-9 w-9 place-items-center rounded-xl transition-all',
-                  active ? 'gradient-gold text-primary-950 shadow-md scale-110' : '',
+                  active ? 'bg-gold-400 text-primary-950 scale-110' : '',
                 )}
               >
                 <Icon className="h-5 w-5" aria-hidden />
@@ -218,7 +212,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <span
             className={clsx(
               'grid h-9 w-9 place-items-center rounded-xl transition-all',
-              isActive('/profile') && 'gradient-gold text-primary-950 shadow-md scale-110',
+              isActive('/profile') && 'bg-gold-400 text-primary-950 scale-110',
             )}
           >
             <HeartPulse className="h-5 w-5" aria-hidden />
