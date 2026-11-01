@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
 import {
   Search, ArrowRightLeft, BadgeCheck, TriangleAlert, CircleAlert,
-  Plus, Check, Camera, ScanSearch,
+  Plus, Check, ScanSearch,
 } from 'lucide-react';
 import {
   Button, Card, Chip, ErrorBlock, FoodImage, LoadingBlock, PageHeader, SectionTitle, Select,
@@ -90,7 +90,8 @@ export default function AnalyzerPage() {
         locale,
       });
       setAnalysis(res);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // The analysis card sits below the results grid — bring it into view.
+      setTimeout(() => document.getElementById('analysis-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     } finally {
       setAnalyzing(false);
     }
@@ -167,9 +168,44 @@ export default function AnalyzerPage() {
         </form>
       </Card>
 
+      {/* Search results — directly under the search bar */}
+      {results !== null && results.length > 0 && (
+        <div>
+          <SectionTitle>
+            {results.length} {tc('results')}
+          </SectionTitle>
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {results.map((food) => (
+              <li key={food.slug}>
+                <button
+                  type="button"
+                  onClick={() => analyze(food.slug)}
+                  className="surface card-hover group h-full w-full rounded-2xl p-4 text-start"
+                >
+                  <FoodImage
+                    food={food}
+                    className="mb-2 h-28 w-full transition-transform group-hover:scale-[1.02]"
+                    emojiClass="text-4xl"
+                  />
+                  <span className="block font-bold leading-snug">{food.name}</span>
+                  <span className="mt-1 block text-xs text-muted tabular-nums">
+                    {fmt(food.per_serving.energy_kcal)} {tu('kcal')} · {fmt(food.per_serving.sugar_g)} {tu('g')} {tn('sugar_g')}
+                  </span>
+                  {food.source.is_estimated && (
+                    <span className="mt-2 inline-block rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-extrabold text-amber-700 ring-1 ring-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:ring-amber-800" title={t('estimatedNote')}>
+                      ≈ est.
+                    </span>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Analysis result */}
       {(analysis || analyzing) && (
-        <Card className="anim-fade-up">
+        <Card className="anim-fade-up" id="analysis-result">
           {analyzing || !analysis ? (
             <LoadingBlock />
           ) : (
@@ -484,50 +520,6 @@ export default function AnalyzerPage() {
           </div>
         )}
       </Card>
-
-      {/* Photo analysis — deferred with the AI provider */}
-      <Card className="opacity-80">
-        <p className="flex items-center gap-2 font-bold">
-          <Camera className="h-5 w-5" aria-hidden />
-          {t('imageTab')}
-        </p>
-        <p className="mt-1 text-sm text-muted">{t('imageComingSoon')}</p>
-      </Card>
-
-      {/* Results list */}
-      {results !== null && results.length > 0 && (
-        <div>
-          <SectionTitle>
-            {results.length} {tc('results')}
-          </SectionTitle>
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {results.map((food) => (
-              <li key={food.slug}>
-                <button
-                  type="button"
-                  onClick={() => analyze(food.slug)}
-                  className="surface card-hover group h-full w-full rounded-2xl p-4 text-start"
-                >
-                  <FoodImage
-                    food={food}
-                    className="mb-2 h-28 w-full transition-transform group-hover:scale-[1.02]"
-                    emojiClass="text-4xl"
-                  />
-                  <span className="block font-bold leading-snug">{food.name}</span>
-                  <span className="mt-1 block text-xs text-muted tabular-nums">
-                    {fmt(food.per_serving.energy_kcal)} {tu('kcal')} · {fmt(food.per_serving.sugar_g)} {tu('g')} {tn('sugar_g')}
-                  </span>
-                  {food.source.is_estimated && (
-                    <span className="mt-2 inline-block rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-extrabold text-amber-700 ring-1 ring-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:ring-amber-800" title={t('estimatedNote')}>
-                      ≈ est.
-                    </span>
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }
