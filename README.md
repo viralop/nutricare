@@ -60,6 +60,44 @@ cd C:\ai\app\api
 ..\tools\php.bat vendor\bin\phpunit  (or: ..\tools\php.bat artisan test)
 ```
 
+## Deploying to a Linux VPS
+
+Tested layout: Ubuntu 22.04+/Debian 12, PHP 8.3+, Composer, Node.js 20+, PostgreSQL (or keep SQLite for small demos).
+
+### 1. Clone & API
+
+```bash
+sudo apt install php8.3-cli php8.3-fpm php8.3-{curl,fileinfo,intl,mbstring,openssl,pdo_sqlite,sqlite3,zip,pdo-pgsql} composer nginx
+git clone https://github.com/<you>/nutricare.git && cd nutricare/api
+composer install --no-dev --optimize-autoloader
+cp .env.example .env && php artisan key:generate
+# production DB — create a db/user, then set in .env:
+#   DB_CONNECTION=pgsql  DB_HOST=127.0.0.1  DB_DATABASE=nutricare  DB_USERNAME=...  DB_PASSWORD=...
+php artisan migrate --seed
+php artisan config:cache && php artisan route:cache
+```
+
+Serve `api/public` through nginx + php-fpm (server block `root .../api/public;`
+with `try_files $uri /index.php?$query_string;` and `location ~ \.php$ { fastcgi_pass unix:/run/php/php8.3-fpm.sock; ... }`),
+e.g. at `https://api.yourdomain.tld`. For a quick test, `php artisan serve --host=0.0.0.0 --port=8000` also works.
+
+### 2. Web
+
+`NEXT_PUBLIC_API_URL` is baked in at build time — set it to the API's public URL before building:
+
+```bash
+cd ../web
+npm ci
+NEXT_PUBLIC_API_URL="https://api.yourdomain.tld/api/v1" npm run build
+npm start          # port 3000; run under systemd/pm2 for reliability
+```
+
+Point nginx (reverse proxy `proxy_pass http://127.0.0.1:3000;`) at a domain, e.g. `https://nutricare.yourdomain.tld`.
+
+### 3. Let the API accept the web origin
+
+Add the web domain to `api/config/cors.php` (`allowed_origins`), then `php artisan config:cache` again.
+
 ## Feature map (current phase)
 
 - ✅ Auth (register/login/profile) with health profile & multi-condition selection

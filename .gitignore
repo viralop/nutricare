@@ -28,3 +28,4 @@ web/*.tsbuildinfo
 .idea/
 .vscode/
 web/.open-next/
+web/.wrangler/
