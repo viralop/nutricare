@@ -175,7 +175,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-6 lg:pb-12">{children}</main>
       </div>
 
-      {/* Mobile floating bottom navigation */}
+      {/* Mobile floating bottom navigation — icons only (labels via aria-label/title) */}
       <nav
         className="fixed inset-x-3 bottom-3 z-30 flex justify-around rounded-2xl shadow-xl ring-1 ring-[var(--border)] lg:hidden"
         style={{ background: 'color-mix(in srgb, var(--surface) 88%, transparent)', backdropFilter: 'blur(12px)' }}
@@ -188,39 +188,41 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               key={key}
               href={href === '' ? '/' : href}
               className={clsx(
-                'flex min-w-14 flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-[11px] font-bold transition-all',
+                'grid min-w-12 place-items-center rounded-xl p-2.5 transition-all',
                 active ? 'text-primary-900 dark:text-primary-200' : 'text-muted',
               )}
+              aria-label={t(key)}
               aria-current={active ? 'page' : undefined}
+              title={t(key)}
             >
               <span
                 className={clsx(
-                  'grid h-8 w-8 place-items-center rounded-xl transition-all',
-                  active && 'gradient-gold text-primary-950 shadow-md',
+                  'grid h-9 w-9 place-items-center rounded-xl transition-all',
+                  active ? 'gradient-gold text-primary-950 shadow-md scale-110' : '',
                 )}
               >
-                <Icon className="h-[18px] w-[18px]" aria-hidden />
+                <Icon className="h-5 w-5" aria-hidden />
               </span>
-              {t(key)}
             </Link>
           );
         })}
         <Link
           href="/profile"
           className={clsx(
-            'flex min-w-14 flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-[11px] font-bold transition-all',
+            'grid min-w-12 place-items-center rounded-xl p-2.5 transition-all',
             isActive('/profile') ? 'text-primary-900 dark:text-primary-200' : 'text-muted',
           )}
+          aria-label={t('profile')}
+          title={t('profile')}
         >
           <span
             className={clsx(
-              'grid h-8 w-8 place-items-center rounded-xl transition-all',
-              isActive('/profile') && 'gradient-gold text-primary-950 shadow-md',
+              'grid h-9 w-9 place-items-center rounded-xl transition-all',
+              isActive('/profile') && 'gradient-gold text-primary-950 shadow-md scale-110',
             )}
           >
-            <HeartPulse className="h-[18px] w-[18px]" aria-hidden />
+            <HeartPulse className="h-5 w-5" aria-hidden />
           </span>
-          {t('profile')}
         </Link>
       </nav>
     </div>
