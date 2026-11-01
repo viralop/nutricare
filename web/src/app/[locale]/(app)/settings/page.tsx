@@ -3,9 +3,12 @@
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { Check, Languages, LoaderCircle, Monitor, Moon, Sun, Settings as SettingsIcon } from 'lucide-react';
+import {
+  Check, Languages, LoaderCircle, LogOut, Monitor, Moon, Sun,
+  Settings as SettingsIcon, UserRound,
+} from 'lucide-react';
 import clsx from 'clsx';
-import { Button, Card, Input, PageHeader, SectionTitle } from '@/components/ui';
+import { Button, Card, Chip, Input, PageHeader, SectionTitle } from '@/components/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from '@/i18n/navigation';
@@ -13,7 +16,8 @@ import { useRouter } from '@/i18n/navigation';
 export default function SettingsPage() {
   const t = useTranslations('settings');
   const tc = useTranslations('common');
-  const { user } = useAuth();
+  const tn = useTranslations('nav');
+  const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const locale = useLocale();
   const router = useRouter();
@@ -21,6 +25,7 @@ export default function SettingsPage() {
   const [feedback, setFeedback] = useState('');
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   async function sendFeedback(e: React.FormEvent) {
     e.preventDefault();
@@ -35,6 +40,12 @@ export default function SettingsPage() {
     }
   }
 
+  async function handleLogout() {
+    setLoggingOut(true);
+    await logout();
+    router.replace('/login');
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -43,6 +54,79 @@ export default function SettingsPage() {
         icon={<SettingsIcon className="h-6 w-6" aria-hidden />}
       />
 
+      {/* Account */}
+      <Card>
+        <SectionTitle>{t('account')}</SectionTitle>
+        <div className="flex items-center gap-3">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary-800 text-sm font-extrabold text-white">
+            {user?.name
+              ?.split(' ')
+              .map((p) => p[0])
+              .slice(0, 2)
+              .join('')
+              .toUpperCase() ?? <UserRound className="h-6 w-6" aria-hidden />}
+          </span>
+          <div className="min-w-0">
+            <p className="truncate font-extrabold">{user?.name}</p>
+            <p className="truncate text-sm text-muted" dir="ltr">
+              {user?.email}
+            </p>
+          </div>
+        </div>
+        {user?.conditions && user.conditions.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {user.conditions.map((c) => (
+              <Chip key={c.slug} tone="brand">
+                {c.name}
+              </Chip>
+            ))}
+          </div>
+        )}
+        <div className="mt-4 flex items-center justify-between gap-3 border-t pt-4" style={{ borderColor: 'var(--border)' }}>
+          <p className="text-xs text-muted">{t('logoutHint')}</p>
+          <Button variant="danger" onClick={handleLogout} disabled={loggingOut}>
+            {loggingOut ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <LogOut className="h-4 w-4" aria-hidden />}
+            {tn('logout')}
+          </Button>
+        </div>
+      </Card>
+
+      {/* Appearance */}
+      <Card>
+        <SectionTitle>{t('appearance')}</SectionTitle>
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label={t('appearance')}>
+          {(
+            [
+              { value: 'light', label: tc('light'), Icon: Sun },
+              { value: 'dark', label: tc('dark'), Icon: Moon },
+              { value: 'system', label: tc('system'), Icon: Monitor },
+            ] as const
+          ).map(({ value, label, Icon }) => {
+            const active = (theme ?? 'system') === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => setTheme(value)}
+                className={clsx(
+                  'card-hover rounded-xl p-4 text-center ring-1',
+                  active
+                    ? 'bg-primary-800 text-white ring-transparent'
+                    : 'surface-2 ring-[var(--border)]',
+                )}
+              >
+                <Icon className={clsx('mx-auto mb-1.5 h-6 w-6', active ? 'text-white' : 'text-teal-600')} aria-hidden />
+                <span className="block text-sm font-extrabold">{label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-3 text-xs text-muted">{t('systemHint')}</p>
+      </Card>
+
+      {/* Language */}
       <Card>
         <SectionTitle>{t('languageRegion')}</SectionTitle>
         <div className="flex flex-wrap gap-2">
@@ -59,39 +143,7 @@ export default function SettingsPage() {
         </div>
       </Card>
 
-      <Card>
-        <SectionTitle>{t('appearance')}</SectionTitle>
-        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label={t('appearance')}>
-          {(
-            [
-              { value: 'light', label: tc('light'), Icon: Sun, hint: '☀️' },
-              { value: 'dark', label: tc('dark'), Icon: Moon, hint: '🌙' },
-              { value: 'system', label: tc('system'), Icon: Monitor, hint: '💻' },
-            ] as const
-          ).map(({ value, label, Icon }) => {
-            const active = (theme ?? 'system') === value;
-            return (
-              <button
-                key={value}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => setTheme(value)}
-                className={
-                  active
-                    ? 'gradient-brand card-hover rounded-2xl p-4 text-center text-white shadow-md'
-                    : 'surface-2 card-hover rounded-2xl p-4 text-center ring-1 ring-[var(--border)]'
-                }
-              >
-                <Icon className={clsx('mx-auto mb-1.5 h-6 w-6', active ? 'text-white' : 'text-teal-600')} aria-hidden />
-                <span className="block text-sm font-extrabold">{label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="mt-3 text-xs text-muted">{tc('system')} → {tc('theme')}</p>
-      </Card>
-
+      {/* Feedback */}
       <Card>
         <SectionTitle>{t('feedback')}</SectionTitle>
         <form onSubmit={sendFeedback} className="flex flex-col gap-3 sm:flex-row sm:items-end">
@@ -110,13 +162,9 @@ export default function SettingsPage() {
         </form>
       </Card>
 
-      <Card>
-        <SectionTitle>{t('account')}</SectionTitle>
-        <p className="text-sm text-muted">{user?.email}</p>
-        <p className="mt-4 text-xs text-muted">
-          <strong>{t('dangerZone')}:</strong> {t('dangerNote')}
-        </p>
-      </Card>
+      <p className="text-xs text-muted">
+        <strong>{t('dangerZone')}:</strong> {t('dangerNote')}
+      </p>
     </div>
   );
 }

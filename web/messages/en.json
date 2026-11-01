@@ -254,6 +254,8 @@
     "appearance": "Appearance",
     "languageRegion": "Language",
     "account": "Account",
+    "logoutHint": "End your session on this device.",
+    "systemHint": "System follows your device's light/dark setting.",
     "feedback": "Send feedback",
     "feedbackPlaceholder": "Tell us what's working or what's missing…",
     "feedbackSent": "Thank you — feedback received!",

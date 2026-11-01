@@ -254,6 +254,8 @@
     "appearance": "المظهر",
     "languageRegion": "اللغة",
     "account": "الحساب",
+    "logoutHint": "إنهاء جلستك على هذا الجهاز.",
+    "systemHint": "خيار «النظام» يتبع إعداد الوضع الفاتح/الداكن في جهازك.",
     "feedback": "أرسل ملاحظاتك",
     "feedbackPlaceholder": "أخبرنا بما يفيد وما ينقص…",
     "feedbackSent": "شكرًا لك — وصلت ملاحظتك!",
