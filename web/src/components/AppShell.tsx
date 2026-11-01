@@ -146,29 +146,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {sidebar}
       </aside>
 
+      {/* Floating quick actions: notifications + settings (replaces the top bar) */}
+      <div className="fixed top-3 z-40 flex items-center gap-2 ltr:right-3 rtl:left-3 lg:top-4 lg:right-4 lg:left-auto">
+        <Link
+          href="/notifications"
+          aria-label={t('notifications')}
+          title={t('notifications')}
+          className="surface grid h-9 w-9 place-items-center rounded-full transition-transform hover:scale-105"
+        >
+          <Bell className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
+        </Link>
+        <Link
+          href="/settings"
+          aria-label={t('settings')}
+          title={t('settings')}
+          className="surface grid h-9 w-9 place-items-center rounded-full transition-transform hover:scale-105"
+        >
+          <Settings className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
+        </Link>
+      </div>
+
       {/* Main column */}
       <div className="lg:ms-64">
-        <header className="surface-flat sticky top-0 z-20 flex items-center justify-between gap-3 border-x-0 border-t-0 px-4 py-3">
-          <div className="flex min-w-0 items-center gap-3 lg:hidden">
-            <Avatar name={user.name} />
-            <div className="min-w-0">
-              <p className="truncate text-sm font-extrabold">{user.name}</p>
-              <p className="truncate text-[11px] text-muted">
-                {user.conditions.map((c) => c.name).join(' · ')}
-              </p>
-            </div>
-          </div>
-          <div className="hidden min-w-0 lg:block" />
-          {/* Language & theme live in Settings now; gear stays for quick access */}
-          <Link
-            href="/settings"
-            aria-label={t('settings')}
-            title={t('settings')}
-            className="surface-2 grid h-9 w-9 place-items-center rounded-full ring-1 ring-[var(--border)] transition-transform hover:scale-105"
-          >
-            <Settings className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
-          </Link>
-        </header>
         <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-6 lg:pb-12">{children}</main>
       </div>
 
