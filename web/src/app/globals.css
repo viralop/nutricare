@@ -65,13 +65,13 @@
 }
 
 .dark {
-  /* midnight blue night */
-  --bg: #070b15;
-  --surface: #0d1526;
-  --surface-2: #151f38;
-  --border: #233055;
-  --text: #e7edf8;
-  --text-muted: #8ea0c2;
+  /* dark olive night */
+  --bg: #0c0f07;
+  --surface: #12160b;
+  --surface-2: #1a2011;
+  --border: #2d3521;
+  --text: #edf0df;
+  --text-muted: #a3ae8c;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.45);
   --shadow-pop: 0 8px 24px -10px rgb(0 0 0 / 0.6);
   --ring-glow: 0 0 0 4px rgb(212 162 78 / 0.14);
@@ -143,7 +143,7 @@ body {
   background-color: rgb(14 80 69 / 0.06);
 }
 .dark .gradient-brand-soft {
-  background-color: rgb(42 157 143 / 0.08);
+  background-color: rgb(169 179 124 / 0.08);
 }
 .gradient-text {
   color: #0e5045;
@@ -152,13 +152,13 @@ body {
   color: #7fcfb6;
 }
 
-/* Sidebar rail: petrol in light mode, midnight navy in dark */
+/* Sidebar rail: petrol in light mode, deep olive in dark */
 .rail-petrol {
   background-color: #0b2f2a;
   color: #e9f0e9;
 }
 .dark .rail-petrol {
-  background-color: #0a1122;
+  background-color: #10150a;
 }
 
 /* ---------- Interactions ---------- */
