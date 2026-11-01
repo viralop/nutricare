@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/lib/auth';
-import { LangToggle, ThemeSwitcher } from '@/components/ThemeControls';
 
 const NAV = [
   { href: '', key: 'dashboard', Icon: LayoutDashboard },
@@ -159,21 +158,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </p>
             </div>
           </div>
-          {/* Desktop spacer keeps toggles at the end */}
           <div className="hidden min-w-0 lg:block" />
-          <div className="flex items-center gap-2">
-            <LangToggle />
-            <ThemeSwitcher />
-            {/* Settings gear — the phone layout has no sidebar entry for it */}
-            <Link
-              href="/settings"
-              aria-label={t('settings')}
-              title={t('settings')}
-              className="surface-2 grid h-9 w-9 place-items-center rounded-full ring-1 ring-[var(--border)] transition-transform hover:scale-105 lg:hidden"
-            >
-              <Settings className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
-            </Link>
-          </div>
+          {/* Language & theme live in Settings now; gear stays for quick access */}
+          <Link
+            href="/settings"
+            aria-label={t('settings')}
+            title={t('settings')}
+            className="surface-2 grid h-9 w-9 place-items-center rounded-full ring-1 ring-[var(--border)] transition-transform hover:scale-105"
+          >
+            <Settings className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
+          </Link>
         </header>
         <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-6 lg:pb-12">{children}</main>
       </div>
