@@ -77,9 +77,9 @@ export function Button({ variant = 'primary', size = 'md', className, ...rest }:
         size === 'md' && 'px-4 py-2.5',
         size === 'lg' && 'px-6 py-3 text-base',
         variant === 'primary' &&
-          'bg-primary-800 text-white shadow-sm hover:bg-primary-700',
+          'bg-primary-500 text-white shadow-sm hover:bg-primary-700 hover:scale-[1.02]',
         variant === 'secondary' &&
-          'bg-primary-50 text-primary-900 ring-1 ring-primary-200 hover:bg-primary-100 dark:bg-primary-900/25 dark:text-primary-200 dark:ring-primary-800',
+          'bg-transparent text-primary-700 ring-1.5 ring-primary-500 hover:bg-primary-50 dark:text-primary-300 dark:ring-primary-500/60 dark:hover:bg-primary-500/10',
         variant === 'ghost' && 'surface-2 text-[var(--text)] ring-1 ring-[var(--border)] hover:brightness-95 dark:hover:brightness-110',
         variant === 'danger' && 'bg-red-600 text-white shadow-sm hover:bg-red-500',
         className,
@@ -95,7 +95,7 @@ export function Input({ label, error, hint, className, ...rest }: React.InputHTM
       {label && <span className="mb-1 block text-sm font-semibold">{label}</span>}
       <input
         className={clsx(
-          'surface-2 w-full rounded-xl border px-3 py-2.5 text-[var(--text)] placeholder:text-[var(--text-muted)] transition-shadow focus-visible:outline-none',
+          'surface-2 w-full rounded-xl border px-3.5 py-3.5 text-[var(--text)] placeholder:text-[var(--text-muted)] transition-shadow focus-visible:border-primary-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-500/20',
           error ? 'border-red-400' : 'border-[var(--border)]',
           className,
         )}
@@ -115,7 +115,7 @@ export function Select({ label, className, children, ...rest }: React.SelectHTML
     <label className="block">
       {label && <span className="mb-1 block text-sm font-semibold">{label}</span>}
       <select
-        className={clsx('surface-2 w-full rounded-xl border border-[var(--border)] px-3 py-2.5 text-[var(--text)]', className)}
+        className={clsx('surface-2 w-full rounded-xl border border-[var(--border)] px-3.5 py-3.5 text-[var(--text)] focus-visible:border-primary-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-500/20', className)}
         {...rest}
       >
         {children}
@@ -193,10 +193,10 @@ export function Chip({
 // ---------- Verdict badge: icon + label + color, never color alone ----------
 
 const VERDICT_STYLE: Record<Verdict, { cls: string; icon: React.ReactNode }> = {
-  good: { cls: 'bg-gradient-to-br from-green-100 to-emerald-50 text-green-800 ring-1 ring-green-300 dark:from-green-900/50 dark:to-emerald-900/30 dark:text-green-300 dark:ring-green-700', icon: <CheckCircle2 className="h-5 w-5" aria-hidden /> },
-  acceptable: { cls: 'bg-gradient-to-br from-yellow-100 to-amber-50 text-yellow-800 ring-1 ring-yellow-300 dark:from-yellow-900/40 dark:to-amber-900/20 dark:text-yellow-200 dark:ring-yellow-700', icon: <Info className="h-5 w-5" aria-hidden /> },
-  moderation: { cls: 'bg-gradient-to-br from-orange-100 to-amber-50 text-orange-800 ring-1 ring-orange-300 dark:from-orange-900/50 dark:to-amber-900/25 dark:text-orange-200 dark:ring-orange-700', icon: <AlertTriangle className="h-5 w-5" aria-hidden /> },
-  not_recommended: { cls: 'bg-gradient-to-br from-red-100 to-rose-50 text-red-800 ring-1 ring-red-300 dark:from-red-900/50 dark:to-rose-900/30 dark:text-red-200 dark:ring-red-700', icon: <OctagonX className="h-5 w-5" aria-hidden /> },
+  good: { cls: 'bg-green-100 text-green-700 ring-1 ring-green-300 dark:bg-green-900/40 dark:text-green-300 dark:ring-green-800', icon: <CheckCircle2 className="h-5 w-5" aria-hidden /> },
+  acceptable: { cls: 'bg-sky-100 text-sky-700 ring-1 ring-sky-300 dark:bg-sky-900/40 dark:text-sky-300 dark:ring-sky-800', icon: <Info className="h-5 w-5" aria-hidden /> },
+  moderation: { cls: 'bg-amber-100 text-amber-700 ring-1 ring-amber-300 dark:bg-amber-900/40 dark:text-amber-200 dark:ring-amber-800', icon: <AlertTriangle className="h-5 w-5" aria-hidden /> },
+  not_recommended: { cls: 'bg-red-100 text-red-700 ring-1 ring-red-300 dark:bg-red-900/40 dark:text-red-300 dark:ring-red-800', icon: <OctagonX className="h-5 w-5" aria-hidden /> },
 };
 
 export function VerdictBadge({ verdict, large = false }: { verdict: Verdict; large?: boolean }) {

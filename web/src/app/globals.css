@@ -3,78 +3,77 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  /* NutriCare palette: deep petrol green + warm cream (light), midnight blue
-   * (dark), gold used sparingly as the single accent. */
-  --color-primary-50: #effaf6;
-  --color-primary-100: #d7f2e8;
-  --color-primary-200: #b2e4d3;
-  --color-primary-300: #7fcfb6;
-  --color-primary-400: #4ab294;
-  --color-primary-500: #279a7d;
-  --color-primary-600: #177e68;
-  --color-primary-700: #126455;
-  --color-primary-800: #0e5045;
-  --color-primary-900: #0c423a;
-  --color-primary-950: #052722;
+  /* NutriCare palette: emerald vitality + slate neutrals + sky secondary. */
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
+  --color-primary-950: #022c22;
 
-  /* gold — the single accent, used sparingly */
-  --color-gold-50: #fbf6ea;
-  --color-gold-100: #f5e9c8;
-  --color-gold-200: #ecd48f;
-  --color-gold-300: #e0bb5c;
-  --color-gold-400: #d4a24e;
-  --color-gold-500: #c98f2e;
-  --color-gold-600: #a97521;
-  --color-gold-700: #875a1c;
+  /* secondary accent — sky (trust / medical accuracy) */
+  --color-gold-50: #f0f9ff;
+  --color-gold-100: #e0f2fe;
+  --color-gold-200: #bae6fd;
+  --color-gold-300: #7dd3fc;
+  --color-gold-400: #38bdf8;
+  --color-gold-500: #0ea5e9;
+  --color-gold-600: #0284c7;
+  --color-gold-700: #0369a1;
 
-  /* mint-* repurposed as warm sand tints */
-  --color-mint-50: #faf6ec;
-  --color-mint-100: #f3ead5;
-  --color-mint-200: #e7d8ae;
-  --color-mint-300: #d9c287;
-  --color-mint-400: #cfae6a;
-  --color-teal-500: #2a9d8f;
-  --color-teal-600: #1f7f74;
-  --color-teal-700: #17655d;
+  /* mint/teal — supporting aqua tints */
+  --color-mint-50: #f0fdfa;
+  --color-mint-100: #ccfbf1;
+  --color-mint-200: #99f6e4;
+  --color-mint-300: #5eead4;
+  --color-mint-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
 
   /* Semantic verdict colors (always paired with icons + labels, never color alone) */
-  --color-good: #16a34a;
+  --color-good: #15803d;
   --color-good-soft: #dcfce7;
-  --color-ok: #ca8a04;
-  --color-ok-soft: #fef9c3;
-  --color-moderate: #d97706;
-  --color-moderate-soft: #ffedd5;
-  --color-bad: #dc2626;
+  --color-ok: #0369a1;
+  --color-ok-soft: #e0f2fe;
+  --color-moderate: #b45309;
+  --color-moderate-soft: #fef3c7;
+  --color-bad: #b91c1c;
   --color-bad-soft: #fee2e2;
 
   --radius-card: 0.75rem;
-  --font-sans: "Segoe UI", "Tahoma", var(--font-almarai), system-ui, -apple-system, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Readex Pro", "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
 }
 
 :root {
-  /* warm cream paper */
-  --bg: #faf8f3;
-  --surface: #fffefb;
-  --surface-2: #f3f0e8;
-  --border: #e4dfd2;
-  --text: #1f2522;
-  --text-muted: #6b7370;
-  --shadow-card: 0 1px 2px rgb(31 37 34 / 0.05);
-  --shadow-pop: 0 6px 20px -8px rgb(31 37 34 / 0.18);
-  --ring-glow: 0 0 0 4px rgb(201 143 46 / 0.18);
+  /* clean slate light */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --shadow-card: 0 4px 6px -1px rgb(15 23 42 / 0.05);
+  --shadow-pop: 0 10px 20px -6px rgb(15 23 42 / 0.12);
+  --ring-glow: 0 0 0 4px rgb(16 185 129 / 0.18);
 }
 
 .dark {
-  /* dark olive night */
-  --bg: #0c0f07;
-  --surface: #12160b;
-  --surface-2: #1a2011;
-  --border: #2d3521;
-  --text: #edf0df;
-  --text-muted: #a3ae8c;
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.45);
-  --shadow-pop: 0 8px 24px -10px rgb(0 0 0 / 0.6);
-  --ring-glow: 0 0 0 4px rgb(212 162 78 / 0.14);
+  /* deep slate navy night */
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #283548;
+  --border: #334155;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.35);
+  --shadow-pop: 0 10px 24px -8px rgb(0 0 0 / 0.5);
+  --ring-glow: 0 0 0 4px rgb(16 185 129 / 0.16);
 }
 
 html {
@@ -94,19 +93,22 @@ body {
 
 /* ---------- Typography ---------- */
 .font-display {
-  font-family: var(--font-fraunces), var(--font-almarai), Georgia, serif;
+  font-family: var(--font-jakarta), var(--font-readex), "Segoe UI", system-ui, sans-serif;
   letter-spacing: -0.01em;
 }
 [dir='rtl'] .font-display {
-  font-family: var(--font-almarai), var(--font-fraunces), serif;
+  font-family: var(--font-readex), var(--font-jakarta), system-ui, sans-serif;
   letter-spacing: 0;
 }
 
 /* Font variables are attached here (wrapper div) so <html> className stays
    free for next-themes' light/dark classes. */
 .app-fonts {
-  font-family: "Segoe UI", "Tahoma", var(--font-almarai), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-jakarta), var(--font-readex), "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
   min-height: inherit;
+}
+[dir='rtl'] .app-fonts {
+  font-family: var(--font-readex), var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
 }
 
 /* ---------- Surfaces ---------- */
@@ -132,33 +134,33 @@ body {
   background: var(--bg);
 }
 
-/* ---------- Brand colors (flat, restrained) ---------- */
+/* ---------- Brand colors ---------- */
 .gradient-brand {
-  background-color: #0e5045;
+  background-color: #10b981;
 }
 .gradient-gold {
-  background-color: #d4a24e;
+  background-color: #0ea5e9;
 }
 .gradient-brand-soft {
-  background-color: rgb(14 80 69 / 0.06);
+  background-color: rgb(16 185 129 / 0.08);
 }
 .dark .gradient-brand-soft {
-  background-color: rgb(169 179 124 / 0.08);
+  background-color: rgb(52 211 153 / 0.1);
 }
 .gradient-text {
-  color: #0e5045;
+  color: #047857;
 }
 .dark .gradient-text {
-  color: #7fcfb6;
+  color: #6ee7b7;
 }
 
-/* Sidebar rail: petrol in light mode, deep olive in dark */
+/* Sidebar rail: deep emerald in light mode, darker slate than the page in dark */
 .rail-petrol {
-  background-color: #0b2f2a;
-  color: #e9f0e9;
+  background-color: #064e3b;
+  color: #ecfdf5;
 }
 .dark .rail-petrol {
-  background-color: #10150a;
+  background-color: #0b1220;
 }
 
 /* ---------- Interactions ---------- */
@@ -171,7 +173,7 @@ body {
 }
 
 *:focus-visible {
-  outline: 2px solid var(--color-gold-400);
+  outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
   border-radius: 6px;
   box-shadow: var(--ring-glow);
@@ -190,6 +192,14 @@ body {
 }
 .anim-fade-up {
   animation: fadeUp 0.25s ease both;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.anim-float {
+  animation: float 3.5s ease-in-out infinite;
 }
 
 /* Smooth theme transition */

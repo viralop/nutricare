@@ -152,13 +152,13 @@ export default function AnalyzerPage() {
           }}
         >
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-teal-600 ltr:left-4 rtl:right-4" aria-hidden />
+            <Search className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-primary-600 ltr:left-4 rtl:right-4" aria-hidden />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('searchPlaceholder')}
               aria-label={tc('search')}
-              className="surface-2 w-full rounded-2xl border border-[var(--border)] py-3 text-base font-medium ltr:pl-12 rtl:pr-12 focus-visible:outline-none"
+              className="surface-2 h-[52px] w-full rounded-full border border-[var(--border)] text-base font-medium transition-shadow ltr:pl-12 rtl:pr-12 focus-visible:border-primary-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-500/20"
             />
           </div>
           <Button type="submit" size="lg" disabled={searching}>
