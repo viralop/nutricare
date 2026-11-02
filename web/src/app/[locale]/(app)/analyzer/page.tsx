@@ -184,7 +184,7 @@ export default function AnalyzerPage() {
                 >
                   <FoodImage
                     food={food}
-                    className="mb-2 h-28 w-full transition-transform group-hover:scale-[1.02]"
+                    className="mx-auto mb-2 h-28 w-28 transition-transform group-hover:scale-[1.02]"
                     emojiClass="text-4xl"
                   />
                   <span className="block font-bold leading-snug">{food.name}</span>

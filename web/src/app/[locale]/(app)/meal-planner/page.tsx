@@ -90,17 +90,6 @@ export default function MealPlannerPage() {
         title={t('title')}
         subtitle={t('subtitle')}
         icon={<CalendarDays className="h-6 w-6" aria-hidden />}
-        action={
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={regenerate}
-            disabled={busy}
-          >
-            <RefreshCcw className={clsx('h-4 w-4', busy && 'animate-spin')} aria-hidden />
-            {t('regenerate')}
-          </Button>
-        }
       />
 
       {/* Day tabs */}
@@ -180,6 +169,13 @@ export default function MealPlannerPage() {
             </Card>
           );
         })}
+      </div>
+
+      <div className="flex justify-center">
+        <Button variant="ghost" size="sm" onClick={regenerate} disabled={busy}>
+          <RefreshCcw className={clsx('h-4 w-4', busy && 'animate-spin')} aria-hidden />
+          {t('regenerate')}
+        </Button>
       </div>
 
       <p className="flex items-center gap-2 rounded-2xl gradient-brand-soft p-3 text-xs font-medium ring-1 ring-teal-100 dark:ring-teal-900/40">
