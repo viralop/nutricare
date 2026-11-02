@@ -146,29 +146,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {sidebar}
       </aside>
 
-      {/* Floating quick actions: notifications + settings (replaces the top bar) */}
+      {/* Floating quick actions: notifications + settings (replaces the top bar).
+          main reserves a matching top gutter (pt-16) so headers never slide under. */}
       <div className="fixed top-3 z-40 flex items-center gap-2 ltr:right-3 rtl:left-3 lg:top-4 lg:right-4 lg:left-auto">
         <Link
           href="/notifications"
           aria-label={t('notifications')}
           title={t('notifications')}
-          className="surface grid h-9 w-9 place-items-center rounded-full transition-transform hover:scale-105"
+          className="surface grid h-10 w-10 place-items-center rounded-full shadow-sm transition-transform hover:scale-105"
         >
-          <Bell className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
+          <Bell className="h-4.5 w-4.5 text-primary-600 dark:text-primary-400" aria-hidden />
         </Link>
         <Link
           href="/settings"
           aria-label={t('settings')}
           title={t('settings')}
-          className="surface grid h-9 w-9 place-items-center rounded-full transition-transform hover:scale-105"
+          className="surface grid h-10 w-10 place-items-center rounded-full shadow-sm transition-transform hover:scale-105"
         >
-          <Settings className="h-4 w-4 text-primary-700 dark:text-primary-300" aria-hidden />
+          <Settings className="h-4.5 w-4.5 text-primary-600 dark:text-primary-400" aria-hidden />
         </Link>
       </div>
 
       {/* Main column */}
       <div className="lg:ms-64">
-        <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-6 lg:pb-12">{children}</main>
+        <main className="mx-auto w-full max-w-5xl px-4 pb-28 pt-16 lg:pb-12">{children}</main>
       </div>
 
       {/* Mobile floating bottom navigation — icons only (labels via aria-label/title) */}

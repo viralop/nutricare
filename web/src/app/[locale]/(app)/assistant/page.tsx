@@ -53,7 +53,7 @@ export default function AssistantPage() {
   }
 
   return (
-    <div className="mx-auto flex h-[calc(100svh-4.75rem)] max-w-3xl flex-col max-lg:-mb-28 lg:h-[calc(100vh-7rem)]">
+    <div className="mx-auto flex h-[calc(100svh-7.25rem)] max-w-3xl flex-col max-lg:-mb-28 lg:h-[calc(100vh-9.5rem)]">
       <header className="mb-2 flex items-center justify-between gap-3 lg:mb-4">
         <div className="flex items-center gap-2.5 lg:gap-3">
           <span className="anim-float grid h-9 w-9 place-items-center rounded-xl gradient-brand text-white shadow-lg lg:h-12 lg:w-12 lg:rounded-2xl">

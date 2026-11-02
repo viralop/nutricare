@@ -33,7 +33,7 @@ export function SectionTitle({ children, action }: { children: React.ReactNode; 
   );
 }
 
-/** Typographic page header: icon chip, serif title, hairline. No banner. */
+/** Typographic page header: tinted icon chip, bold title, hairline. No banner. */
 export function PageHeader({
   title,
   subtitle,
@@ -46,14 +46,14 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <header className="anim-fade-up flex items-center gap-3.5 border-b border-[var(--border)] pb-4">
+    <header className="anim-fade-up flex items-center gap-3 border-b border-[var(--border)] pb-3.5">
       {icon && (
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-800 text-white">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary-500/10 text-primary-600 ring-1 ring-primary-500/15 dark:bg-primary-500/15 dark:text-primary-400 dark:ring-primary-500/20">
           {icon}
         </span>
       )}
       <div className="min-w-0 flex-1">
-        <h1 className="font-display truncate text-2xl font-extrabold tracking-tight">{title}</h1>
+        <h1 className="font-display truncate text-xl font-bold tracking-tight sm:text-2xl">{title}</h1>
         {subtitle && <p className="mt-0.5 text-sm leading-snug text-muted">{subtitle}</p>}
       </div>
       {action}
