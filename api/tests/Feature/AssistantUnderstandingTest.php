@@ -106,4 +106,49 @@ class AssistantUnderstandingTest extends TestCase
         $reply = $this->ask('hello');
         $this->assertStringContainsString('Welcome to NutriCare', $reply);
     }
+
+    /**
+     * Every suggestion chip must answer: feeding each returned suggestion
+     * back through the assistant never lands on the fallback, chips rotate
+     * (not one fixed list), and the just-asked question is never re-suggested.
+     */
+    public function test_suggestions_are_fresh_and_answerable(): void
+    {
+        $user = User::where('email', 'sara@nutricare.test')->first();
+        $token = $user->createToken('t')->plainTextToken;
+
+        $respond = function (string $message, string $locale = 'en') use ($token) {
+            return $this->withToken($token)
+                ->postJson('/api/v1/assistant/chat', ['message' => $message, 'locale' => $locale])
+                ->assertOk()
+                ->json('data');
+        };
+
+        foreach (['en' => 'Is koshari bad for diabetes?', 'ar' => 'هل البطاطس المحمرة مضرة للقلب؟'] as $locale => $seed) {
+            $first = $respond($seed, $locale);
+
+            $this->assertCount(3, $first['suggestions']);
+            $this->assertNotEquals($seed, $first['suggestions'][0]);
+
+            foreach ($first['suggestions'] as $chip) {
+                $answer = $respond($chip, $locale)['reply'];
+                $this->assertStringNotContainsString(
+                    $locale === 'ar' ? 'لم أفهم السؤال' : "didn't quite catch",
+                    $answer,
+                    "Suggestion chip fell back: {$chip}",
+                );
+            }
+
+            // Chips rotate: across several identical asks, at least one
+            // suggestion set must differ (shuffle, not a fixed list).
+            $varied = false;
+            for ($i = 0; $i < 4 && ! $varied; $i++) {
+                $again = $respond($seed, $locale);
+                if ($again['suggestions'] !== $first['suggestions']) {
+                    $varied = true;
+                }
+            }
+            $this->assertTrue($varied, 'Suggestions never varied across repeated asks.');
+        }
+    }
 }

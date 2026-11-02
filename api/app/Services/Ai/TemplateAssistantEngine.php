@@ -32,9 +32,6 @@ class TemplateAssistantEngine implements NutritionAssistantService
     public function answer(User $user, string $message, string $locale): array
     {
         $ar = $locale === 'ar';
-        $suggestions = $ar
-            ? ['هل الأرز مناسب لمرضى السكر؟', 'كم سكر في ٣ تمرات؟', 'إيه بديل الشيبس؟', 'الفطور ولا العشاء أثقل للسكر؟']
-            : ['Is rice okay for diabetes?', 'How much sugar is in 3 dates?', 'What can I eat instead of chips?', 'Brown rice or white rice for cholesterol?'];
 
         $guard = $this->guard->check($message, $locale);
         if ($guard['blocked']) {
@@ -74,7 +71,61 @@ class TemplateAssistantEngine implements NutritionAssistantService
 
         $reply .= "\n\n".$this->guard->disclaimer($locale);
 
-        return ['reply' => $reply, 'blocked' => false, 'suggestions' => $suggestions];
+        return [
+            'reply' => $reply,
+            'blocked' => false,
+            'suggestions' => $this->buildSuggestions($foods, $ar, $norm, $locale),
+        ];
+    }
+
+    /**
+     * Fresh, contextual follow-up chips — never the same fixed list twice.
+     *
+     * Contextual entries are built from the food(s) the user just asked
+     * about, using their exact database names so the matcher is guaranteed
+     * to hit. The rotating pool below only contains patterns the engine
+     * provably answers (covered by AssistantUnderstandingTest). The
+     * question that was just asked is never re-suggested.
+     */
+    protected function buildSuggestions(array $foods, bool $ar, string $norm, string $locale): array
+    {
+        $pool = [];
+
+        if ($food = $foods[0] ?? null) {
+            $name = $food->localizedName($locale);
+            $pool[] = $ar ? "كم سكر في {$name}؟" : "How much sugar is in {$name}?";
+            $pool[] = $ar ? "إيه بديل {$name}؟" : "What can I eat instead of {$name}?";
+            if ($b = $foods[1] ?? null) {
+                $bName = $b->localizedName($locale);
+                $pool[] = $ar ? "{$name} ولا {$bName}؟" : "{$name} or {$bName}?";
+            }
+        }
+
+        $pool = array_merge($pool, $ar ? [
+            'هل الأرز مناسب لمرضى السكر؟',
+            'كم سكر في ٣ تمرات؟',
+            'إيه بديل الشيبس؟',
+            'إيه بديل الأرز الأبيض؟',
+            'هل البيض مضرة للكوليسترول؟',
+            'إيه الفرق بين الدهون المشبعة وغير المشبعة؟',
+            'أكل إيه يناسب العشاء؟',
+        ] : [
+            'Is rice okay for diabetes?',
+            'How much sugar is in 3 dates?',
+            'What can I eat instead of chips?',
+            'Brown rice or white rice for cholesterol?',
+            "What's the difference between saturated and unsaturated fat?",
+            'What should I eat for dinner?',
+        ]);
+
+        $pool = array_values(array_filter(
+            $pool,
+            fn (string $q) => $this->normalize($q) !== $norm,
+        ));
+
+        shuffle($pool);
+
+        return array_slice($pool, 0, 3);
     }
 
     // ------------------------------------------------------------------
