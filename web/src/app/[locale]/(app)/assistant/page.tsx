@@ -53,7 +53,7 @@ export default function AssistantPage() {
   }
 
   return (
-    <div className="mx-auto flex h-[calc(100dvh-5.5rem)] max-w-3xl flex-col max-lg:-mb-28 lg:h-[calc(100vh-7rem)]">
+    <div className="mx-auto flex h-[calc(100svh-4.75rem)] max-w-3xl flex-col max-lg:-mb-28 lg:h-[calc(100vh-7rem)]">
       <header className="mb-2 flex items-center justify-between gap-3 lg:mb-4">
         <div className="flex items-center gap-2.5 lg:gap-3">
           <span className="anim-float grid h-9 w-9 place-items-center rounded-xl gradient-brand text-white shadow-lg lg:h-12 lg:w-12 lg:rounded-2xl">
@@ -64,18 +64,20 @@ export default function AssistantPage() {
             <p className="truncate text-xs text-muted">{t('subtitle')}</p>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
+        <button
+          type="button"
           onClick={() => {
             setMessages([]);
             setSessionId(null);
             setSuggestions([]);
           }}
+          aria-label={t('newChat')}
+          title={t('newChat')}
+          className="grid h-9 w-9 shrink-0 place-items-center self-start rounded-full text-muted ring-1 ring-[var(--border)] transition-colors hover:bg-primary-50 hover:text-primary-700 dark:hover:bg-primary-500/10 dark:hover:text-primary-300 lg:inline-flex lg:h-10 lg:w-auto lg:gap-1.5 lg:self-center lg:px-3.5 lg:text-sm lg:font-semibold"
         >
           <RotateCcw className="h-4 w-4" aria-hidden />
-          {t('newChat')}
-        </Button>
+          <span className="hidden lg:inline">{t('newChat')}</span>
+        </button>
       </header>
 
       {/* Phones: frameless chat area — bubbles and input carry their own surfaces.
