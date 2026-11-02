@@ -165,7 +165,7 @@
   "assistant": {
     "title": "AI Nutrition Assistant",
     "subtitle": "Ask about any food, meal, or eating habit.",
-    "placeholder": "e.g. Can I eat two eggs for breakfast if I have high cholesterol?",
+    "placeholder": "Ask about any food or meal…",
     "send": "Send",
     "disclaimerTitle": "Educational assistant",
     "blockedTitle": "Out of scope",

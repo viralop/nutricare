@@ -87,24 +87,17 @@ export default function AssistantPage() {
               <span className="anim-float grid h-16 w-16 place-items-center rounded-2xl gradient-brand text-white shadow-xl">
                 <Leaf className="h-8 w-8" aria-hidden />
               </span>
-              <p className="max-w-md text-sm leading-relaxed text-muted">{t('placeholder')}</p>
               {suggestions.length === 0 && (
                 <ul className="flex max-w-lg flex-wrap justify-center gap-2">
-                  {[
-                    locale === 'ar' ? 'هل الأرز مناسب لمرضى السكر؟' : 'Is rice good for diabetics?',
-                    locale === 'ar' ? 'كم سكر في التمر؟' : 'How much sugar is in dates?',
-                    locale === 'ar' ? 'ما البديل الصحي للشيبس؟' : 'What is a healthier snack than chips?',
-                  ].map((s) => (
-                    <li key={s}>
-                      <button
-                        type="button"
-                        onClick={() => send(s)}
-                        className="surface-2 rounded-full px-3 py-1.5 text-sm font-medium hover:opacity-80"
-                      >
-                        {s}
-                      </button>
-                    </li>
-                  ))}
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => send(locale === 'ar' ? 'هل الأرز مناسب لمرضى السكر؟' : 'Is rice good for diabetics?')}
+                      className="surface-2 rounded-full px-3 py-1.5 text-sm font-medium hover:opacity-80"
+                    >
+                      {locale === 'ar' ? 'هل الأرز مناسب لمرضى السكر؟' : 'Is rice good for diabetics?'}
+                    </button>
+                  </li>
                 </ul>
               )}
             </div>
