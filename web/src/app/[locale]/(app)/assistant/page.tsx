@@ -81,9 +81,9 @@ export default function AssistantPage() {
       {/* Phones: frameless chat area — bubbles and input carry their own surfaces.
           The boxed card only adds noise (and dead space) at small widths. */}
       <Card className="flex min-h-0 flex-1 flex-col p-0 max-lg:!bg-transparent max-lg:!border-0 max-lg:!shadow-none max-lg:rounded-none">
-        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-2 pb-1 scroll-slim lg:p-4" role="log" aria-live="polite">
+        <div className="relative min-h-0 flex-1 space-y-4 overflow-y-auto px-2 pb-1 scroll-slim lg:p-4" role="log" aria-live="polite">
           {messages.length === 0 && (
-            <div className="flex h-full flex-col items-center justify-center gap-4 py-8 text-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center">
               <span className="anim-float grid h-16 w-16 place-items-center rounded-2xl gradient-brand text-white shadow-xl">
                 <Leaf className="h-8 w-8" aria-hidden />
               </span>
