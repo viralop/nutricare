@@ -53,15 +53,15 @@ export default function AssistantPage() {
   }
 
   return (
-    <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col lg:h-[calc(100vh-7rem)]">
-      <header className="mb-4 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <span className="anim-float grid h-12 w-12 place-items-center rounded-2xl gradient-brand text-white shadow-lg">
-            <Leaf className="h-6 w-6" aria-hidden />
+    <div className="mx-auto flex h-[calc(100dvh-5.5rem)] max-w-3xl flex-col max-lg:-mb-28 lg:h-[calc(100vh-7rem)]">
+      <header className="mb-2 flex items-center justify-between gap-3 lg:mb-4">
+        <div className="flex items-center gap-2.5 lg:gap-3">
+          <span className="anim-float grid h-9 w-9 place-items-center rounded-xl gradient-brand text-white shadow-lg lg:h-12 lg:w-12 lg:rounded-2xl">
+            <Leaf className="h-4.5 w-4.5 lg:h-6 lg:w-6" aria-hidden />
           </span>
-          <div>
-            <h1 className="text-xl font-extrabold">{t('title')}</h1>
-            <p className="text-xs text-muted">{t('subtitle')}</p>
+          <div className="min-w-0">
+            <h1 className="truncate text-base font-extrabold lg:text-xl">{t('title')}</h1>
+            <p className="truncate text-xs text-muted">{t('subtitle')}</p>
           </div>
         </div>
         <Button
@@ -78,12 +78,14 @@ export default function AssistantPage() {
         </Button>
       </header>
 
-      <Card className="flex min-h-0 flex-1 flex-col p-0">
-        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4 scroll-slim" role="log" aria-live="polite">
+      {/* Phones: frameless chat area — bubbles and input carry their own surfaces.
+          The boxed card only adds noise (and dead space) at small widths. */}
+      <Card className="flex min-h-0 flex-1 flex-col p-0 max-lg:!bg-transparent max-lg:!border-0 max-lg:!shadow-none max-lg:rounded-none">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-2 pb-1 scroll-slim lg:p-4" role="log" aria-live="polite">
           {messages.length === 0 && (
             <div className="flex h-full flex-col items-center justify-center gap-4 py-8 text-center">
-              <span className="anim-float grid h-20 w-20 place-items-center rounded-3xl gradient-brand text-white shadow-xl">
-                <Leaf className="h-10 w-10" aria-hidden />
+              <span className="anim-float grid h-16 w-16 place-items-center rounded-2xl gradient-brand text-white shadow-xl">
+                <Leaf className="h-8 w-8" aria-hidden />
               </span>
               <p className="max-w-md text-sm leading-relaxed text-muted">{t('placeholder')}</p>
               {suggestions.length === 0 && (
