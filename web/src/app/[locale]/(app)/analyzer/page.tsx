@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import clsx from 'clsx';
 import {
@@ -79,6 +80,14 @@ export default function AnalyzerPage() {
       .then((res) => setResults(res.data ?? res))
       .catch(() => setSearchError(true));
   }, [locale]);
+
+  // Deep link: /analyzer?food=slug (used by dashboard history chips) analyzes
+  // the food straight away.
+  const foodParam = useSearchParams().get('food');
+  useEffect(() => {
+    if (foodParam) analyze(foodParam);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [foodParam]);
 
   async function analyze(slug: string) {
     setAnalyzing(true);
@@ -210,7 +219,8 @@ export default function AnalyzerPage() {
             <LoadingBlock />
           ) : (
             <div className="space-y-5">
-              {/* Food header */}
+              {/* Food header — image, name, serving line. Source lives in the
+                  confidence note below (single mention, with its reference). */}
               <div className="flex flex-wrap items-center gap-4">
                 <FoodImage food={analysis.food} className="h-16 w-16" emojiClass="text-4xl" />
                 <div className="min-w-0 flex-1">
@@ -220,37 +230,33 @@ export default function AnalyzerPage() {
                     {fmt(analysis.food.per_serving.energy_kcal)} {tu('kcal')}
                   </p>
                 </div>
-                <Chip tone="neutral">
-                  {analysis.food.source.is_estimated ? '≈' : '✓'}
-                  {t(`source_${analysis.food.source.type}`)}
-                </Chip>
               </div>
 
               {/* Verdict banner */}
               <VerdictBanner verdict={analysis.assessment.verdict} label={tv('label')} />
 
-              {/* Data confidence */}
+              {/* Data confidence — the one place the data source is shown */}
               <p
                 className={clsx(
-                  'rounded-xl p-3 text-sm',
+                  'flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl p-3 text-xs font-medium',
                   analysis.food.source.is_estimated
                     ? 'bg-orange-50 text-orange-800 dark:bg-orange-900/30 dark:text-orange-200'
                     : 'bg-mint-50 text-teal-800 dark:bg-teal-900/30 dark:text-teal-200',
                 )}
               >
                 {analysis.food.source.is_estimated ? (
-                  <>
-                    <TriangleAlert className="inline h-4 w-4 me-1" aria-hidden />
+                  <span className="inline-flex items-center gap-1">
+                    <TriangleAlert className="h-4 w-4" aria-hidden />
                     {t('estimatedNote')}
-                  </>
+                  </span>
                 ) : (
-                  <>
-                    <BadgeCheck className="inline h-4 w-4 me-1" aria-hidden />
+                  <span className="inline-flex items-center gap-1">
+                    <BadgeCheck className="h-4 w-4" aria-hidden />
                     {t('verifiedNote')}
-                  </>
+                  </span>
                 )}
-                <span className="ms-2 opacity-80">
-                  ({t(`source_${analysis.food.source.type}`)} · {analysis.food.source.reference})
+                <span className="opacity-80">
+                  {t(`source_${analysis.food.source.type}`)} · {analysis.food.source.reference}
                 </span>
               </p>
 
@@ -279,20 +285,13 @@ export default function AnalyzerPage() {
                   {t('nutritionFacts')}
                 </SectionTitle>
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {NUTRIENT_ROWS.map((key, idx) => (
+                  {NUTRIENT_ROWS.map((key) => (
                     <li
                       key={key}
-                      className="surface-2 relative overflow-hidden rounded-2xl p-3 ring-1 ring-[var(--border)]"
+                      className="surface-2 rounded-2xl p-3 ring-1 ring-[var(--border)]"
                     >
-                      <span
-                        aria-hidden
-                        className={clsx(
-                          'absolute -top-6 -end-6 h-14 w-14 rounded-full bg-gradient-to-br opacity-20 blur-lg',
-                          ['from-amber-400 to-orange-300', 'from-primary-400 to-teal-300', 'from-rose-400 to-pink-300', 'from-sky-400 to-cyan-300'][idx % 4],
-                        )}
-                      />
-                      <p className="relative text-xs font-semibold text-muted">{tn(key)}</p>
-                      <p className="relative mt-0.5 text-xl font-extrabold tabular-nums">
+                      <p className="text-xs font-semibold text-muted">{tn(key)}</p>
+                      <p className="mt-0.5 text-xl font-extrabold tabular-nums">
                         {nutrientBasis?.[key] === null || nutrientBasis?.[key] === undefined ? (
                           <span title={t('noDataNote')} className="text-muted">—</span>
                         ) : (
