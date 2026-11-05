@@ -118,6 +118,9 @@
   "dashboard": {
     "title": "Your day at a glance",
     "hello": "Hello, {name}",
+    "greetingMorning": "Good morning, {name}",
+    "greetingAfternoon": "Good afternoon, {name}",
+    "greetingEvening": "Good evening, {name}",
     "calories": "Calories",
     "sugar": "Sugar",
     "sodium": "Sodium",

@@ -118,6 +118,9 @@
   "dashboard": {
     "title": "يومك في لمحة",
     "hello": "أهلًا {name}",
+    "greetingMorning": "صباح الخير {name}",
+    "greetingAfternoon": "طاب يومك {name}",
+    "greetingEvening": "مساء الخير {name}",
     "calories": "السعرات",
     "sugar": "السكر",
     "sodium": "الصوديوم",

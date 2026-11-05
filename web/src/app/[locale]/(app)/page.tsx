@@ -4,11 +4,11 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import {
-  Droplets, Plus, Trash2, Sparkles, Clock3, Flame, Candy, Leaf, ScanSearch, HeartPulse, Beef, FlaskConical,
+  Droplets, Plus, Trash2, Sparkles, Clock3, ScanSearch, HeartPulse, UtensilsCrossed, Search, Leaf, Drumstick,
 } from 'lucide-react';
 import {
   Button, Card, Chip, EmptyState, ErrorBlock, FoodImage, LoadingBlock, PageHeader,
-  ProgressBar, ProgressRing, SectionTitle, StatTile, VerdictDot,
+  ProgressBar, ProgressRing, SectionTitle, VerdictDot,
 } from '@/components/ui';
 import { api, apiData } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
@@ -58,47 +58,19 @@ export default function DashboardPage() {
   if (!summary || !user) return <LoadingBlock />;
 
   const firstName = user.name.split(' ')[0];
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? t('greetingMorning', { name: firstName })
+    : hour < 17 ? t('greetingAfternoon', { name: firstName })
+    : t('greetingEvening', { name: firstName });
 
   return (
     <div className="space-y-6">
       {/* Hero greeting */}
       <PageHeader
-        title={t('hello', { name: firstName })}
+        title={greeting}
         subtitle={t('title')}
         icon={<HeartPulse className="h-6 w-6" aria-hidden />}
       />
-
-      {/* Stat tiles */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatTile
-          label={t('calories')}
-          value={Math.round(summary.totals.energy_kcal ?? 0)}
-          target={summary.targets.energy_kcal}
-          icon={<Flame className="h-5 w-5" aria-hidden />}
-          tone="amber"
-        />
-        <StatTile
-          label={t('water')}
-          value={summary.water_ml}
-          target={summary.targets.water_ml}
-          icon={<Droplets className="h-5 w-5" aria-hidden />}
-          tone="teal"
-        />
-        <StatTile
-          label={t('sugar')}
-          value={Math.round(summary.totals.sugar_g ?? 0)}
-          target={summary.targets.sugar_g}
-          icon={<Candy className="h-5 w-5" aria-hidden />}
-          tone="rose"
-        />
-        <StatTile
-          label={t('sodium')}
-          value={Math.round(summary.totals.sodium_mg ?? 0)}
-          target={summary.targets.sodium_mg}
-          icon={<FlaskConical className="h-5 w-5" aria-hidden />}
-          tone="violet"
-        />
-      </div>
 
       {/* Rings + bars */}
       <Card>
@@ -121,7 +93,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t pt-4 border-app" style={{ borderColor: 'var(--border)' }}>
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-teal-500 to-mint-300 text-white shadow-md">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400">
             <Droplets className="h-5 w-5" aria-hidden />
           </span>
           <span className="me-auto text-sm font-bold">{t('addWater')}</span>
@@ -150,7 +122,7 @@ export default function DashboardPage() {
             {t('todayMeals')}
           </SectionTitle>
           {summary.meals.length === 0 ? (
-            <EmptyState emoji="🍽️" text={t('noMeals')} />
+            <EmptyState icon={<UtensilsCrossed className="h-6 w-6" aria-hidden />} text={t('noMeals')} />
           ) : (
             <ul className="space-y-2">
               {summary.meals.map((m) => (
@@ -230,7 +202,7 @@ export default function DashboardPage() {
           {t('recentlyAnalyzed')}
         </SectionTitle>
         {summary.recent_analyses.length === 0 ? (
-          <EmptyState emoji="🔎" text={t('noMeals')} />
+          <EmptyState icon={<Search className="h-6 w-6" aria-hidden />} text={t('noMeals')} />
         ) : (
           <ul className="flex flex-wrap gap-2">
             {summary.recent_analyses.map((a, i) => (
@@ -250,7 +222,7 @@ export default function DashboardPage() {
         )}
         <div className="mt-4 flex items-center gap-2">
           <Chip tone="teal">
-            <Beef className="h-3 w-3" aria-hidden />
+            <Drumstick className="h-3 w-3" aria-hidden />
             {Math.round(summary.totals.protein_g ?? 0)} {tu('g')} {tn('protein_g')}
           </Chip>
           <Chip tone="brand">

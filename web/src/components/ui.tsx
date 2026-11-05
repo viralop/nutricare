@@ -414,13 +414,19 @@ export function StatTile({
   );
 }
 
-/** Decorative empty-state block. */
-export function EmptyState({ emoji, text }: { emoji: string; text: string }) {
+/** Quiet empty-state block — icon (line icon preferred) with a short explanation. */
+export function EmptyState({ emoji, text, icon }: { emoji?: string; text: string; icon?: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center gap-2 py-8 text-center">
-      <span className="text-3xl opacity-70" aria-hidden>
-        {emoji}
-      </span>
+      {icon ? (
+        <span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary-500/10 text-primary-600 dark:bg-primary-500/15 dark:text-primary-400" aria-hidden>
+          {icon}
+        </span>
+      ) : (
+        <span className="text-3xl opacity-70" aria-hidden>
+          {emoji}
+        </span>
+      )}
       <p className="max-w-xs text-sm text-muted">{text}</p>
     </div>
   );
