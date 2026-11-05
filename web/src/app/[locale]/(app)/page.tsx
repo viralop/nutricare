@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import {
-  Droplets, Plus, Trash2, Sparkles, Clock3, ScanSearch, HeartPulse, UtensilsCrossed, Search, Leaf, Drumstick,
+  Droplets, Plus, Trash2, Sparkles, Clock3, ScanSearch, UtensilsCrossed, Search, Leaf, Drumstick,
 } from 'lucide-react';
 import {
-  Button, Card, Chip, EmptyState, ErrorBlock, FoodImage, LoadingBlock, PageHeader,
+  Button, Card, Chip, EmptyState, ErrorBlock, FoodImage, LoadingBlock,
   ProgressBar, ProgressRing, SectionTitle, VerdictDot,
 } from '@/components/ui';
 import { api, apiData } from '@/lib/api';
@@ -27,6 +27,7 @@ export default function DashboardPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [error, setError] = useState(false);
   const [busyWater, setBusyWater] = useState(false);
+  const [waterBeat, setWaterBeat] = useState(0);
 
   const load = useCallback(() => {
     apiData<DashboardSummary>('/dashboard/summary', { locale })
@@ -43,6 +44,7 @@ export default function DashboardPage() {
         method: 'POST',
         body: JSON.stringify({ amount_ml: amountMl }),
       });
+      setWaterBeat((n) => n + 1);
       load();
     } finally {
       setBusyWater(false);
@@ -65,12 +67,37 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Hero greeting */}
-      <PageHeader
-        title={greeting}
-        subtitle={t('title')}
-        icon={<HeartPulse className="h-6 w-6" aria-hidden />}
-      />
+      {/* Hero greeting over a calm produce-market photo (slow drift). */}
+      <section
+        className="anim-fade-up surface relative min-h-44 overflow-hidden rounded-2xl"
+        aria-label={t('title')}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Fresh_beans%2C_water_melons%2C_cabbage%2C_green_vegetables_and_oranges.jpg/960px-Fresh_beans%2C_water_melons%2C_cabbage%2C_green_vegetables_and_oranges.jpg"
+          alt=""
+          aria-hidden
+          className="hero-drift absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgb(6 78 59 / 0.92) 20%, rgb(6 78 59 / 0.45) 70%, rgb(6 78 59 / 0.2))' }}
+        />
+        <div className="relative flex min-h-44 flex-col justify-end gap-1.5 p-5">
+          <h1 className="font-display text-2xl font-extrabold tracking-tight text-white">{greeting}</h1>
+          <p className="text-sm font-medium text-white/80">{t('title')}</p>
+          {user.conditions.length > 0 && (
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {user.conditions.slice(0, 3).map((c) => (
+                <span key={c.slug} className="rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-bold text-white ring-1 ring-white/25">
+                  {c.name}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Rings + bars */}
       <Card>
@@ -80,11 +107,13 @@ export default function DashboardPage() {
             label={t('calories')}
             sub={`${tu('kcal')}`}
           />
-          <ProgressRing
-            pct={summary.water_ml / summary.targets.water_ml * 100}
-            label={t('water')}
-            sub={`${tu('ml')}`}
-          />
+          <div key={waterBeat} className={waterBeat > 0 ? 'water-pulse' : undefined}>
+            <ProgressRing
+              pct={summary.water_ml / summary.targets.water_ml * 100}
+              label={t('water')}
+              sub={`${tu('ml')}`}
+            />
+          </div>
           <div className="col-span-2 flex flex-col justify-center gap-4">
             <ProgressBar value={summary.totals.sugar_g ?? 0} target={summary.targets.sugar_g} label={t('sugar')} unit={tu('g')} tone="rose" />
             <ProgressBar value={summary.totals.sodium_mg ?? 0} target={summary.targets.sodium_mg} label={t('sodium')} unit={tu('mg')} tone="violet" />
