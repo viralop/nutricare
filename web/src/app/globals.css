@@ -82,6 +82,24 @@ html {
   color-scheme: light;
 }
 
+/* The page breathes green: background slowly fades to a light emerald and
+   back. Dark mode runs the same breath between deep slate and deep green. */
+:root {
+  --bg-breathe-a: #f8fafc;
+  --bg-breathe-b: #e3f5ec;
+}
+.dark {
+  --bg-breathe-a: #0f172a;
+  --bg-breathe-b: #0d2620;
+}
+@keyframes bgBreathe {
+  from { background-color: var(--bg-breathe-a); }
+  to { background-color: var(--bg-breathe-b); }
+}
+html {
+  animation: bgBreathe 14s ease-in-out infinite alternate;
+}
+
 .dark html, html.dark {
   color-scheme: dark;
 }
@@ -244,6 +262,9 @@ body {
   animation-delay: var(--leaf-delay, 0s);
 }
 @media (prefers-reduced-motion: reduce) {
+  html {
+    animation: none;
+  }
   .hero-drift,
   .water-pulse,
   .anim-float,
