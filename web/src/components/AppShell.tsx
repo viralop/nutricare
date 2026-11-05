@@ -140,7 +140,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen">
+      {/* Ambient garden: breathing emerald light and slowly drifting leaves,
+          behind all content. Switches off for reduced-motion users. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="blob-breathe absolute -top-32 end-[-12%] h-96 w-96 rounded-full bg-primary-500/10 blur-3xl dark:bg-primary-400/10" />
+        <div className="blob-breathe slow absolute bottom-[-18%] start-[-12%] h-[28rem] w-[28rem] rounded-full bg-primary-400/8 blur-3xl dark:bg-primary-300/8" />
+        <Leaf className="leaf-drift absolute bottom-[-8vh] start-[8%] h-7 w-7 text-primary-600 dark:text-primary-300" style={{ '--leaf-opacity': 0.18, '--leaf-duration': '70s' } as React.CSSProperties} />
+        <Leaf className="leaf-drift absolute bottom-[-8vh] start-[46%] h-5 w-5 text-primary-500 dark:text-primary-200" style={{ '--leaf-opacity': 0.14, '--leaf-duration': '85s', '--leaf-delay': '-30s' } as React.CSSProperties} />
+        <Leaf className="leaf-drift absolute bottom-[-8vh] start-[75%] h-6 w-6 text-primary-600 dark:text-primary-300" style={{ '--leaf-opacity': 0.15, '--leaf-duration': '78s', '--leaf-delay': '-55s' } as React.CSSProperties} />
+      </div>
+
       {/* Desktop sidebar — petrol rail (midnight navy in dark mode) */}
       <aside className="rail-petrol fixed inset-y-0 start-0 z-30 hidden w-64 border-e border-black/20 lg:block">
         {sidebar}
