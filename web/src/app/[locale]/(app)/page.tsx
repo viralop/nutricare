@@ -67,14 +67,14 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Hero greeting over a calm produce-market photo (slow drift). */}
+      {/* Hero greeting over a clean salad photograph (slow drift). */}
       <section
         className="anim-fade-up surface relative min-h-44 overflow-hidden rounded-2xl"
         aria-label={t('title')}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Fresh_beans%2C_water_melons%2C_cabbage%2C_green_vegetables_and_oranges.jpg/960px-Fresh_beans%2C_water_melons%2C_cabbage%2C_green_vegetables_and_oranges.jpg"
+          src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Vegetable_Salad_%28Unsplash%29.jpg/960px-Vegetable_Salad_%28Unsplash%29.jpg"
           alt=""
           aria-hidden
           className="hero-drift absolute inset-0 h-full w-full object-cover"
