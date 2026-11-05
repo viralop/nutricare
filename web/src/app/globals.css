@@ -82,22 +82,42 @@ html {
   color-scheme: light;
 }
 
-/* The page breathes green: background slowly fades to a light emerald and
-   back. Dark mode runs the same breath between deep slate and deep green. */
+/* The page breathes green: background AND card surfaces slowly fade to a
+   light emerald and back. Dark mode runs the same breath between deep slate
+   and deep green. Applied on html + body (body paints over html otherwise)
+   and on the card surfaces, which own most of the viewport. */
 :root {
   --bg-breathe-a: #f8fafc;
-  --bg-breathe-b: #e3f5ec;
+  --bg-breathe-b: #e0f3e9;
+  --sf-breathe-a: #ffffff;
+  --sf-breathe-b: #e9f8f0;
 }
 .dark {
   --bg-breathe-a: #0f172a;
-  --bg-breathe-b: #0d2620;
+  --bg-breathe-b: #0d2a22;
+  --sf-breathe-a: #1e293b;
+  --sf-breathe-b: #1b332a;
 }
 @keyframes bgBreathe {
   from { background-color: var(--bg-breathe-a); }
   to { background-color: var(--bg-breathe-b); }
 }
-html {
-  animation: bgBreathe 14s ease-in-out infinite alternate;
+@keyframes sfBreathe {
+  from { background-color: var(--sf-breathe-a); }
+  to { background-color: var(--sf-breathe-b); }
+}
+html,
+body {
+  animation: bgBreathe 9s ease-in-out infinite alternate;
+}
+.surface,
+.surface-flat {
+  animation: sfBreathe 9s ease-in-out infinite alternate;
+}
+/* Entrance-animated surfaces must breathe too (out-specifies .anim-fade-up). */
+.anim-fade-up.surface,
+.anim-fade-up.surface-flat {
+  animation: sfBreathe 9s ease-in-out infinite alternate;
 }
 
 .dark html, html.dark {
@@ -262,7 +282,10 @@ body {
   animation-delay: var(--leaf-delay, 0s);
 }
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html,
+  body,
+  .surface,
+  .surface-flat {
     animation: none;
   }
   .hero-drift,
