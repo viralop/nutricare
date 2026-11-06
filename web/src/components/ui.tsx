@@ -331,15 +331,20 @@ export function ProgressBar({
   );
 }
 
-/** Donut ring with gradient track and glow — water/calorie progress. */
+/** Donut ring — the center carries the real numbers (value / target),
+    falling back to a percentage when no value is given. */
 export function ProgressRing({
   pct,
   label,
   sub,
+  value,
+  target,
 }: {
   pct: number;
   label: string;
   sub: string;
+  value?: number | string;
+  target?: number | string;
 }) {
   const clamped = Math.max(0, Math.min(100, pct));
   return (
@@ -358,13 +363,25 @@ export function ProgressRing({
           className="grid h-[88px] w-[88px] place-items-center rounded-full ring-4"
           style={{ background: 'var(--surface)', ['--tw-ring-color' as string]: 'var(--bg)' }}
         >
-          <span className="font-display text-xl font-extrabold tabular-nums text-primary-800 dark:text-primary-300">
-            {Math.round(clamped)}%
-          </span>
+          {value !== undefined ? (
+            <span className="leading-none">
+              <span className="font-display block text-xl font-extrabold tabular-nums text-primary-800 dark:text-primary-300">
+                {value}
+              </span>
+              {target !== undefined && (
+                <span className="mt-1 block text-[10px] font-semibold tabular-nums text-muted">
+                  of {target} {sub}
+                </span>
+              )}
+            </span>
+          ) : (
+            <span className="font-display text-xl font-extrabold tabular-nums text-primary-800 dark:text-primary-300">
+              {Math.round(clamped)}%
+            </span>
+          )}
         </div>
       </div>
       <span className="text-sm font-bold">{label}</span>
-      <span className="text-xs text-muted tabular-nums">{sub}</span>
     </div>
   );
 }

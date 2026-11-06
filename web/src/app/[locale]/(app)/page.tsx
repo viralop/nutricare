@@ -23,6 +23,7 @@ export default function DashboardPage() {
   const tp = useTranslations('planner');
   const { user } = useAuth();
   const locale = useLocale();
+  const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
 
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [error, setError] = useState(false);
@@ -106,12 +107,16 @@ export default function DashboardPage() {
             pct={(summary.totals.energy_kcal ?? 0) / summary.targets.energy_kcal * 100}
             label={t('calories')}
             sub={`${tu('kcal')}`}
+            value={fmt(summary.totals.energy_kcal ?? 0)}
+            target={fmt(summary.targets.energy_kcal)}
           />
           <div key={waterBeat} className={waterBeat > 0 ? 'water-pulse' : undefined}>
             <ProgressRing
               pct={summary.water_ml / summary.targets.water_ml * 100}
               label={t('water')}
               sub={`${tu('ml')}`}
+              value={fmt(summary.water_ml)}
+              target={fmt(summary.targets.water_ml)}
             />
           </div>
           <div className="col-span-2 flex flex-col justify-center gap-4">
