@@ -16,7 +16,7 @@ export function Card({
 }: React.HTMLAttributes<HTMLDivElement> & { hover?: boolean }) {
   return (
     <div
-      className={clsx('surface rounded-[10px] p-5', hover && 'card-hover', className)}
+      className={clsx('surface rounded-2xl p-5', hover && 'card-hover', className)}
       {...rest}
     >
       {children}
@@ -77,9 +77,9 @@ export function Button({ variant = 'primary', size = 'md', className, ...rest }:
         size === 'md' && 'px-4 py-2.5',
         size === 'lg' && 'px-6 py-3 text-base',
         variant === 'primary' &&
-          'bg-primary-500 text-[#f5efe0] hover:bg-primary-700 hover:scale-[1.01]',
+          'bg-primary-500 text-white shadow-sm hover:bg-primary-700 hover:scale-[1.02]',
         variant === 'secondary' &&
-          'bg-transparent text-primary-600 ring-1.5 ring-primary-500 hover:bg-primary-50 dark:text-primary-300 dark:ring-primary-400/60 dark:hover:bg-primary-500/10',
+          'bg-transparent text-primary-700 ring-1.5 ring-primary-500 hover:bg-primary-50 dark:text-primary-300 dark:ring-primary-500/60 dark:hover:bg-primary-500/10',
         variant === 'ghost' && 'surface-2 text-[var(--text)] ring-1 ring-[var(--border)] hover:brightness-95 dark:hover:brightness-110',
         variant === 'danger' && 'bg-red-600 text-white shadow-sm hover:bg-red-500',
         className,
@@ -193,10 +193,10 @@ export function Chip({
 // ---------- Verdict badge: icon + label + color, never color alone ----------
 
 const VERDICT_STYLE: Record<Verdict, { cls: string; icon: React.ReactNode }> = {
-  good: { cls: 'bg-[#dde9df] text-[#1d5b3f] ring-1 ring-[#1d5b3f44] dark:bg-[#1d5b3f2e] dark:text-[#9cc7a9] dark:ring-[#86ac8455]', icon: <CheckCircle2 className="h-5 w-5" aria-hidden /> },
-  acceptable: { cls: 'bg-[#f3e8cd] text-[#7d5b16] ring-1 ring-[#7d5b1644] dark:bg-[#7d5b162e] dark:text-[#e0c98f] dark:ring-[#e0c98f44]', icon: <Info className="h-5 w-5" aria-hidden /> },
-  moderation: { cls: 'bg-[#f5dfc8] text-[#9c481a] ring-1 ring-[#9c481a44] dark:bg-[#9c481a2e] dark:text-[#e8b48d] dark:ring-[#e8b48d44]', icon: <AlertTriangle className="h-5 w-5" aria-hidden /> },
-  not_recommended: { cls: 'bg-[#f3d9d4] text-[#a93226] ring-1 ring-[#a9322644] dark:bg-[#a932262e] dark:text-[#eba49a] dark:ring-[#eba49a44]', icon: <OctagonX className="h-5 w-5" aria-hidden /> },
+  good: { cls: 'bg-green-100 text-green-700 ring-1 ring-green-300 dark:bg-green-900/40 dark:text-green-300 dark:ring-green-800', icon: <CheckCircle2 className="h-5 w-5" aria-hidden /> },
+  acceptable: { cls: 'bg-sky-100 text-sky-700 ring-1 ring-sky-300 dark:bg-sky-900/40 dark:text-sky-300 dark:ring-sky-800', icon: <Info className="h-5 w-5" aria-hidden /> },
+  moderation: { cls: 'bg-amber-100 text-amber-700 ring-1 ring-amber-300 dark:bg-amber-900/40 dark:text-amber-200 dark:ring-amber-800', icon: <AlertTriangle className="h-5 w-5" aria-hidden /> },
+  not_recommended: { cls: 'bg-red-100 text-red-700 ring-1 ring-red-300 dark:bg-red-900/40 dark:text-red-300 dark:ring-red-800', icon: <OctagonX className="h-5 w-5" aria-hidden /> },
 };
 
 export function VerdictBadge({ verdict, large = false }: { verdict: Verdict; large?: boolean }) {

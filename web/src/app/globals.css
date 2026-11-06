@@ -3,92 +3,121 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  /* NutriCare — The Apothecary: food, prescribed.
-     Apothecary greens + amber glass + label cream + poison red. */
-  --color-primary-50: #eef3ec;
-  --color-primary-100: #d9e5d6;
-  --color-primary-200: #b3cbb0;
-  --color-primary-300: #86ac84;
-  --color-primary-400: #5b8d5d;
-  --color-primary-500: #1d5b3f;
-  --color-primary-600: #1a5238;
-  --color-primary-700: #16482f;
-  --color-primary-800: #143d2b;
-  --color-primary-900: #0f3122;
-  --color-primary-950: #0a2016;
+  /* NutriCare palette: emerald vitality + slate neutrals + sky secondary. */
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
+  --color-primary-950: #022c22;
 
-  /* amber glass — the bottle accent */
-  --color-gold-50: #fbf3e9;
-  --color-gold-100: #f5e3cd;
-  --color-gold-200: #eac69b;
-  --color-gold-300: #dfa873;
-  --color-gold-400: #d08a4e;
-  --color-gold-500: #b7541b;
-  --color-gold-600: #9c481a;
-  --color-gold-700: #7d3a16;
+  /* secondary accent — sky (trust / medical accuracy) */
+  --color-gold-50: #f0f9ff;
+  --color-gold-100: #e0f2fe;
+  --color-gold-200: #bae6fd;
+  --color-gold-300: #7dd3fc;
+  --color-gold-400: #38bdf8;
+  --color-gold-500: #0ea5e9;
+  --color-gold-600: #0284c7;
+  --color-gold-700: #0369a1;
 
-  /* sage — soft shelf green */
-  --color-mint-50: #f3f4e9;
-  --color-mint-100: #e7ead4;
-  --color-mint-200: #d3dab4;
-  --color-mint-300: #bccb98;
-  --color-mint-400: #a5b87e;
-  --color-teal-500: #3f7d5c;
-  --color-teal-600: #356b4e;
-  --color-teal-700: #2b593f;
+  /* mint/teal — supporting aqua tints */
+  --color-mint-50: #f0fdfa;
+  --color-mint-100: #ccfbf1;
+  --color-mint-200: #99f6e4;
+  --color-mint-300: #5eead4;
+  --color-mint-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
 
-  /* verdicts: within dose / caution / do not take */
-  --color-good: #1d5b3f;
-  --color-good-soft: #dde9df;
-  --color-ok: #7d5b16;
-  --color-ok-soft: #f3e8cd;
-  --color-moderate: #9c481a;
-  --color-moderate-soft: #f5dfc8;
-  --color-bad: #a93226;
-  --color-bad-soft: #f3d9d4;
+  /* Semantic verdict colors (always paired with icons + labels, never color alone) */
+  --color-good: #15803d;
+  --color-good-soft: #dcfce7;
+  --color-ok: #0369a1;
+  --color-ok-soft: #e0f2fe;
+  --color-moderate: #b45309;
+  --color-moderate-soft: #fef3c7;
+  --color-bad: #b91c1c;
+  --color-bad-soft: #fee2e2;
 
-  --radius-card: 0.6rem;
-  --font-sans: "Atkinson Hyperlegible", "Readex Pro", "Segoe UI", system-ui, sans-serif;
+  --radius-card: 0.75rem;
+  --font-sans: "Plus Jakarta Sans", "Readex Pro", "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
 }
 
 :root {
-  /* the shop, daylight */
-  --bg: #f5efe0;
-  --bg-breathe-a: #f5efe0;
-  --bg-breathe-b: #e9ecdb;
-  --surface: #fdfaf1;
-  --surface-2: #f2eddd;
-  --border: #23281f38;
-  --border-soft: #23281f24;
-  --text: #23281f;
-  --text-muted: #6b6f60;
-  --ink: #23281f;
-  --shadow-card: none;
-  --shadow-pop: 0 2px 0 #23281f1a;
-  --ring-glow: 0 0 0 3px rgb(29 91 63 / 0.22);
+  /* clean slate light */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --shadow-card: 0 4px 6px -1px rgb(15 23 42 / 0.05);
+  --shadow-pop: 0 10px 20px -6px rgb(15 23 42 / 0.12);
+  --ring-glow: 0 0 0 4px rgb(16 185 129 / 0.18);
 }
 
 .dark {
-  /* the shelf after hours: the room goes dark, the labels stay cream */
-  --bg: #10231a;
-  --bg-breathe-a: #10231a;
-  --bg-breathe-b: #163023;
-  --surface: #fdf9ee;
-  --surface-2: #f0ead8;
-  --border: #23281f45;
-  --border-soft: #23281f2e;
-  --text: #f0ead8;
-  --text-muted: #b9b4a0;
-  --ink: #23281f;
-  --shadow-card: none;
-  --shadow-pop: 0 0 0 1px rgb(253 249 238 / 0.08), 0 2px 0 rgb(0 0 0 / 0.3);
-  --ring-glow: 0 0 0 3px rgb(86 172 132 / 0.3);
+  /* deep slate navy night */
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #283548;
+  --border: #334155;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.35);
+  --shadow-pop: 0 10px 24px -8px rgb(0 0 0 / 0.5);
+  --ring-glow: 0 0 0 4px rgb(16 185 129 / 0.16);
 }
 
 html {
   background: var(--bg);
   color: var(--text);
   color-scheme: light;
+}
+
+/* The page breathes green: background AND card surfaces slowly fade to a
+   light emerald and back. Dark mode runs the same breath between deep slate
+   and deep green. Applied on html + body (body paints over html otherwise)
+   and on the card surfaces, which own most of the viewport. */
+:root {
+  --bg-breathe-a: #f8fafc;
+  --bg-breathe-b: #e0f3e9;
+  --sf-breathe-a: #ffffff;
+  --sf-breathe-b: #e9f8f0;
+}
+.dark {
+  --bg-breathe-a: #0f172a;
+  --bg-breathe-b: #0d2a22;
+  --sf-breathe-a: #1e293b;
+  --sf-breathe-b: #1b332a;
+}
+@keyframes bgBreathe {
+  from { background-color: var(--bg-breathe-a); }
+  to { background-color: var(--bg-breathe-b); }
+}
+@keyframes sfBreathe {
+  from { background-color: var(--sf-breathe-a); }
+  to { background-color: var(--sf-breathe-b); }
+}
+html,
+body {
+  animation: bgBreathe 9s ease-in-out infinite alternate;
+}
+.surface,
+.surface-flat {
+  animation: sfBreathe 9s ease-in-out infinite alternate;
+}
+/* Entrance-animated surfaces must breathe too (out-specifies .anim-fade-up). */
+.anim-fade-up.surface,
+.anim-fade-up.surface-flat {
+  animation: sfBreathe 9s ease-in-out infinite alternate;
 }
 
 .dark html, html.dark {
@@ -100,71 +129,41 @@ body {
   color: var(--text);
 }
 
-/* The room breathes — slowly, between cream and sage (deep greens at night). */
-@keyframes bgBreathe {
-  from { background-color: var(--bg-breathe-a); }
-  to { background-color: var(--bg-breathe-b); }
-}
-html,
-body {
-  animation: bgBreathe 11s ease-in-out infinite alternate;
-}
-
 /* ---------- Typography ---------- */
 .font-display {
-  font-family: var(--font-gloock), var(--font-readex), Georgia, serif;
-  letter-spacing: 0;
+  font-family: var(--font-jakarta), var(--font-readex), "Segoe UI", system-ui, sans-serif;
+  letter-spacing: -0.01em;
 }
 [dir='rtl'] .font-display {
-  font-family: var(--font-readex), var(--font-gloock), serif;
-}
-.font-mono-dose {
-  font-family: var(--font-dosemono), ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-readex), var(--font-jakarta), system-ui, sans-serif;
+  letter-spacing: 0;
 }
 
 /* Font variables are attached here (wrapper div) so <html> className stays
    free for next-themes' light/dark classes. */
 .app-fonts {
-  font-family: "Atkinson Hyperlegible", var(--font-readex), "Segoe UI", system-ui, sans-serif;
+  font-family: var(--font-jakarta), var(--font-readex), "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
   min-height: inherit;
 }
 [dir='rtl'] .app-fonts {
-  font-family: var(--font-readex), "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-family: var(--font-readex), var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
 }
 
-/* ---------- Labels (cards) ---------- */
+/* ---------- Surfaces ---------- */
 .surface {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--ink);
-}
-.dark .surface {
-  color: var(--ink);
+  box-shadow: var(--shadow-card);
 }
 .surface-flat {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--ink);
-}
-.dark .surface-flat {
-  color: var(--ink);
 }
 .surface-2 {
   background: var(--surface-2);
-  border-radius: 8px;
 }
 .text-muted {
   color: var(--text-muted);
-}
-.dark .text-muted {
-  color: var(--text-muted);
-}
-.surface .text-muted,
-.surface-flat .text-muted {
-  color: #6b6f60;
 }
 .border-app {
   border-color: var(--border);
@@ -173,86 +172,49 @@ body {
   background: var(--bg);
 }
 
-/* ---------- Pharmacy marks ---------- */
+/* ---------- Brand colors ---------- */
 .gradient-brand {
-  background-color: #1d5b3f;
+  background-color: #10b981;
 }
 .gradient-gold {
-  background-color: #b7541b;
+  background-color: #0ea5e9;
 }
 .gradient-brand-soft {
-  background-color: rgb(29 91 63 / 0.08);
+  background-color: rgb(16 185 129 / 0.08);
 }
 .dark .gradient-brand-soft {
-  background-color: rgb(86 172 132 / 0.1);
+  background-color: rgb(52 211 153 / 0.1);
 }
 .gradient-text {
-  color: #143d2b;
+  color: #047857;
 }
 .dark .gradient-text {
-  color: #b3cbb0;
+  color: #6ee7b7;
 }
 
-/* Ink stamps — verdicts and confirmations */
-.stamp {
-  display: inline-block;
-  font-family: var(--font-gloock), var(--font-readex), serif;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  border: 1.6px solid currentColor;
-  border-radius: 5px;
-  padding: 2.5px 8px;
-  transform: rotate(-2.5deg);
-  line-height: 1.2;
-}
-[dir='rtl'] .stamp {
-  transform: rotate(2.5deg);
-  letter-spacing: 0;
-  font-family: var(--font-readex), serif;
-}
-.stamp-ok { color: #1d5b3f; }
-.stamp-warn { color: #9c481a; }
-.stamp-poison { color: #a93226; }
-
-/* Dose steps — the ruled daily scale */
-.dose-scale {
-  display: flex;
-  gap: 4px;
-}
-.dose-step {
-  flex: 1 1 0;
-  height: 22px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-}
-.dose-step.take { background: #1d5b3f; border-color: #1d5b3f; }
-.dose-step.warn { background: #b7541b; border-color: #b7541b; }
-
-/* Sidebar rail: the counter — apothecary green by day, darker shelf by night */
+/* Sidebar rail: deep emerald in light mode, darker slate than the page in dark */
 .rail-petrol {
-  background-color: #143d2b;
-  color: #eef3ec;
+  background-color: #064e3b;
+  color: #ecfdf5;
 }
 .dark .rail-petrol {
-  background-color: #0b1a13;
+  background-color: #0b1220;
 }
 
 /* ---------- Interactions ---------- */
 .card-hover {
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .card-hover:hover {
   transform: translateY(-1px);
+  box-shadow: var(--shadow-pop);
 }
 
 *:focus-visible {
-  outline: 2px solid #1d5b3f;
+  outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
   border-radius: 6px;
   box-shadow: var(--ring-glow);
-}
-.dark *:focus-visible {
-  outline-color: #86ac84;
 }
 
 /* ---------- Animations (used sparingly) ---------- */
@@ -278,7 +240,7 @@ body {
   animation: float 3.5s ease-in-out infinite;
 }
 
-/* Hero photograph drift + water pulse (kept from the living pass) */
+/* ---------- Dashboard hero: slow photograph drift (one calm moment) ---------- */
 @keyframes heroDrift {
   from { transform: scale(1.02) translateX(0); }
   to { transform: scale(1.1) translateX(1.5%); }
@@ -287,6 +249,7 @@ body {
   animation: heroDrift 22s ease-in-out infinite alternate;
   will-change: transform;
 }
+/* Motion that answers an action: the water ring swells when a glass is logged. */
 @keyframes waterPulse {
   0% { transform: scale(1); }
   40% { transform: scale(1.14); }
@@ -296,7 +259,7 @@ body {
   animation: waterPulse 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Ambient leaves + breathing corner light */
+/* ---------- Ambient garden background: breathing light + drifting leaves ---------- */
 @keyframes blobBreathe {
   0%, 100% { transform: scale(1); opacity: 0.55; }
   50% { transform: scale(1.14); opacity: 1; }
@@ -318,10 +281,11 @@ body {
   animation: leafDrift var(--leaf-duration, 60s) linear infinite;
   animation-delay: var(--leaf-delay, 0s);
 }
-
 @media (prefers-reduced-motion: reduce) {
   html,
-  body {
+  body,
+  .surface,
+  .surface-flat {
     animation: none;
   }
   .hero-drift,
@@ -339,7 +303,7 @@ body,
 .surface,
 .surface-flat,
 .surface-2 {
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Slim scrollbars for chat/feeds */
