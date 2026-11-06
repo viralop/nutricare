@@ -1,0 +1,150 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NutriCare — The Apothecary design</title></head><body style="margin:0;background:#20241f;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;padding:20px"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Spline+Sans+Mono:wght@400;600&family=Readex+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+
+<div id="apothecary" style="display:flex;gap:26px;justify-content:center;flex-wrap:wrap;font-family:'Atkinson Hyperlegible',system-ui,sans-serif">
+  <style>
+    #apothecary .ph{width:390px;min-height:820px;border-radius:26px;padding:22px 18px 92px;box-sizing:border-box;position:relative;background:#f5efe0;color:#23281f}
+    #apothecary .ph.night{background:#10231a;color:#23281f}
+    #apothecary .crossnav{display:flex;align-items:center;gap:10px}
+    #apothecary .cross{width:30px;height:30px;background:#1d5b3f;display:grid;place-items:center;border-radius:8px}
+    #apothecary .cross i{color:#f5efe0;font-style:normal;font-weight:700;font-size:15px;line-height:1}
+    #apothecary .brand{font-family:Gloock,serif;font-size:16px;letter-spacing:.02em}
+    #apothecary .ph .when{margin-left:auto;font-size:11.5px;color:#6b6f60;font-family:'Spline Sans Mono',monospace}
+    #apothecary .label{background:#fdfaf1;border:1px solid #23281f33;border-radius:10px;padding:16px;margin-top:14px;position:relative}
+    #apothecary .rx{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #23281f26;padding-bottom:8px}
+    #apothecary .rx b{font-family:Gloock,serif;font-weight:400;font-size:17px}
+    #apothecary .sig{font-size:10px;letter-spacing:.14em;color:#6b6f60}
+    #apothecary .dose-head{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px}
+    #apothecary .dose-name{font-weight:700;font-size:13.5px}
+    #apothecary .dose-val{font-family:'Spline Sans Mono',monospace;font-size:13px;font-weight:600}
+    #apothecary .scale{display:flex;gap:4px;margin-top:10px}
+    #apothecary .step{flex:1;height:22px;border:1px solid #23281f33;border-radius:4px;background:transparent}
+    #apothecary .step.take{background:#1d5b3f;border-color:#1d5b3f}
+    #apothecary .step.warn{background:#b7541b;border-color:#b7541b}
+    #apothecary .scale-note{display:flex;justify-content:space-between;font-family:'Spline Sans Mono',monospace;font-size:9.5px;color:#6b6f60;margin-top:5px}
+    #apothecary .bottle-row{display:flex;align-items:center;gap:14px}
+    #apothecary .bottle{width:44px;height:74px;border:1.5px solid #23281f55;border-radius:8px 8px 12px 12px;position:relative;overflow:hidden;background:#fdfaf1}
+    #apothecable .bottle{overflow:hidden}
+    #apothecary .bottle .fluid{position:absolute;bottom:0;left:0;right:0;height:25%;background:rgba(183,84,27,.72)}
+    #apothecary .bottle .neck{position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:20px;height:9px;background:#23281f;border-radius:3px 3px 0 0}
+    #apothecary .stamp{display:inline-block;font-family:Gloock,serif;font-size:10px;letter-spacing:.12em;border:1.6px solid currentColor;border-radius:5px;padding:2.5px 8px;transform:rotate(-2.5deg)}
+    #apothecary .stamp.ok{color:#1d5b3f}
+    #apothecary .stamp.poison{color:#a93226}
+    #apothecary .rxline{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px dashed #23281f2e;font-size:13px}
+    #apothecary .rxline:last-child{border-bottom:none}
+    #apothecary .rxline b{font-weight:700}
+    #apothecary .rxline .kcal{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:#6b6f60}
+    #apothecary .notexceed{display:flex;gap:8px;margin-top:12px}
+    #apothecary .ne{flex:1;border:1px solid #23281f26;border-radius:8px;padding:9px 10px;font-size:10.5px;color:#6b6f60;background:#fdfaf1}
+    #apothecary .ne b{display:block;font-family:'Spline Sans Mono',monospace;font-size:14px;color:#23281f}
+    #apothecary .ne .ok{color:#1d5b3f;font-weight:700}
+    #apothecary .pharm{margin-top:14px;border:1px solid #23281f26;border-radius:10px;padding:12px 13px;background:#eef0e2;font-size:12.5px;line-height:1.55;font-style:italic}
+    #apothecary .pharm b{font-style:normal;font-weight:700}
+    #apothecary .cta{margin-top:12px;display:flex;gap:9px}
+    #apothecary .cta span{flex:1;text-align:center;font-weight:700;font-size:12.5px;border-radius:9px;padding:12px 4px}
+    #apothecary .cta .fill{background:#1d5b3f;color:#f5efe0}
+    #apothecary .cta .outline{border:1.5px solid #23281f;color:#23281f;background:#fdfaf1}
+    #apothecary .nav{position:absolute;bottom:14px;left:14px;right:14px;height:58px;background:#143d2b;border-radius:14px;display:flex;justify-content:space-around;align-items:center}
+    #apothecary .nav span{color:#f5efe08c;display:grid;place-items:center;font-size:17px}
+    #apothecary .nav span.on{color:#f5efe0}
+  </style>
+
+  <!-- DAY -->
+  <div class="ph">
+    <div class="crossnav">
+      <span class="cross" aria-hidden="true"><i>✚</i></span>
+      <span class="brand">NutriCare</span>
+      <span class="when">THU 05 NOV · 20:14</span>
+    </div>
+
+    <div class="label">
+      <div class="rx"><b>Today's doses</b><span class="sig">PATIENT: SARA H.</span></div>
+      <div class="dose-head"><span class="dose-name">Energy — 1,650 kcal daily</span><span class="dose-val">540 taken · 1,110 left</span></div>
+      <div class="scale" role="img" aria-label="540 of 1650 kcal taken">
+        <span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span>
+      </div>
+      <div class="scale-note"><span>0</span><span>divide across 3 meals + 1 snack</span><span>1,650</span></div>
+
+      <div class="bottle-row" style="margin-top:16px">
+        <span class="bottle" role="img" aria-label="water 500 of 2000 ml"><span class="neck"></span><span class="fluid"></span></span>
+        <div style="flex:1">
+          <div class="dose-name">Water — 2,000 ml daily</div>
+          <div class="dose-val" style="margin-top:3px">500 ml taken · ¼ of the dose</div>
+          <div class="scale" style="margin-top:8px"><span class="step take"></span><span class="step take"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span></div>
+        </div>
+      </div>
+      <div class="cta" style="margin-top:14px"><span class="outline">Take a glass · +250 ml</span></div>
+    </div>
+
+    <div class="label">
+      <div class="rx"><b>Meals taken</b><span class="sig">2 OF 4 DOSES</span></div>
+      <div class="rxline"><span class="stamp ok">TAKEN</span><b>Foul medames, baladi</b><span class="kcal">320 kcal</span></div>
+      <div class="rxline"><span class="stamp ok">TAKEN</span><b>Greek yogurt &amp; guava</b><span class="kcal">220 kcal</span></div>
+      <div class="rxline"><span class="stamp poison">DO NOT TAKE</span><b>Koshari — analyzed</b><span class="kcal">660 kcal</span></div>
+    </div>
+
+    <div class="notexceed">
+      <div class="ne">Sugar<b>0 g</b>of 50 g — <span class="ok">within dose</span></div>
+      <div class="ne">Sodium<b>0 mg</b>of 2,300 — <span class="ok">within dose</span></div>
+      <div class="ne">Veg<b>3 of 5</b>portions taken</div>
+    </div>
+
+    <div class="pharm"><b>Pharmacist's note:</b> fiber is low today — a cup of molokhia at dinner fits your plan. Room remains for ≈550 kcal.</div>
+
+    <div class="cta"><span class="fill">Analyze a food</span><span class="outline">Ask the pharmacist</span></div>
+
+    <nav class="nav" aria-label="Sections">
+      <span class="on">⌂</span><span>⌕</span><span>✚</span><span>▦</span><span>✦</span>
+    </nav>
+  </div>
+
+  <!-- NIGHT: the shelf after hours — labels stay cream, the room goes dark -->
+  <div class="ph night">
+    <div class="crossnav">
+      <span class="cross" aria-hidden="true"><i>✚</i></span>
+      <span class="brand" style="color:#f5efe0">NutriCare</span>
+      <span class="when" style="color:#f5efe099">THU 05 NOV · 20:14</span>
+    </div>
+
+    <div class="label">
+      <div class="rx"><b>Today's doses</b><span class="sig">PATIENT: SARA H.</span></div>
+      <div class="dose-head"><span class="dose-name">Energy — 1,650 kcal daily</span><span class="dose-val">540 taken · 1,110 left</span></div>
+      <div class="scale" role="img" aria-label="540 of 1650 kcal taken">
+        <span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step take"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span>
+      </div>
+      <div class="scale-note"><span>0</span><span>divide across 3 meals + 1 snack</span><span>1,650</span></div>
+
+      <div class="bottle-row" style="margin-top:16px">
+        <span class="bottle" role="img" aria-label="water 500 of 2000 ml"><span class="neck"></span><span class="fluid"></span></span>
+        <div style="flex:1">
+          <div class="dose-name">Water — 2,000 ml daily</div>
+          <div class="dose-val" style="margin-top:3px">500 ml taken · ¼ of the dose</div>
+          <div class="scale" style="margin-top:8px"><span class="step take"></span><span class="step take"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span></div>
+        </div>
+      </div>
+      <div class="cta" style="margin-top:14px"><span class="outline">Take a glass · +250 ml</span></div>
+    </div>
+
+    <div class="label">
+      <div class="rx"><b>Meals taken</b><span class="sig">2 OF 4 DOSES</span></div>
+      <div class="rxline"><span class="stamp ok">TAKEN</span><b>Foul medames, baladi</b><span class="kcal">320 kcal</span></div>
+      <div class="rxline"><span class="stamp ok">TAKEN</span><b>Greek yogurt &amp; guava</b><span class="kcal">220 kcal</span></div>
+      <div class="rxline"><span class="stamp poison">DO NOT TAKE</span><b>Koshari — analyzed</b><span class="kcal">660 kcal</span></div>
+    </div>
+
+    <div class="notexceed">
+      <div class="ne">Sugar<b>0 g</b>of 50 g — <span class="ok">within dose</span></div>
+      <div class="ne">Sodium<b>0 mg</b>of 2,300 — <span class="ok">within dose</span></div>
+      <div class="ne">Veg<b>3 of 5</b>portions taken</div>
+    </div>
+
+    <div class="pharm"><b>Pharmacist's note:</b> fiber is low today — a cup of molokhia at dinner fits your plan. Room remains for ≈550 kcal.</div>
+
+    <div class="cta"><span class="fill">Analyze a food</span><span class="outline">Ask the pharmacist</span></div>
+
+    <nav class="nav" aria-label="Sections">
+      <span class="on">⌂</span><span>⌕</span><span>✚</span><span>▦</span><span>✦</span>
+    </nav>
+  </div>
+</div>
+</body></html>
